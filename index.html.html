@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>115上8年級英文翰林版單字選擇題</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Google Fonts Inter & Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+          },
+          colors: {
+            glass: {
+              bg: 'rgba(255, 255, 255, 0.08)',
+              card: 'rgba(255, 255, 255, 0.12)',
+              border: 'rgba(255, 255, 255, 0.22)',
+              input: 'rgba(255, 255, 255, 0.15)',
+            }
+          },
+          boxShadow: {
+            glass: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+            glow: '0 0 20px rgba(124, 58, 237, 0.5)',
+            gold: '0 0 25px rgba(245, 158, 11, 0.6)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #311042 100%);
+      background-attachment: fixed;
+      color: #f8fafc;
+      min-height: 100vh;
+    }
+    
+    .glass-card {
+      background: rgba(30, 41, 59, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 1.25rem;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    .glass-input {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #f8fafc;
+      transition: all 0.3s ease;
+    }
+
+    .glass-input:focus {
+      outline: none;
+      border-color: #a855f7;
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+    }
+
+    .glass-btn {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(79, 70, 229, 0.8) 100%);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+      filter: brightness(1.15);
+    }
+
+    .glass-btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-selected {
+      background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%) !important;
+      border-color: #f472b6 !important;
+      box-shadow: 0 0 18px rgba(236, 72, 153, 0.6) !important;
+      color: #ffffff !important;
+      font-weight: 700;
+    }
+
+    .golden-card {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.4) 100%);
+      border: 2px solid #f59e0b;
+      box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.5);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(168, 85, 247, 0.4);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(168, 85, 247, 0.7);
+    }
+  </style>
+
+  <!-- Firebase Compatibility SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+</head>
+<body class="flex flex-col min-h-screen font-sans antialiased text-slate-100">
+
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-40 w-full px-4 py-3 glass-card rounded-none border-b border-white/10 bg-slate-900/80 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="window.navTo('step1')">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+          <i class="fa-solid font-bold text-white text-xl fa-book-bookmark"></i>
+        </div>
+        <div>
+          <h1 class="text-lg md:text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-purple-300 via-pink-300 to-amber-200">
+            115上8年級英文翰林版
+          </h1>
+          <p class="text-xs text-slate-400 font-medium">單字總複習與智能挑戰系統</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav id="topNav" class="hidden md:flex items-center space-x-2">
+        <button onclick="window.switchTab('learning')" class="px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-white/10 transition flex items-center gap-2">
+          <i class="fa-solid fa-graduation-cap text-purple-400"></i> 單字學習館
+        </button>
+        <button onclick="window.switchTab('quiz')" class="px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-white/10 transition flex items-center gap-2">
+          <i class="fa-solid fa-gamepad text-pink-400"></i> 測驗挑戰區
+        </button>
+        <button onclick="window.openTeacherModal()" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border border-amber-500/30 transition flex items-center gap-2">
+          <i class="fa-solid fa-user-shield"></i> 教師管理後台
+        </button>
+      </nav>
+
+      <div class="flex items-center space-x-2 md:hidden">
+        <button onclick="window.openTeacherModal()" class="p-2 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/30">
+          <i class="fa-solid fa-user-shield text-sm"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-grow container mx-auto px-4 py-6 max-w-5xl">
+
+    <!-- STEP 1: Student Profile -->
+    <section id="view-step1" class="glass-card p-6 md:p-10 max-w-2xl mx-auto space-y-6 animate-fade-in">
+      <div class="text-center space-y-2">
+        <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-semibold tracking-wider uppercase border border-purple-500/30">Step 1 of 2</span>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-white">建立學生個人資料</h2>
+        <p class="text-slate-400 text-sm">請填寫基本資料，以便保存您的練習紀錄與學習軌跡。</p>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-1.5">學生姓名 <span class="text-pink-400">*</span></label>
+          <div class="relative">
+            <i class="fa-solid fa-user absolute left-3.5 top-3.5 text-slate-400"></i>
+            <input type="text" id="studentName" placeholder="請輸入姓名 (例：王小明)" class="w-full glass-input pl-10 pr-4 py-2.5 rounded-xl text-sm" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-1.5">① 學歷階段 <span class="text-pink-400">*</span></label>
+            <select id="educationLevel" onchange="window.handleEduChange()" class="w-full glass-input px-3 py-2.5 rounded-xl text-sm bg-slate-800">
+              <option value="">-- 請選擇學歷 --</option>
+              <option value="幼稚園">幼稚園</option>
+              <option value="國小">國小</option>
+              <option value="國中" selected>國中</option>
+              <option value="高中">高中</option>
+              <option value="大學">大學</option>
+              <option value="大學畢業(不是老師)">大學畢業(不是老師)</option>
+              <option value="老師">老師</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-1.5">② 年級 / 身分 <span class="text-pink-400">*</span></label>
+            <select id="gradeIdentity" class="w-full glass-input px-3 py-2.5 rounded-xl text-sm bg-slate-800">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-4 flex justify-end">
+        <button onclick="window.nextToStep2()" class="w-full md:w-auto px-8 py-3 rounded-xl glass-btn text-white font-bold flex items-center justify-center gap-2 text-base">
+          下一步：選擇單元與模式 <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- STEP 2: Course & Mode Selection -->
+    <section id="view-step2" class="glass-card p-6 md:p-10 max-w-3xl mx-auto space-y-8 hidden animate-fade-in">
+      <div class="flex items-center justify-between border-b border-white/10 pb-4">
+        <div>
+          <span class="inline-block px-3 py-1 bg-pink-500/20 text-pink-300 rounded-full text-xs font-semibold tracking-wider uppercase border border-pink-500/30">Step 2 of 2</span>
+          <h2 class="text-2xl font-extrabold text-white mt-1">課程單元與測驗模式</h2>
+        </div>
+        <button onclick="window.navTo('step1')" class="text-xs text-slate-400 hover:text-white underline">
+          <i class="fa-solid fa-pen"></i> 修改個人資料
+        </button>
+      </div>
+
+      <!-- Unit Selector -->
+      <div class="space-y-3">
+        <label class="block text-sm font-bold text-purple-300 uppercase tracking-wider flex items-center gap-2">
+          <i class="fa-solid fa-layer-group"></i> 選擇課程單元
+        </label>
+        <div id="unitButtonsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Question Count Selector -->
+      <div class="space-y-3">
+        <label class="block text-sm font-bold text-pink-300 uppercase tracking-wider flex items-center gap-2">
+          <i class="fa-solid fa-list-ol"></i> 測驗題數
+        </label>
+        <div class="flex gap-3">
+          <button onclick="window.setQuestionCount(10)" id="btnCount10" class="count-btn flex-1 py-2.5 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-sm transition">
+            10 題
+          </button>
+          <button onclick="window.setQuestionCount('ALL')" id="btnCountALL" class="count-btn flex-1 py-2.5 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-sm transition">
+            全部單字
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Type Selector -->
+      <div class="space-y-3">
+        <label class="block text-sm font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-2">
+          <i class="fa-solid fa-sliders"></i> 題型種類
+        </label>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <button onclick="window.setQuestionType('mixed')" id="btnTypeMixed" class="type-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition">
+            🔀 混合題型
+          </button>
+          <button onclick="window.setQuestionType('fill')" id="btnTypeFill" class="type-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition">
+            ✍️ 例句填空
+          </button>
+          <button onclick="window.setQuestionType('e2c')" id="btnTypeE2C" class="type-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition">
+            🔤 英翻中
+          </button>
+          <button onclick="window.setQuestionType('c2e')" id="btnTypeC2E" class="type-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition">
+            🇹🇼 中翻英
+          </button>
+        </div>
+      </div>
+
+      <!-- Toggle Real-time Answer Mode -->
+      <div class="flex items-center justify-between p-4 glass-card bg-purple-900/20 rounded-xl">
+        <div class="space-y-0.5">
+          <span class="text-sm font-bold text-slate-200">即時顯示答案與解析</span>
+          <p class="text-xs text-slate-400">作答後立即提示對錯與例句詳解</p>
+        </div>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" id="toggleInstantAnswer" class="sr-only peer" checked />
+          <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+        </label>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+        <button onclick="window.switchTab('learning')" class="py-3 px-4 rounded-xl bg-slate-700/60 hover:bg-slate-700 border border-white/20 text-slate-200 font-bold text-center flex items-center justify-center gap-2">
+          <i class="fa-solid fa-book-open text-purple-400"></i> 先看單字學習館
+        </button>
+        <button onclick="window.startQuiz()" class="py-3 px-4 rounded-xl glass-btn text-white font-extrabold text-center shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-play text-amber-300"></i> 開始測驗挑戰
+        </button>
+      </div>
+    </section>
+
+    <!-- VIEW: Word Learning Center -->
+    <section id="view-learning" class="space-y-6 hidden animate-fade-in">
+      <div class="glass-card p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-black text-white flex items-center gap-2">
+            <i class="fa-solid fa-graduation-cap text-purple-400"></i> 單字學習館
+          </h2>
+          <p class="text-xs text-slate-400 mt-1" id="learningSubtitle">加深記憶，點擊喇叭朗讀例句發音</p>
+        </div>
+
+        <!-- Search Bar & Filters -->
+        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+          <div class="relative flex-1 min-w-[200px]">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-xs"></i>
+            <input type="text" id="learningSearch" oninput="window.renderLearningCards()" placeholder="搜尋英文單字或中文..." class="w-full glass-input pl-9 pr-3 py-2 rounded-xl text-xs" />
+          </div>
+          <select id="learningUnitFilter" onchange="window.renderLearningCards()" class="glass-input px-3 py-2 rounded-xl text-xs bg-slate-800">
+            <!-- Units inserted via JS -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Cards Grid -->
+      <div id="learningGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- VIEW: Quiz Challenge -->
+    <section id="view-quiz" class="max-w-3xl mx-auto space-y-6 hidden animate-fade-in">
+      <!-- Top Status Bar -->
+      <div class="glass-card p-4 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <span id="quizUnitBadge" class="px-2.5 py-1 rounded-md text-xs font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">U1</span>
+          <span id="quizProgressText" class="text-sm font-semibold text-slate-300">題目 1 / 10</span>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="text-xs text-slate-400">當前得分：<span id="liveScoreText" class="text-amber-400 font-bold text-sm">0</span></div>
+          <button onclick="window.navTo('step2')" class="text-xs text-slate-400 hover:text-white">
+            <i class="fa-solid fa-xmark text-sm"></i> 結束
+          </button>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="w-full bg-slate-800/80 rounded-full h-2 overflow-hidden border border-white/10">
+        <div id="quizProgressBar" class="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-300" style="width: 10%;"></div>
+      </div>
+
+      <!-- Question Card -->
+      <div class="glass-card p-6 md:p-8 space-y-6 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <span id="questionTypeBadge" class="text-xs px-2.5 py-1 bg-cyan-500/20 text-cyan-300 rounded-md font-semibold border border-cyan-500/30">例句填空</span>
+          <button onclick="window.speakCurrentQuestion()" class="p-2 rounded-full bg-slate-700/50 hover:bg-slate-700 text-purple-300 transition" title="朗讀題目">
+            <i class="fa-solid fa-volume-high"></i>
+          </button>
+        </div>
+
+        <!-- Question Prompt Area -->
+        <div class="space-y-3 min-h-[90px] flex flex-col justify-center">
+          <h3 id="questionPrompt" class="text-xl md:text-2xl font-bold text-white leading-relaxed">
+            Loading question...
+          </h3>
+          <p id="questionSubPrompt" class="text-sm text-slate-400 hidden"></p>
+        </div>
+
+        <!-- Options Grid -->
+        <div id="quizOptionsGrid" class="grid grid-cols-1 gap-3.5 pt-2">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- Feedback & Analysis Box -->
+        <div id="answerFeedbackBox" class="hidden p-4 rounded-xl border space-y-2 transition-all">
+          <div class="flex items-center gap-2 font-bold text-base" id="feedbackTitle">
+            <!-- Icon and title -->
+          </div>
+          <p class="text-xs md:text-sm text-slate-300" id="feedbackDetail">
+            <!-- Sentence context & explanation -->
+          </p>
+          <div class="flex justify-end pt-2">
+            <button onclick="window.nextQuestion()" class="px-5 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md">
+              下一題 <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: Quiz Results -->
+    <section id="view-result" class="max-w-2xl mx-auto space-y-6 hidden animate-fade-in">
+      <!-- Score Main Card -->
+      <div id="resultCard" class="glass-card p-8 text-center space-y-6 relative overflow-hidden">
+        <div id="honorTrophy" class="hidden text-6xl text-amber-400 animate-bounce">
+          🏆
+        </div>
+        <div>
+          <span id="resultBadge" class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-semibold border border-purple-500/30">測驗完成</span>
+          <h2 class="text-3xl font-black text-white mt-2" id="resultTitle">恭喜完成測驗！</h2>
+          <p class="text-slate-400 text-xs mt-1" id="resultStudentInfo">學生：-- | 單元：--</p>
+        </div>
+
+        <!-- Big Score Display -->
+        <div class="py-4">
+          <div class="text-6xl font-black bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-pink-400 to-purple-400 tracking-tight" id="finalScoreDisplay">
+            100
+          </div>
+          <p class="text-xs text-slate-400 uppercase tracking-widest mt-1">Final Score</p>
+        </div>
+
+        <!-- Detail Stats -->
+        <div class="grid grid-cols-3 gap-2 p-3 bg-slate-900/50 rounded-xl border border-white/10 text-xs">
+          <div>
+            <span class="text-slate-400 block">總題數</span>
+            <span class="font-bold text-slate-200 text-base" id="statTotalQ">10</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block">答對題數</span>
+            <span class="font-bold text-emerald-400 text-base" id="statCorrectQ">10</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block">正確率</span>
+            <span class="font-bold text-purple-300 text-base" id="statAccuracy">100%</span>
+          </div>
+        </div>
+
+        <!-- Upload Status Feedback Indicator -->
+        <div id="uploadStatusMsg" class="text-xs font-semibold text-slate-300 py-1 flex items-center justify-center gap-2">
+          <!-- Live status inserted here -->
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-3 pt-2">
+          <button onclick="window.manualUploadScore()" id="btnUploadScore" class="flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30">
+            <i class="fa-solid fa-cloud-arrow-up"></i> 上傳成績至雲端
+          </button>
+          <button onclick="window.navTo('step2')" class="flex-1 py-3 px-4 rounded-xl glass-btn text-white font-bold text-xs flex items-center justify-center gap-2">
+            <i class="fa-solid fa-rotate-right"></i> 再測一次
+          </button>
+        </div>
+      </div>
+
+      <!-- Wrong Questions List -->
+      <div id="wrongListSection" class="glass-card p-6 space-y-4 hidden">
+        <h3 class="text-lg font-bold text-pink-300 flex items-center gap-2">
+          <i class="fa-solid fa-triangle-exclamation"></i> 錯題檢討與解析
+        </h3>
+        <div id="wrongListContainer" class="space-y-3 divide-y divide-white/10">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- TEACHER ADMIN MODAL -->
+  <div id="teacherModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-card w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden border border-amber-500/30">
+      
+      <!-- Modal Header -->
+      <div class="p-4 md:p-6 bg-slate-900/90 border-b border-white/10 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
+            <i class="fa-solid fa-user-shield text-lg"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white">教師管理後台</h3>
+            <p class="text-xs text-slate-400">學生作答紀錄管理與班級數據匯出</p>
+          </div>
+        </div>
+        <button onclick="window.closeTeacherModal()" class="text-slate-400 hover:text-white p-2">
+          <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+      </div>
+
+      <!-- Password Verification View -->
+      <div id="adminAuthBox" class="p-8 text-center space-y-4 my-auto max-w-md mx-auto w-full">
+        <div class="w-16 h-16 rounded-full bg-purple-500/20 text-purple-300 flex items-center justify-center mx-auto text-2xl border border-purple-500/30">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <h4 class="text-xl font-bold text-white">身分安全驗證</h4>
+        <p class="text-xs text-slate-400">請輸入教師管理密碼 (預設密碼：chwjh33911799)</p>
+        
+        <input type="password" id="adminPasswordInput" placeholder="請輸入密碼..." class="w-full glass-input px-4 py-2.5 rounded-xl text-sm text-center" onkeyup="if(event.key==='Enter') window.verifyAdminPassword()" />
+        
+        <button onclick="window.verifyAdminPassword()" class="w-full py-2.5 rounded-xl glass-btn text-white font-bold text-sm">
+          驗證登入
+        </button>
+      </div>
+
+      <!-- Admin Panel View (Hidden until authenticated) -->
+      <div id="adminPanelBox" class="flex-1 flex flex-col overflow-hidden hidden p-4 md:p-6 space-y-4">
+        
+        <!-- Top Toolbar -->
+        <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-900/50 p-3 rounded-xl border border-white/10">
+          <div class="flex flex-wrap items-center gap-2 flex-1">
+            <input type="text" id="adminSearchInput" oninput="window.renderAdminRecords()" placeholder="搜尋姓名/學歷/單元..." class="glass-input px-3 py-1.5 rounded-lg text-xs w-full sm:w-48" />
+            <select id="adminFilterEdu" onchange="window.renderAdminRecords()" class="glass-input px-2.5 py-1.5 rounded-lg text-xs bg-slate-800">
+              <option value="">所有學歷</option>
+              <option value="幼稚園">幼稚園</option>
+              <option value="國小">國小</option>
+              <option value="國中">國中</option>
+              <option value="高中">高中</option>
+              <option value="大學">大學</option>
+              <option value="老師">老師</option>
+            </select>
+            <select id="adminSortBy" onchange="window.renderAdminRecords()" class="glass-input px-2.5 py-1.5 rounded-lg text-xs bg-slate-800">
+              <option value="timeDesc">時間 (最新 → 最舊)</option>
+              <option value="scoreDesc">分數 (高 → 低)</option>
+              <option value="nameAsc">學生姓名</option>
+            </select>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <button onclick="window.exportToCSV()" class="px-3 py-1.5 rounded-lg bg-emerald-600/80 hover:bg-emerald-600 text-white text-xs font-bold transition flex items-center gap-1.5">
+              <i class="fa-solid fa-file-excel"></i> 匯出 Excel (CSV)
+            </button>
+            <button onclick="window.clearAllScores()" class="px-3 py-1.5 rounded-lg bg-rose-600/80 hover:bg-rose-600 text-white text-xs font-bold transition flex items-center gap-1.5">
+              <i class="fa-solid fa-trash"></i> 清空名冊
+            </button>
+            <button onclick="window.toggleChangePassBox()" class="px-2.5 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold">
+              <i class="fa-solid fa-key"></i> 修改密碼
+            </button>
+          </div>
+        </div>
+
+        <!-- Password Change Sub-box -->
+        <div id="changePassBox" class="hidden p-3 bg-purple-950/40 border border-purple-500/30 rounded-xl flex flex-wrap items-center gap-3">
+          <input type="password" id="newAdminPassword" placeholder="輸入新密碼" class="glass-input px-3 py-1.5 rounded-lg text-xs flex-1" />
+          <button onclick="window.submitChangePassword()" class="px-4 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold">
+            確認修訂密碼
+          </button>
+        </div>
+
+        <!-- Student Score Table -->
+        <div class="flex-1 overflow-auto rounded-xl border border-white/10 bg-slate-900/60">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-800/90 text-slate-200 sticky top-0 uppercase tracking-wider font-semibold border-b border-white/10">
+              <tr>
+                <th class="p-3">學生姓名</th>
+                <th class="p-3">學歷 / 年級</th>
+                <th class="p-3">單元</th>
+                <th class="p-3">成績</th>
+                <th class="p-3">時間</th>
+                <th class="p-3 text-center">操作</th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody" class="divide-y divide-white/5">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Main Application Script -->
+  <script>
+    /* ==========================================================================
+       RULE 1 & RULE 5: SAFE LOCAL STORAGE & GLOBAL OBJECT ATTACHMENT
+       ========================================================================== */
+    const safeStorage = {
+      getItem: (key) => {
+        try { return localStorage.getItem(key); }
+        catch(e) { console.warn('safeStorage getItem error:', e); return null; }
+      },
+      setItem: (key, val) => {
+        try { localStorage.setItem(key, val); }
+        catch(e) { console.warn('safeStorage setItem error:', e); }
+      },
+      removeItem: (key) => {
+        try { localStorage.removeItem(key); }
+        catch(e) { console.warn('safeStorage removeItem error:', e); }
+      }
+    };
+
+    /* ==========================================================================
+       VOCABULARY DATASET (115上8年級英文翰林版 - U1 to U6)
+       ========================================================================== */
+    const VOCAB_DATA = [
+      // U1
+      { id: 'u1_1', unit: 'U1', word: 'summer vacation', pos: 'n.', meaning: '暑假', sentence: 'We spent our summer vacation in Kenting.' },
+      { id: 'u1_2', unit: 'U1', word: 'weather', pos: 'n.', meaning: '天氣', sentence: 'The weather in Taiwan is hot in summer.' },
+      { id: 'u1_3', unit: 'U1', word: 'Taiwan', pos: 'n.', meaning: '臺灣', sentence: 'Taiwan is a beautiful island in Asia.' },
+      { id: 'u1_4', unit: 'U1', word: 'fun', pos: 'n.; adj.', meaning: '樂趣；有趣的', sentence: 'Playing online games with friends is fun.' },
+      { id: 'u1_5', unit: 'U1', word: 'snow', pos: 'v.; n.', meaning: '下雪；雪', sentence: 'It heavy snows in Hehuanshan during winter.' },
+      { id: 'u1_6', unit: 'U1', word: 'send', pos: 'v.', meaning: '寄；送', sentence: 'I want to send a birthday card to my grandma.' },
+      { id: 'u1_7', unit: 'U1', word: 'postcard', pos: 'n.', meaning: '明信片', sentence: 'She sent me a lovely postcard from Japan.' },
+      { id: 'u1_8', unit: 'U1', word: 'borrow', pos: 'v.', meaning: '借（入）', sentence: 'May I borrow your English dictionary?' },
+      { id: 'u1_9', unit: 'U1', word: 'lend', pos: 'v.', meaning: '借（出）', sentence: 'Can you lend your umbrella to me?' },
+      { id: 'u1_10', unit: 'U1', word: 'glove', pos: 'n.', meaning: '手套', sentence: 'He wore a warm glove on each hand.' },
+      { id: 'u1_11', unit: 'U1', word: 'kind', pos: 'adj.', meaning: '親切的；有同情心的', sentence: 'Our English teacher is very kind to everyone.' },
+      { id: 'u1_12', unit: 'U1', word: 'lovely', pos: 'adj.', meaning: '可愛的；美好的', sentence: 'What a lovely cat you have!' },
+      { id: 'u1_13', unit: 'U1', word: 'jacket', pos: 'n.', meaning: '夾克', sentence: 'Put on your heavy jacket; it is cold outside.' },
+      { id: 'u1_14', unit: 'U1', word: 'give', pos: 'v.', meaning: '給予', sentence: 'Please give me a piece of paper.' },
+      { id: 'u1_15', unit: 'U1', word: 'hate', pos: 'v.', meaning: '討厭', sentence: 'I hate eating bitter gourds.' },
+      { id: 'u1_16', unit: 'U1', word: 'heavy', pos: 'adj.', meaning: '厚重的；大量的', sentence: 'There was heavy rain last night.' },
+      { id: 'u1_17', unit: 'U1', word: 'season', pos: 'n.', meaning: '季節', sentence: 'Spring is my favorite season of the year.' },
+      { id: 'u1_18', unit: 'U1', word: 'spring', pos: 'n.', meaning: '春天', sentence: 'Flowers bloom brightly in spring.' },
+      { id: 'u1_19', unit: 'U1', word: 'cloud', pos: 'n.', meaning: '雲', sentence: 'Look at that dark cloud in the blue sky.' },
+      { id: 'u1_20', unit: 'U1', word: 'sun', pos: 'n.', meaning: '太陽', sentence: 'The sun rises in the east every morning.' },
+      { id: 'u1_21', unit: 'U1', word: 'autumn', pos: 'n.', meaning: '秋天（=fall）', sentence: 'Leaves turn yellow and drop in autumn.' },
+      { id: 'u1_22', unit: 'U1', word: 'wind', pos: 'n.', meaning: '風', sentence: 'The strong wind blew away my hat.' },
+      { id: 'u1_23', unit: 'U1', word: 'winter', pos: 'n.', meaning: '冬天', sentence: 'It is freezing cold during winter.' },
+      { id: 'u1_24', unit: 'U1', word: 'sunny', pos: 'adj.', meaning: '陽光普照的', sentence: 'We had a sunny day for our school trip.' },
+      { id: 'u1_25', unit: 'U1', word: 'snowy', pos: 'adj.', meaning: '有雪的；下雪的', sentence: 'The kids played cheerfully on a snowy day.' },
+      { id: 'u1_26', unit: 'U1', word: 'rainy', pos: 'adj.', meaning: '有雨的；下雨的', sentence: 'Don\'t forget your umbrella on rainy days.' },
+      { id: 'u1_27', unit: 'U1', word: 'cloudy', pos: 'adj.', meaning: '多雲的', sentence: 'It looks cloudy; it might rain soon.' },
+      { id: 'u1_28', unit: 'U1', word: 'windy', pos: 'adj.', meaning: '風大的', sentence: 'Kenting is often very windy in October.' },
+      { id: 'u1_29', unit: 'U1', word: 'cool', pos: 'adj.', meaning: '涼爽的', sentence: 'Autumn weather is pleasant and cool.' },
+      { id: 'u1_30', unit: 'U1', word: 'speak', pos: 'v.', meaning: '講話', sentence: 'She can speak both English and Mandarin.' },
+      { id: 'u1_31', unit: 'U1', word: 'mad', pos: 'adj.', meaning: '生氣的', sentence: 'Mom got mad because I lost my shoes.' },
+      { id: 'u1_32', unit: 'U1', word: 'in fact', pos: 'phr.', meaning: '事實上', sentence: 'In fact, he is much smarter than we thought.' },
+      { id: 'u1_33', unit: 'U1', word: 'mean', pos: 'v.', meaning: '意指', sentence: 'What does this English vocabulary word mean?' },
+      { id: 'u1_34', unit: 'U1', word: 'another', pos: 'adj.; pron.', meaning: '另一（的）', sentence: 'Would you like another cup of tea?' },
+      { id: 'u1_35', unit: 'U1', word: 'order', pos: 'v.; n.', meaning: '點餐；訂購', sentence: 'Are you ready to order your dinner now?' },
+      { id: 'u1_36', unit: 'U1', word: 'strange', pos: 'adj.', meaning: '奇怪的；陌生的', sentence: 'I heard a strange sound coming from the yard.' },
+      { id: 'u1_37', unit: 'U1', word: 'soon', pos: 'adv.', meaning: '很快地', sentence: 'Get well soon! We miss you at school.' },
+      { id: 'u1_38', unit: 'U1', word: 'Rd.', pos: 'n.', meaning: '路（Road的縮寫）', sentence: 'They live on Xinyi Rd. in Taipei City.' },
+      { id: 'u1_39', unit: 'U1', word: 'ROC', pos: 'n.', meaning: '中華民國（= Republic of China）', sentence: 'National Day of the ROC is on October 10th.' },
+      { id: 'u1_40', unit: 'U1', word: 'snowboard', pos: 'n.', meaning: '滑雪板', sentence: 'He bought a sleek new snowboard for winter sports.' },
+      { id: 'u1_41', unit: 'U1', word: 'anyway', pos: 'adv.', meaning: '無論如何', sentence: 'It was raining, but we enjoyed the party anyway.' },
+
+      // U2
+      { id: 'u2_1', unit: 'U2', word: 'club', pos: 'n.', meaning: '社團', sentence: 'Which school club do you want to join?' },
+      { id: 'u2_2', unit: 'U2', word: 'make up one\'s mind', pos: 'phr.', meaning: '下定決心', sentence: 'She needs to make up one\'s mind soon.' },
+      { id: 'u2_3', unit: 'U2', word: 'interesting', pos: 'adj.', meaning: '有趣的', sentence: 'Science is an interesting subject for me.' },
+      { id: 'u2_4', unit: 'U2', word: 'science', pos: 'n.', meaning: '科學', sentence: 'We conduct experiments in science class.' },
+      { id: 'u2_5', unit: 'U2', word: 'subject', pos: 'n.', meaning: '學科；主題', sentence: 'English is my favorite school subject.' },
+      { id: 'u2_6', unit: 'U2', word: 'hear', pos: 'v.', meaning: '聽見', sentence: 'Did you hear that beautiful music?' },
+      { id: 'u2_7', unit: 'U2', word: 'same', pos: 'adj.', meaning: '相同的', sentence: 'We have the same opinion on this topic.' },
+      { id: 'u2_8', unit: 'U2', word: 'call', pos: 'v.; n.', meaning: '打電話；呼叫', sentence: 'Please call me when you reach home.' },
+      { id: 'u2_9', unit: 'U2', word: 'tell', pos: 'v.', meaning: '告訴', sentence: 'Can you tell me the way to the library?' },
+      { id: 'u2_10', unit: 'U2', word: 'pull one\'s leg', pos: 'phr.', meaning: '開玩笑', sentence: 'Don\'t worry, I\'m just trying to pull one\'s leg.' },
+      { id: 'u2_11', unit: 'U2', word: 'poor', pos: 'adj.', meaning: '不佳的；貧窮的', sentence: 'His performance in math was poor last term.' },
+      { id: 'u2_12', unit: 'U2', word: 'end', pos: 'n.; v.', meaning: '結尾；結束', sentence: 'The movie had a happy end.' },
+      { id: 'u2_13', unit: 'U2', word: 'whose', pos: 'adj.; pron.', meaning: '誰的（東西）', sentence: 'Whose schoolbag is left on the desk?' },
+      { id: 'u2_14', unit: 'U2', word: 'camera', pos: 'n.', meaning: '相機', sentence: 'She took photos with a digital camera.' },
+      { id: 'u2_15', unit: 'U2', word: 'mine', pos: 'pron.', meaning: '我的（東西）', sentence: 'That red jacket on the chair is mine.' },
+      { id: 'u2_16', unit: 'U2', word: 'What\'s up?', pos: 'phr.', meaning: '怎麼了？', sentence: 'Hey John, What\'s up? You look worried.' },
+      { id: 'u2_17', unit: 'U2', word: 'when', pos: 'conj.', meaning: '當⋯', sentence: 'When I arrived, the meeting had started.' },
+      { id: 'u2_18', unit: 'U2', word: 'back', pos: 'adv.', meaning: '返回', sentence: 'Welcome back to our English club!' },
+      { id: 'u2_19', unit: 'U2', word: 'sign up', pos: 'phr.', meaning: '報名參加', sentence: 'Remember to sign up for the speech contest.' },
+      { id: 'u2_20', unit: 'U2', word: 'wrong', pos: 'adj.', meaning: '錯誤的', sentence: 'Your answer to question 3 is wrong.' },
+      { id: 'u2_21', unit: 'U2', word: 'hold on', pos: 'phr.', meaning: '稍候', sentence: 'Please hold on for a second on the line.' },
+      { id: 'u2_22', unit: 'U2', word: 'math', pos: 'n.', meaning: '數學（= mathematics）', sentence: 'Math requires logical thinking and practice.' },
+      { id: 'u2_23', unit: 'U2', word: 'soccer', pos: 'n.', meaning: '足球', sentence: 'They love playing soccer after school.' },
+      { id: 'u2_24', unit: 'U2', word: 'Chinese', pos: 'adj.; n.', meaning: '中國的；中國人；中文', sentence: 'Learning Chinese history is quite fascinating.' },
+      { id: 'u2_25', unit: 'U2', word: 'history', pos: 'n.', meaning: '歷史', sentence: 'Our history teacher tells great stories.' },
+      { id: 'u2_26', unit: 'U2', word: 'violin', pos: 'n.', meaning: '小提琴', sentence: 'She practices playing the violin every night.' },
+      { id: 'u2_27', unit: 'U2', word: 'robot', pos: 'n.', meaning: '機器人', sentence: 'The smart robot can sweep the floor.' },
+      { id: 'u2_28', unit: 'U2', word: 'health', pos: 'n.', meaning: '健康', sentence: 'Eating vegetables is essential for good health.' },
+      { id: 'u2_29', unit: 'U2', word: 'PE', pos: 'n.', meaning: '體育（= physical education）', sentence: 'We played basketball in PE class today.' },
+      { id: 'u2_30', unit: 'U2', word: 'look for', pos: 'phr.', meaning: '尋找', sentence: 'I need to look for my missing keys.' },
+      { id: 'u2_31', unit: 'U2', word: 'Ms.', pos: 'n.', meaning: '女士', sentence: 'Ms. Chen is our dedicated class advisor.' },
+      { id: 'u2_32', unit: 'U2', word: 'engineer', pos: 'n.', meaning: '工程師', sentence: 'His dream job is to become a software engineer.' },
+      { id: 'u2_33', unit: 'U2', word: 'lesson', pos: 'n.', meaning: '課；課程', sentence: 'We learned a valuable lesson from the mistake.' },
+      { id: 'u2_34', unit: 'U2', word: 'difficult', pos: 'adj.', meaning: '困難的', sentence: 'This exam question was very difficult.' },
+      { id: 'u2_35', unit: 'U2', word: 'teach', pos: 'v.', meaning: '教導', sentence: 'Who will teach us science next semester?' },
+      { id: 'u2_36', unit: 'U2', word: 'own', pos: 'adj.; v.', meaning: '自己的；擁有', sentence: 'She wants to open her own bakery shop.' },
+      { id: 'u2_37', unit: 'U2', word: 'finish', pos: 'v.', meaning: '完成；結束', sentence: 'Please finish your homework before dinner.' },
+      { id: 'u2_38', unit: 'U2', word: 'festival', pos: 'n.', meaning: '節慶', sentence: 'Moon Festival is a major holiday in Taiwan.' },
+      { id: 'u2_39', unit: 'U2', word: 'start', pos: 'v.; n.', meaning: '開始', sentence: 'When will the concert start?' },
+      { id: 'u2_40', unit: 'U2', word: 'choice', pos: 'n.', meaning: '選擇', sentence: 'You made a wise choice in joining this club.' },
+      { id: 'u2_41', unit: 'U2', word: 'not... at all', pos: 'phr.', meaning: '一點也不⋯', sentence: 'The test was not difficult at all.' },
+      { id: 'u2_42', unit: 'U2', word: 'free', pos: 'adj.', meaning: '免費的', sentence: 'Admission to the museum is free on Sunday.' },
+      { id: 'u2_43', unit: 'U2', word: 'show', pos: 'n.', meaning: '表演；節目', sentence: 'The magic show entertained all the students.' },
+      { id: 'u2_44', unit: 'U2', word: 'miss out', pos: 'phr.', meaning: '錯過機會', sentence: 'Don\'t miss out on this great opportunity!' },
+      { id: 'u2_45', unit: 'U2', word: 'design', pos: 'n.; v.', meaning: '設計', sentence: 'She plans to design her own poster.' },
+      { id: 'u2_46', unit: 'U2', word: 'swimmer', pos: 'n.', meaning: '泳者', sentence: 'He is a fast swimmer on the school team.' },
+      { id: 'u2_47', unit: 'U2', word: 'underwater', pos: 'adj.; adv.', meaning: '水下的', sentence: 'We took amazing underwater photos.' },
+      { id: 'u2_48', unit: 'U2', word: 'winner', pos: 'n.', meaning: '獲勝者', sentence: 'The winner received a trophy and medal.' },
+      { id: 'u2_49', unit: 'U2', word: 'contest', pos: 'n.', meaning: '競賽', sentence: 'She won first place in the singing contest.' },
+      { id: 'u2_50', unit: 'U2', word: 'guest', pos: 'adj.; n.', meaning: '客座的；賓客', sentence: 'A special guest speaker visited our school.' },
+
+      // U3
+      { id: 'u3_1', unit: 'U3', word: 'someone', pos: 'pron.', meaning: '某人（= somebody）', sentence: 'Someone left a cup on the counter.' },
+      { id: 'u3_2', unit: 'U3', word: 'break', pos: 'v.', meaning: '打破；損壞', sentence: 'Be careful not to break the glass vase.' },
+      { id: 'u3_3', unit: 'U3', word: 'do the dishes', pos: 'phr.', meaning: '洗碗盤', sentence: 'I usually help do the dishes after supper.' },
+      { id: 'u3_4', unit: 'U3', word: 'half', pos: 'n.', meaning: '一半；二分之一', sentence: 'Cut the apple in half to share.' },
+      { id: 'u3_5', unit: 'U3', word: 'past', pos: 'prep.; adv.', meaning: '經過；過去（的）', sentence: 'It is half past six right now.' },
+      { id: 'u3_6', unit: 'U3', word: 'leave', pos: 'v.', meaning: '離開', sentence: 'We need to leave for the station now.' },
+      { id: 'u3_7', unit: 'U3', word: 'quarter', pos: 'n.', meaning: '十五分鐘；四分之一', sentence: 'It\'s a quarter to eight in the morning.' },
+      { id: 'u3_8', unit: 'U3', word: 'remember', pos: 'v.', meaning: '記得', sentence: 'Always remember to lock the front door.' },
+      { id: 'u3_9', unit: 'U3', word: 'take it easy', pos: 'phr.', meaning: '放輕鬆', sentence: 'Take it easy! Everything will be fine.' },
+      { id: 'u3_10', unit: 'U3', word: 'cool down', pos: 'phr.', meaning: '冷靜一下', sentence: 'Sit under the shade to cool down.' },
+      { id: 'u3_11', unit: 'U3', word: 'close', pos: 'adj.', meaning: '靠近的', sentence: 'Our house is close to the MRT station.' },
+      { id: 'u3_12', unit: 'U3', word: 'feed', pos: 'v.', meaning: '餵養', sentence: 'Don\'t forget to feed the fish today.' },
+      { id: 'u3_13', unit: 'U3', word: 'pet', pos: 'n.', meaning: '寵物', sentence: 'A cute dog is a popular family pet.' },
+      { id: 'u3_14', unit: 'U3', word: 'sweep', pos: 'v.', meaning: '掃', sentence: 'Please sweep the dirty yard floor.' },
+      { id: 'u3_15', unit: 'U3', word: 'floor', pos: 'n.', meaning: '地板；樓層', sentence: 'Clean the floor with water and mop.' },
+      { id: 'u3_16', unit: 'U3', word: 'fix', pos: 'v.', meaning: '修理；解決', sentence: 'My father can fix the broken chair.' },
+      { id: 'u3_17', unit: 'U3', word: 'drawer', pos: 'n.', meaning: '抽屜', sentence: 'Keep your scissors in the top drawer.' },
+      { id: 'u3_18', unit: 'U3', word: 'mop', pos: 'v.; n.', meaning: '拖地；拖把', sentence: 'Use a clean mop to wash the floor.' },
+      { id: 'u3_19', unit: 'U3', word: 'stairs', pos: 'n.', meaning: '樓梯', sentence: 'Walk carefully down the stairs.' },
+      { id: 'u3_20', unit: 'U3', word: 'wipe', pos: 'v.', meaning: '擦拭', sentence: 'Please wipe the kitchen table clean.' },
+      { id: 'u3_21', unit: 'U3', word: 'window', pos: 'n.', meaning: '窗戶', sentence: 'Open the window to let fresh air in.' },
+      { id: 'u3_22', unit: 'U3', word: 'dry', pos: 'v.; adj.', meaning: '（使）乾燥；乾的', sentence: 'Hang your wet clothes to dry.' },
+      { id: 'u3_23', unit: 'U3', word: 'hang', pos: 'v.', meaning: '吊；掛', sentence: 'Hang your coat on the rack.' },
+      { id: 'u3_24', unit: 'U3', word: 'clothes', pos: 'n.', meaning: '衣服', sentence: 'Fold your washed clothes neatly.' },
+      { id: 'u3_25', unit: 'U3', word: 'move', pos: 'v.; n.', meaning: '搬遷；移動', sentence: 'We plan to move to a new house next month.' },
+      { id: 'u3_26', unit: 'U3', word: 'city', pos: 'n.', meaning: '城市', sentence: 'Taipei is a crowded and busy city.' },
+      { id: 'u3_27', unit: 'U3', word: 'dream', pos: 'n.; v.; adj.', meaning: '夢；夢想（的）', sentence: 'My dream is to travel around the world.' },
+      { id: 'u3_28', unit: 'U3', word: 'almost', pos: 'adv.', meaning: '幾乎', sentence: 'I am almost finished with my work.' },
+      { id: 'u3_29', unit: 'U3', word: 'fall asleep', pos: 'phr.', meaning: '睡著', sentence: 'He was so tired that he fall asleep quickly.' },
+      { id: 'u3_30', unit: 'U3', word: 'scared', pos: 'adj.', meaning: '害怕的', sentence: 'She felt scared during the earthquake.' },
+      { id: 'u3_31', unit: 'U3', word: 'problem', pos: 'n.', meaning: '問題', sentence: 'Can you solve this difficult math problem?' },
+      { id: 'u3_32', unit: 'U3', word: 'tip', pos: 'n.', meaning: '訣竅', sentence: 'Here is a useful tip for learning English.' },
+      { id: 'u3_33', unit: 'U3', word: 'however', pos: 'adv.', meaning: '然而', sentence: 'It was late; however, he kept reading.' },
+      { id: 'u3_34', unit: 'U3', word: 'nothing', pos: 'pron.', meaning: '沒什麼；無事；無物', sentence: 'There is nothing wrong with trying.' },
+      { id: 'u3_35', unit: 'U3', word: 'catch', pos: 'v.', meaning: '捉；接', sentence: 'Try to catch the flying baseball.' },
+      { id: 'u3_36', unit: 'U3', word: 'through', pos: 'prep.', meaning: '穿越；從頭到尾', sentence: 'Walk through the dark tunnel safely.' },
+      { id: 'u3_37', unit: 'U3', word: 'finally', pos: 'adv.', meaning: '終於；最後', sentence: 'They finally reached the mountain top.' },
+      { id: 'u3_38', unit: 'U3', word: 'save', pos: 'v.', meaning: '拯救', sentence: 'The firefighter managed to save the kitten.' },
+      { id: 'u3_39', unit: 'U3', word: 'terrible', pos: 'adj.', meaning: '糟糕的；可怕的', sentence: 'We had a terrible storm yesterday.' },
+      { id: 'u3_40', unit: 'U3', word: 'monitor', pos: 'n.', meaning: '監視器', sentence: 'Check the baby monitor screen.' },
+      { id: 'u3_41', unit: 'U3', word: 'sleepwalk', pos: 'v.', meaning: '夢遊', sentence: 'Some people sleepwalk without knowing it.' },
+      { id: 'u3_42', unit: 'U3', word: 'web', pos: 'n.', meaning: '網子', sentence: 'A spider spun a big web in the corner.' },
+      { id: 'u3_43', unit: 'U3', word: 'hole', pos: 'n.', meaning: '洞', sentence: 'There is a small hole in my sock.' },
+
+      // U4
+      { id: 'u4_1', unit: 'U4', word: 'hope', pos: 'v.; n.', meaning: '希望', sentence: 'I hope you pass the entrance exam.' },
+      { id: 'u4_2', unit: 'U4', word: 'future', pos: 'n.; adj.', meaning: '未來（的）', sentence: 'Work hard to build a bright future.' },
+      { id: 'u4_3', unit: 'U4', word: 'plan', pos: 'v.; n.', meaning: '規劃；計畫', sentence: 'What is your plan for the weekend?' },
+      { id: 'u4_4', unit: 'U4', word: 'lawyer', pos: 'n.', meaning: '律師', sentence: 'A lawyer helps defend people in court.' },
+      { id: 'u4_5', unit: 'U4', word: 'job', pos: 'n.', meaning: '工作', sentence: 'He found an exciting new job.' },
+      { id: 'u4_6', unit: 'U4', word: 'get butterflies in one\'s stomach', pos: 'phr.', meaning: '感到緊張', sentence: 'I get butterflies in one\'s stomach before speeches.' },
+      { id: 'u4_7', unit: 'U4', word: 'worry', pos: 'v.; n.', meaning: '擔心', sentence: 'Don\'t worry about small mistakes.' },
+      { id: 'u4_8', unit: 'U4', word: 'keep', pos: 'v.', meaning: '持續；保持', sentence: 'Please keep quiet during the movie.' },
+      { id: 'u4_9', unit: 'U4', word: 'idea', pos: 'n.', meaning: '主意；想法', sentence: 'That sounds like a brilliant idea!' },
+      { id: 'u4_10', unit: 'U4', word: 'right', pos: 'n.', meaning: '權利', sentence: 'Everyone has the right to express views.' },
+      { id: 'u4_11', unit: 'U4', word: 'put on', pos: 'phr.', meaning: '穿上', sentence: 'Remember to put on a coat today.' },
+      { id: 'u4_12', unit: 'U4', word: 'reporter', pos: 'n.', meaning: '記者', sentence: 'The reporter interviewed the mayor.' },
+      { id: 'u4_13', unit: 'U4', word: 'interview', pos: 'v.; n.', meaning: '採訪；面試', sentence: 'He had a job interview this morning.' },
+      { id: 'u4_14', unit: 'U4', word: 'mail carrier', pos: 'n.', meaning: '郵差（= mailman）', sentence: 'The mail carrier delivered our letters.' },
+      { id: 'u4_15', unit: 'U4', word: 'dentist', pos: 'n.', meaning: '牙醫', sentence: 'Visit the dentist twice a year.' },
+      { id: 'u4_16', unit: 'U4', word: 'factory', pos: 'n.', meaning: '工廠', sentence: 'This local factory makes toy cars.' },
+      { id: 'u4_17', unit: 'U4', word: 'fisherman', pos: 'n.', meaning: '漁夫', sentence: 'The fisherman caught fresh salmon.' },
+      { id: 'u4_18', unit: 'U4', word: 'secretary', pos: 'n.', meaning: '祕書', sentence: 'The secretary answered phone calls.' },
+      { id: 'u4_19', unit: 'U4', word: 'boss', pos: 'n.', meaning: '老闆', sentence: 'Our boss praised our team\'s work.' },
+      { id: 'u4_20', unit: 'U4', word: 'salesman', pos: 'n.', meaning: '銷售員；業務員', sentence: 'The salesman introduced new products.' },
+      { id: 'u4_21', unit: 'U4', word: 'farmer', pos: 'n.', meaning: '農夫', sentence: 'The hard-working farmer grew rice.' },
+      { id: 'u4_22', unit: 'U4', word: 'grow', pos: 'v.', meaning: '種植；成長', sentence: 'Tomatoes grow well in sunny spots.' },
+      { id: 'u4_23', unit: 'U4', word: 'soldier', pos: 'n.', meaning: '士兵', sentence: 'The brave soldier defended the country.' },
+      { id: 'u4_24', unit: 'U4', word: 'country', pos: 'n.', meaning: '國家', sentence: 'Taiwan is a peaceful country.' },
+      { id: 'u4_25', unit: 'U4', word: 'truck driver', pos: 'n.', meaning: '卡車司機', sentence: 'A truck driver transported goods.' },
+      { id: 'u4_26', unit: 'U4', word: 'drive', pos: 'v.', meaning: '開（車）', sentence: 'Always drive safely on roads.' },
+      { id: 'u4_27', unit: 'U4', word: 'successful', pos: 'adj.', meaning: '成功的', sentence: 'She became a successful scientist.' },
+      { id: 'u4_28', unit: 'U4', word: 'find', pos: 'v.', meaning: '找到；發現', sentence: 'Did you find your missing wallet?' },
+      { id: 'u4_29', unit: 'U4', word: 'grade', pos: 'n.', meaning: '年級', sentence: 'I am an 8th grade student now.' },
+      { id: 'u4_30', unit: 'U4', word: 'decide', pos: 'v.', meaning: '決定', sentence: 'We must decide which path to choose.' },
+      { id: 'u4_31', unit: 'U4', word: 'become', pos: 'v.', meaning: '成為', sentence: 'He hopes to become a pilot.' },
+      { id: 'u4_32', unit: 'U4', word: 'relative', pos: 'n.', meaning: '親戚', sentence: 'We visited our relative in Taichung.' },
+      { id: 'u4_33', unit: 'U4', word: 'believe', pos: 'v.', meaning: '相信', sentence: 'I believe you can do it.' },
+      { id: 'u4_34', unit: 'U4', word: 'act', pos: 'v.', meaning: '表演', sentence: 'He loves to act in drama plays.' },
+      { id: 'u4_35', unit: 'U4', word: 'all over', pos: 'phr.', meaning: '遍及', sentence: 'Her fame spread all over Taiwan.' },
+      { id: 'u4_36', unit: 'U4', word: 'make fun of', pos: 'phr.', meaning: '取笑', sentence: 'It is rude to make fun of others.' },
+      { id: 'u4_37', unit: 'U4', word: 'give up', pos: 'phr.', meaning: '放棄', sentence: 'Never give up on your dreams.' },
+      { id: 'u4_38', unit: 'U4', word: 'channel', pos: 'n.', meaning: '頻道', sentence: 'Switch to the music video channel.' },
+      { id: 'u4_39', unit: 'U4', word: 'wig', pos: 'n.', meaning: '假髮', sentence: 'The actor wore a funny yellow wig.' },
+      { id: 'u4_40', unit: 'U4', word: 'career', pos: 'n.', meaning: '職業', sentence: 'She built a successful career.' },
+      { id: 'u4_41', unit: 'U4', word: 'deliver', pos: 'v.', meaning: '投遞；運送', sentence: 'Couriers deliver packages daily.' },
+      { id: 'u4_42', unit: 'U4', word: 'success', pos: 'n.', meaning: '成功', sentence: 'Hard work is the key to success.' },
+      { id: 'u4_43', unit: 'U4', word: 'audition', pos: 'n.', meaning: '試鏡', sentence: 'She went for a choir audition.' },
+
+      // U5
+      { id: 'u5_1', unit: 'U5', word: 'metro', pos: 'n.', meaning: '捷運', sentence: 'Taking the metro is convenient in Taipei.' },
+      { id: 'u5_2', unit: 'U5', word: 'lost', pos: 'adj.', meaning: '迷路的', sentence: 'The tourist was lost in the city.' },
+      { id: 'u5_3', unit: 'U5', word: 'map', pos: 'n.', meaning: '地圖', sentence: 'Check the map to find your way.' },
+      { id: 'u5_4', unit: 'U5', word: 'ask', pos: 'v.', meaning: '請求；詢問', sentence: 'Feel free to ask questions anytime.' },
+      { id: 'u5_5', unit: 'U5', word: 'Excuse me.', pos: 'phr.', meaning: '（對不起）請問⋯。', sentence: 'Excuse me., where is the station?' },
+      { id: 'u5_6', unit: 'U5', word: 'straight', pos: 'adv.; adj.', meaning: '直地；直的', sentence: 'Go straight for two blocks ahead.' },
+      { id: 'u5_7', unit: 'U5', word: 'turn left', pos: 'phr.', meaning: '向左轉', sentence: 'turn left at the traffic light.' },
+      { id: 'u5_8', unit: 'U5', word: 'along', pos: 'prep.', meaning: '沿著', sentence: 'Walk along the river bank path.' },
+      { id: 'u5_9', unit: 'U5', word: 'block', pos: 'n.', meaning: '街區', sentence: 'The library is just one block away.' },
+      { id: 'u5_10', unit: 'U5', word: 'corner', pos: 'n.', meaning: '轉角；角落', sentence: 'The convenience store is on the corner.' },
+      { id: 'u5_11', unit: 'U5', word: 'across from', pos: 'phr.', meaning: '在⋯的對面', sentence: 'The bakery is across from the school.' },
+      { id: 'u5_12', unit: 'U5', word: 'supermarket', pos: 'n.', meaning: '超市', sentence: 'Mom bought groceries at the supermarket.' },
+      { id: 'u5_13', unit: 'U5', word: 'ground', pos: 'n.', meaning: '地面', sentence: 'Leaves fell onto the damp ground.' },
+      { id: 'u5_14', unit: 'U5', word: 'sir', pos: 'n.', meaning: '先生', sentence: 'May I help you, sir?' },
+      { id: 'u5_15', unit: 'U5', word: 'on foot', pos: 'phr.', meaning: '步行', sentence: 'We went to the park on foot.' },
+      { id: 'u5_16', unit: 'U5', word: 'take', pos: 'v.', meaning: '搭乘（交通工具）', sentence: 'You can take the bus to school.' },
+      { id: 'u5_17', unit: 'U5', word: 'by', pos: 'prep.', meaning: '搭乘；藉由⋯方式', sentence: 'They traveled to Kaohsiung by train.' },
+      { id: 'u5_18', unit: 'U5', word: 'get off', pos: 'phr.', meaning: '下（車、飛機等）', sentence: 'Remember to get off at Main Station.' },
+      { id: 'u5_19', unit: 'U5', word: 'get', pos: 'v.', meaning: '到達', sentence: 'How can I get to the museum?' },
+      { id: 'u5_20', unit: 'U5', word: 'right', pos: 'n.; adj.', meaning: '右邊（的）', sentence: 'Turn right at the second stop sign.' },
+      { id: 'u5_21', unit: 'U5', word: 'ship', pos: 'n.', meaning: '輪船', sentence: 'A large cargo ship entered the harbor.' },
+      { id: 'u5_22', unit: 'U5', word: 'taxi', pos: 'n.', meaning: '計程車', sentence: 'We took a taxi because we were late.' },
+      { id: 'u5_23', unit: 'U5', word: 'bike', pos: 'n.', meaning: '單車（= bicycle）', sentence: 'Riding a bike is eco-friendly.' },
+      { id: 'u5_24', unit: 'U5', word: 'motorcycle', pos: 'n.', meaning: '機車；摩托車', sentence: 'Wear a helmet when riding a motorcycle.' },
+      { id: 'u5_25', unit: 'U5', word: 'scooter', pos: 'n.', meaning: '機車', sentence: 'Scooters are common in Taiwan streets.' },
+      { id: 'u5_26', unit: 'U5', word: 'bank', pos: 'n.', meaning: '銀行；河岸', sentence: 'He deposited money at the bank.' },
+      { id: 'u5_27', unit: 'U5', word: 'fire station', pos: 'n.', meaning: '消防局', sentence: 'Fire engines parked at the fire station.' },
+      { id: 'u5_28', unit: 'U5', word: 'toy', pos: 'n.', meaning: '玩具', sentence: 'The child was playing with a toy train.' },
+      { id: 'u5_29', unit: 'U5', word: 'post office', pos: 'n.', meaning: '郵局', sentence: 'Buy stamps at the nearby post office.' },
+      { id: 'u5_30', unit: 'U5', word: 'hospital', pos: 'n.', meaning: '醫院', sentence: 'The doctor works at the city hospital.' },
+      { id: 'u5_31', unit: 'U5', word: 'pool', pos: 'n.', meaning: '水池', sentence: 'We swam in the outdoor swimming pool.' },
+      { id: 'u5_32', unit: 'U5', word: 'go jogging', pos: 'phr.', meaning: '慢跑', sentence: 'I like to go jogging in the park.' },
+      { id: 'u5_33', unit: 'U5', word: 'go sailing', pos: 'phr.', meaning: '玩帆船；航行', sentence: 'They will go sailing this weekend.' },
+      { id: 'u5_34', unit: 'U5', word: 'go surfing', pos: 'phr.', meaning: '衝浪', sentence: 'Surfers love to go surfing in Yilan.' },
+      { id: 'u5_35', unit: 'U5', word: 'fly', pos: 'v.', meaning: '飛行；駕駛', sentence: 'Birds fly high in the blue sky.' },
+      { id: 'u5_36', unit: 'U5', word: 'bus stop', pos: 'n.', meaning: '公車站', sentence: 'Wait for the bus at the bus stop.' },
+      { id: 'u5_37', unit: 'U5', word: 'go biking', pos: 'phr.', meaning: '騎單車', sentence: 'Let\'s go biking along the bike lane.' },
+      { id: 'u5_38', unit: 'U5', word: 'go shopping', pos: 'phr.', meaning: '購物', sentence: 'Mom wants to go shopping at the mall.' },
+      { id: 'u5_39', unit: 'U5', word: 'hit', pos: 'v.; n.', meaning: '碰撞；打擊', sentence: 'Don\'t hit the ball towards windows.' },
+      { id: 'u5_40', unit: 'U5', word: 'sound', pos: 'n.', meaning: '聲音', sentence: 'I heard a strange sound in the dark.' },
+      { id: 'u5_41', unit: 'U5', word: 'bell', pos: 'n.', meaning: '鐘；鈴', sentence: 'The school bell rang at 12:00.' },
+      { id: 'u5_42', unit: 'U5', word: 'experience', pos: 'n.; v.', meaning: '經歷；經驗', sentence: 'Traveling abroad was a great experience.' },
+      { id: 'u5_43', unit: 'U5', word: 'wonderful', pos: 'adj.', meaning: '美好的', sentence: 'We had a wonderful time together.' },
+      { id: 'u5_44', unit: 'U5', word: 'play', pos: 'n.', meaning: '戲劇', sentence: 'Our class put on an English play.' },
+      { id: 'u5_45', unit: 'U5', word: 'around', pos: 'adv.', meaning: '大約', sentence: 'The meeting will end around 5 PM.' },
+      { id: 'u5_46', unit: 'U5', word: 'go sightseeing', pos: 'phr.', meaning: '觀光；遊覽', sentence: 'Tourists love to go sightseeing in Tainan.' },
+
+      // U6
+      { id: 'u6_1', unit: 'U6', word: 'will', pos: 'aux.', meaning: '將', sentence: 'We will travel to Japan next summer.' },
+      { id: 'u6_2', unit: 'U6', word: 'ugly', pos: 'adj.', meaning: '醜的', sentence: 'He wore an ugly Christmas sweater.' },
+      { id: 'u6_3', unit: 'U6', word: 'sweater', pos: 'n.', meaning: '毛衣', sentence: 'Wear a warm sweater on cold days.' },
+      { id: 'u6_4', unit: 'U6', word: 'tonight', pos: 'adv.; n.', meaning: '今晚', sentence: 'What are you going to do tonight?' },
+      { id: 'u6_5', unit: 'U6', word: 'funny', pos: 'adj.', meaning: '滑稽的', sentence: 'The comedian told a funny story.' },
+      { id: 'u6_6', unit: 'U6', word: 'cost', pos: 'v.; n.', meaning: '價錢為；花費', sentence: 'The new computer cost five hundred dollars.' },
+      { id: 'u6_7', unit: 'U6', word: 'price', pos: 'n.', meaning: '價格', sentence: 'The price of vegetables went up.' },
+      { id: 'u6_8', unit: 'U6', word: 'spend', pos: 'v.', meaning: '花費（時間、金錢）', sentence: 'She spend two hours doing homework.' },
+      { id: 'u6_9', unit: 'U6', word: 'expensive', pos: 'adj.', meaning: '昂貴的', sentence: 'That designer handbag is too expensive.' },
+      { id: 'u6_10', unit: 'U6', word: 'on sale', pos: 'phr.', meaning: '特價中', sentence: 'These shoes are on sale this week.' },
+      { id: 'u6_11', unit: 'U6', word: 'pair', pos: 'n.', meaning: '（一）雙；（一）對', sentence: 'I bought a pair of new socks.' },
+      { id: 'u6_12', unit: 'U6', word: 'total', pos: 'n.; adj.', meaning: '總計（的）；全部（的）', sentence: 'The total cost came to 500 dollars.' },
+      { id: 'u6_13', unit: 'U6', word: 'pay', pos: 'v.; n.', meaning: '付費；工資', sentence: 'You can pay by cash or credit card.' },
+      { id: 'u6_14', unit: 'U6', word: 'thousand', pos: 'n.', meaning: '千', sentence: 'There were one thousand people at the show.' },
+      { id: 'u6_15', unit: 'U6', word: 'tomorrow', pos: 'adv.; n.', meaning: '明天', sentence: 'Tomorrow is another sunny day.' },
+      { id: 'u6_16', unit: 'U6', word: 'high', pos: 'adj.', meaning: '高的', sentence: 'Taipei 101 is a very high skyscraper.' },
+      { id: 'u6_17', unit: 'U6', word: 'save', pos: 'v.', meaning: '節省', sentence: 'Turn off lights to save energy.' },
+      { id: 'u6_18', unit: 'U6', word: 'would like', pos: 'phr.', meaning: '想要', sentence: 'I would like a cup of coffee, please.' },
+      { id: 'u6_19', unit: 'U6', word: 'change', pos: 'n.', meaning: '找零', sentence: 'Here is your change and receipt.' },
+      { id: 'u6_20', unit: 'U6', word: 'take', pos: 'v.', meaning: '花費（時間）', sentence: 'It will take 20 minutes to walk there.' },
+      { id: 'u6_21', unit: 'U6', word: 'dress', pos: 'v.; n.', meaning: '打扮；洋裝', sentence: 'She wore a pretty blue dress.' },
+      { id: 'u6_22', unit: 'U6', word: 'cap', pos: 'n.', meaning: '（前有遮簷的）帽子', sentence: 'He wore a baseball cap.' },
+      { id: 'u6_23', unit: 'U6', word: 'shirt', pos: 'n.', meaning: '襯衫', sentence: 'He wore a clean white shirt.' },
+      { id: 'u6_24', unit: 'U6', word: 'belt', pos: 'n.', meaning: '腰帶', sentence: 'Fasten your leather belt.' },
+      { id: 'u6_25', unit: 'U6', word: 'jeans', pos: 'n.', meaning: '牛仔褲', sentence: 'Blue jeans are comfortable to wear.' },
+      { id: 'u6_26', unit: 'U6', word: 'sock', pos: 'n.', meaning: '襪子', sentence: 'Put on a clean pair of sock.' },
+      { id: 'u6_27', unit: 'U6', word: 'tie', pos: 'n.', meaning: '領帶', sentence: 'Gentlemen wear a tie to formal dinners.' },
+      { id: 'u6_28', unit: 'U6', word: 'pants', pos: 'n.', meaning: '長褲', sentence: 'He bought black suit pants.' },
+      { id: 'u6_29', unit: 'U6', word: 'shoe', pos: 'n.', meaning: '鞋', sentence: 'Tie your shoe laces properly.' },
+      { id: 'u6_30', unit: 'U6', word: 'T-shirt', pos: 'n.', meaning: 'T恤', sentence: 'A cotton T-shirt is cool in summer.' },
+      { id: 'u6_31', unit: 'U6', word: 'shorts', pos: 'n.', meaning: '短褲', sentence: 'We wear shorts during PE class.' },
+      { id: 'u6_32', unit: 'U6', word: 'hat', pos: 'n.', meaning: '帽子', sentence: 'Put on a sun hat at the beach.' },
+      { id: 'u6_33', unit: 'U6', word: 'coat', pos: 'n.', meaning: '外套', sentence: 'Hang your thick coat near the entrance.' },
+      { id: 'u6_34', unit: 'U6', word: 'skirt', pos: 'n.', meaning: '裙子', sentence: 'She likes wearing plaid skirt.' },
+      { id: 'u6_35', unit: 'U6', word: 'glasses', pos: 'n.', meaning: '眼鏡', sentence: 'He wears reading glasses to read books.' },
+      { id: 'u6_36', unit: 'U6', word: 'ring', pos: 'n.', meaning: '戒指；環（狀物）', sentence: 'She wore a silver ring on her finger.' },
+      { id: 'u6_37', unit: 'U6', word: 'take off', pos: 'phr.', meaning: '脫下', sentence: 'Please take off your shoes indoors.' },
+      { id: 'u6_38', unit: 'U6', word: 'fast', pos: 'adj.; adv.', meaning: '快的；快地', sentence: 'The cheetah runs very fast.' },
+      { id: 'u6_39', unit: 'U6', word: 'low', pos: 'adj.', meaning: '低的', sentence: 'The price is surprisingly low.' },
+      { id: 'u6_40', unit: 'U6', word: 'cheap', pos: 'adj.', meaning: '便宜的', sentence: 'This notebook is very cheap.' },
+      { id: 'u6_41', unit: 'U6', word: 'what\'s more', pos: 'phr.', meaning: '而且', sentence: 'what\'s more, it saves your time.' },
+      { id: 'u6_42', unit: 'U6', word: 'most', pos: 'adj.', meaning: '大部分的', sentence: 'Most students passed the English test.' },
+      { id: 'u6_43', unit: 'U6', word: 'hurt', pos: 'v.', meaning: '傷害', sentence: 'Don\'t let harsh words hurt anyone.' },
+      { id: 'u6_44', unit: 'U6', word: 'come off', pos: 'phr.', meaning: '從⋯脫落', sentence: 'The button might come off.' },
+      { id: 'u6_45', unit: 'U6', word: 'second', pos: 'n.', meaning: '秒', sentence: 'Wait just a second, please.' },
+      { id: 'u6_46', unit: 'U6', word: 'checkout', pos: 'n.', meaning: '結帳處', sentence: 'Pay for items at the checkout counter.' },
+      { id: 'u6_47', unit: 'U6', word: 'cash', pos: 'n.', meaning: '現金', sentence: 'Do you prefer cash or credit card?' },
+      { id: 'u6_48', unit: 'U6', word: 'truth', pos: 'n.', meaning: '真相', sentence: 'Always tell the honest truth.' },
+      { id: 'u6_49', unit: 'U6', word: 'fashion', pos: 'n.', meaning: '時尚', sentence: 'Paris is famous for world fashion.' },
+      { id: 'u6_50', unit: 'U6', word: 'environment', pos: 'n.', meaning: '環境', sentence: 'Protecting our natural environment is vital.' }
+    ];
+
+    /* Unit combo keys */
+    const UNIT_KEYS = [
+      'U1', 'U2', 'U1~U2',
+      'U3', 'U4', 'U3~U4',
+      'U5', 'U6', 'U5~U6',
+      'U1~U6全冊'
+    ];
+
+    /* Dynamic Edu Grade Options Map */
+    const EDU_GRADE_MAP = {
+      '幼稚園': ['幼幼班', '小班', '中班', '大班'],
+      '國小': ['1年級', '2年級', '3年級', '4年級', '5年級', '6年級'],
+      '國中': ['國1', '國2', '國3'],
+      '高中': ['高1', '高2', '高3'],
+      '大學': ['大1', '大2', '大3', '大4'],
+      '大學畢業(不是老師)': ['大學畢業(不是老師)'],
+      '老師': ['老師']
+    };
+
+    /* APP STATE */
+    let appState = {
+      studentName: '',
+      eduLevel: '國中',
+      gradeIdentity: '國2',
+      selectedUnit: 'U1~U2',
+      questionCount: 10, // 10 or 'ALL'
+      questionType: 'mixed', // mixed, fill, e2c, c2e
+      instantAnswer: true,
+      
+      // Active Quiz State
+      quizQuestions: [],
+      currentQIdx: 0,
+      score: 0,
+      userAnswers: [],
+      isAnsweredCurrent: false,
+
+      // Admin State
+      adminAuth: false,
+      adminPassword: 'terry0121'
+    };
+
+    /* ==========================================================================
+       RULE 2, 4 & 6: FIREBASE INITIALIZATION, AUTH & RESILIENT CLOUD RETRY
+       ========================================================================== */
+    let db = null;
+    let auth = null;
+    let firebaseReady = false;
+
+    // Default Sandbox App ID
+    const appId = (typeof window !== 'undefined' && window.__appId) ? window.__appId : 'default-app-id';
+    const SCORES_COLLECTION_PATH = `artifacts/${appId}/public/data/scores`;
+    const CONFIG_DOC_PATH = `artifacts/${appId}/public/data/settings/teacherConfig`;
+
+    async function initFirebaseSafely() {
+      try {
+        if (typeof firebase !== 'undefined' && firebase.apps && !firebase.apps.length) {
+          // Dummy config for sandbox iframe environment
+          const firebaseConfig = {
+            apiKey: "AIzaSyDummyKeyForSandboxApp_12345",
+            authDomain: "sandbox-app.firebaseapp.com",
+            projectId: "sandbox-app-proj",
+            storageBucket: "sandbox-app.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:1234567890:web:abcdef123456"
+          };
+          firebase.initializeApp(firebaseConfig);
+          db = firebase.firestore();
+          auth = firebase.auth();
+
+          // Rule 4: signInAnonymously first
+          await auth.signInAnonymously();
+          firebaseReady = true;
+
+          // Listen to teacher password config online
+          db.doc(CONFIG_DOC_PATH).onSnapshot((doc) => {
+            if (doc.exists && doc.data().password) {
+              appState.adminPassword = doc.data().password;
+              safeStorage.setItem('teacherPassword', doc.data().password);
+            }
+          }, (err) => console.log('Config snapshot notice:', err.message));
+
+        }
+      } catch (err) {
+        console.warn('Firebase initialization running in local-resilient fallback mode:', err.message);
+        firebaseReady = false;
+      }
+
+      // Check local storage password override
+      const savedPass = safeStorage.getItem('teacherPassword');
+      if (savedPass) appState.adminPassword = savedPass;
+    }
+
+    /* Web Audio API Sound Effects Engine */
+    const AudioEngine = {
+      ctx: null,
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) this.ctx = new AudioContext();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      },
+      playTone(freq, type, duration) {
+        try {
+          this.init();
+          if (!this.ctx) return;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + duration);
+        } catch(e) {}
+      },
+      playCorrect() {
+        this.playTone(523.25, 'sine', 0.15); // C5
+        setTimeout(() => this.playTone(659.25, 'sine', 0.25), 120); // E5
+      },
+      playWrong() {
+        this.playTone(200, 'sawtooth', 0.3);
+      },
+      playVictory() {
+        const notes = [523.25, 659.25, 783.99, 1046.50];
+        notes.forEach((f, idx) => {
+          setTimeout(() => this.playTone(f, 'triangle', 0.3), idx * 150);
+        });
+      }
+    };
+
+    /* Web Speech API Pronunciation */
+    function speakText(text, lang = 'en-US') {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); // Stop current
+        const synth = window.speechSynthesis;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = 0.9;
+        synth.speak(utterance);
+      }
+    }
+
+    /* ==========================================================================
+       CORE HIGHLIGHT BLANK FUNCTION
+       ========================================================================== */
+    function highlightBlank(sentence, word) {
+      if (!sentence) return '';
+      if (!word) return sentence;
+      
+      // Clean word for regex matching (remove pos prefixes if any)
+      const cleanWord = word.replace(/\([^\)]+\)/g, '').trim();
+      const escaped = cleanWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      
+      const regex = new RegExp(`\\b${escaped}\\b`, 'gi');
+      if (regex.test(sentence)) {
+        return sentence.replace(regex, `<b class="text-amber-300 font-extrabold underline decoration-2 underline-offset-4">______</b>`);
+      }
+      
+      // Fallback replacing exact substring
+      return sentence.replace(cleanWord, `<b class="text-amber-300 font-extrabold underline decoration-2 underline-offset-4">______</b>`);
+    }
+
+    /* Helper: Get vocabulary list based on selected unit combo */
+    function getVocabListForUnit(unitKey) {
+      if (unitKey === 'U1~U6全冊') return [...VOCAB_DATA];
+      if (unitKey.includes('~')) {
+        const parts = unitKey.split('~');
+        const startNum = parseInt(parts[0].replace('U', ''));
+        const endNum = parseInt(parts[1].replace('U', ''));
+        return VOCAB_DATA.filter(item => {
+          const uNum = parseInt(item.unit.replace('U', ''));
+          return uNum >= startNum && uNum <= endNum;
+        });
+      }
+      return VOCAB_DATA.filter(item => item.unit === unitKey);
+    }
+
+    /* Shuffle Array Utility */
+    function shuffleArray(arr) {
+      const cloned = [...arr];
+      for (let i = cloned.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
+      }
+      return cloned;
+    }
+
+    /* ==========================================================================
+       NAVIGATION & UI EVENT HANDLERS
+       ========================================================================== */
+    window.navTo = function(viewId) {
+      ['step1', 'step2', 'learning', 'quiz', 'result'].forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if (el) el.classList.add('hidden');
+      });
+      const target = document.getElementById(`view-${viewId}`);
+      if (target) target.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.switchTab = function(tabName) {
+      if (tabName === 'learning') {
+        window.renderLearningCards();
+        window.navTo('learning');
+      } else if (tabName === 'quiz') {
+        if (!appState.studentName) {
+          window.navTo('step1');
+        } else {
+          window.navTo('step2');
+        }
+      }
+    };
+
+    window.handleEduChange = function() {
+      const eduSelect = document.getElementById('educationLevel');
+      const gradeSelect = document.getElementById('gradeIdentity');
+      const val = eduSelect.value;
+      
+      gradeSelect.innerHTML = '';
+      if (val && EDU_GRADE_MAP[val]) {
+        EDU_GRADE_MAP[val].forEach(g => {
+          const opt = document.createElement('option');
+          opt.value = g;
+          opt.textContent = g;
+          gradeSelect.appendChild(opt);
+        });
+      } else {
+        const opt = document.createElement('option');
+        opt.value = '--';
+        opt.textContent = '--';
+        gradeSelect.appendChild(opt);
+      }
+    };
+
+    window.nextToStep2 = function() {
+      const nameInput = document.getElementById('studentName').value.trim();
+      const eduSelect = document.getElementById('educationLevel').value;
+      const gradeSelect = document.getElementById('gradeIdentity').value;
+
+      if (!nameInput) {
+        alert('請填寫學生姓名！');
+        return;
+      }
+      if (!eduSelect) {
+        alert('請選擇學歷階段！');
+        return;
+      }
+
+      appState.studentName = nameInput;
+      appState.eduLevel = eduSelect;
+      appState.gradeIdentity = gradeSelect;
+
+      // Save user profile in safeStorage
+      safeStorage.setItem('studentProfile', JSON.stringify({
+        name: nameInput,
+        edu: eduSelect,
+        grade: gradeSelect
+      }));
+
+      window.renderUnitButtons();
+      window.navTo('step2');
+    };
+
+    window.renderUnitButtons = function() {
+      const grid = document.getElementById('unitButtonsGrid');
+      grid.innerHTML = '';
+
+      UNIT_KEYS.forEach(uKey => {
+        const btn = document.createElement('button');
+        btn.onclick = () => window.selectUnit(uKey);
+        btn.className = `py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-bold text-xs transition duration-200 text-center ${appState.selectedUnit === uKey ? 'btn-selected' : 'hover:bg-slate-700/80 text-slate-200'}`;
+        btn.textContent = uKey;
+        grid.appendChild(btn);
+      });
+
+      window.updateModeButtonsUI();
+    };
+
+    window.selectUnit = function(uKey) {
+      AudioEngine.playTone(400, 'sine', 0.05);
+      appState.selectedUnit = uKey;
+      window.renderUnitButtons();
+    };
+
+    window.setQuestionCount = function(count) {
+      AudioEngine.playTone(450, 'sine', 0.05);
+      appState.questionCount = count;
+      window.updateModeButtonsUI();
+    };
+
+    window.setQuestionType = function(type) {
+      AudioEngine.playTone(500, 'sine', 0.05);
+      appState.questionType = type;
+      window.updateModeButtonsUI();
+    };
+
+    window.updateModeButtonsUI = function() {
+      // Question count buttons
+      const b10 = document.getElementById('btnCount10');
+      const bALL = document.getElementById('btnCountALL');
+      if (b10 && bALL) {
+        b10.className = `count-btn flex-1 py-2.5 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-sm transition ${appState.questionCount === 10 ? 'btn-selected' : 'hover:bg-slate-700'}`;
+        bALL.className = `count-btn flex-1 py-2.5 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-sm transition ${appState.questionCount === 'ALL' ? 'btn-selected' : 'hover:bg-slate-700'}`;
+      }
+
+      // Question type buttons
+      const types = ['Mixed', 'Fill', 'E2C', 'C2E'];
+      types.forEach(t => {
+        const btn = document.getElementById(`btnType${t}`);
+        if (btn) {
+          const key = t.toLowerCase();
+          btn.className = `type-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition ${appState.questionType === key ? 'btn-selected' : 'hover:bg-slate-700'}`;
+        }
+      });
+    };
+
+    /* ==========================================================================
+       WORD LEARNING CENTER (單字學習館)
+       ========================================================================== */
+    window.renderLearningCards = function() {
+      const container = document.getElementById('learningGrid');
+      const searchVal = (document.getElementById('learningSearch').value || '').toLowerCase();
+      const unitFilterSelect = document.getElementById('learningUnitFilter');
+      
+      // Populate filter dropdown if empty
+      if (unitFilterSelect.options.length <= 1) {
+        unitFilterSelect.innerHTML = '<option value="ALL">所有單元 (U1~U6)</option>';
+        UNIT_KEYS.forEach(k => {
+          const opt = document.createElement('option');
+          opt.value = k;
+          opt.textContent = k;
+          unitFilterSelect.appendChild(opt);
+        });
+        unitFilterSelect.value = appState.selectedUnit || 'ALL';
+      }
+
+      const activeFilter = unitFilterSelect.value;
+      let dataset = getVocabListForUnit(activeFilter === 'ALL' ? 'U1~U6全冊' : activeFilter);
+
+      if (searchVal) {
+        dataset = dataset.filter(item => 
+          item.word.toLowerCase().includes(searchVal) || 
+          item.meaning.includes(searchVal) ||
+          item.sentence.toLowerCase().includes(searchVal)
+        );
+      }
+
+      document.getElementById('learningSubtitle').textContent = `共展出 ${dataset.length} 個翰林版核心單字 (點擊🔊朗讀)`;
+
+      if (dataset.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full glass-card p-8 text-center text-slate-400">
+            <i class="fa-solid fa-magnifying-glass text-3xl mb-2 text-slate-500"></i>
+            <p>查無符合關鍵字的單字內容。</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = dataset.map(item => `
+        <div class="glass-card p-5 space-y-3 relative overflow-hidden hover:border-purple-500/50 transition duration-300">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-purple-500/30 text-purple-300 border border-purple-500/40">${item.unit}</span>
+                <span class="text-xs text-slate-400 font-medium italic">${item.pos}</span>
+              </div>
+              <h3 class="text-xl font-bold text-white mt-1 flex items-center gap-2">
+                ${item.word}
+                <button onclick="window.speakWord('${item.word.replace(/'/g, "\\'")}')" class="text-purple-400 hover:text-purple-300 text-sm p-1">
+                  <i class="fa-solid fa-volume-high"></i>
+                </button>
+              </h3>
+            </div>
+            <span class="text-sm font-bold text-amber-300 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20">
+              ${item.meaning}
+            </span>
+          </div>
+
+          <!-- Highlighted Sentence -->
+          <div class="p-3 rounded-xl bg-slate-900/60 border border-white/5 text-xs text-slate-300 leading-relaxed">
+            <div class="flex items-start justify-between gap-2">
+              <p class="flex-1">${highlightBlank(item.sentence, item.word)}</p>
+              <button onclick="window.speakWord('${item.sentence.replace(/'/g, "\\'")}')" class="text-slate-400 hover:text-white p-1" title="朗讀整句">
+                <i class="fa-solid fa-play text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    };
+
+    window.speakWord = function(text) {
+      speakText(text, 'en-US');
+    };
+
+    /* ==========================================================================
+       QUIZ GENERATION & EXECUTION (測驗挑戰區)
+       ========================================================================== */
+    window.startQuiz = function() {
+      const vocabList = getVocabListForUnit(appState.selectedUnit);
+      if (!vocabList || vocabList.length === 0) {
+        alert('該單元無可用單字資料！');
+        return;
+      }
+
+      appState.instantAnswer = document.getElementById('toggleInstantAnswer').checked;
+      
+      // Shuffle source vocabulary
+      let shuffled = shuffleArray(vocabList);
+      let targetCount = appState.questionCount === 'ALL' ? shuffled.length : Math.min(10, shuffled.length);
+      let selectedVocabs = shuffled.slice(0, targetCount);
+
+      // Build quiz questions
+      appState.quizQuestions = selectedVocabs.map((vocab, index) => {
+        let qType = appState.questionType;
+        if (qType === 'mixed') {
+          const pool = ['fill', 'e2c', 'c2e'];
+          qType = pool[Math.floor(Math.random() * pool.length)];
+        }
+
+        // Generate 3 wrong options
+        const distractorPool = VOCAB_DATA.filter(v => v.id !== vocab.id);
+        const shuffledDistractors = shuffleArray(distractorPool).slice(0, 3);
+
+        let options = [];
+        let correctAnswerText = '';
+
+        if (qType === 'fill') {
+          correctAnswerText = vocab.word;
+          options = shuffleArray([vocab.word, ...shuffledDistractors.map(d => d.word)]);
+        } else if (qType === 'e2c') {
+          correctAnswerText = vocab.meaning;
+          options = shuffleArray([vocab.meaning, ...shuffledDistractors.map(d => d.meaning)]);
+        } else if (qType === 'c2e') {
+          correctAnswerText = vocab.word;
+          options = shuffleArray([vocab.word, ...shuffledDistractors.map(d => d.word)]);
+        }
+
+        return {
+          qNum: index + 1,
+          vocab: vocab,
+          type: qType,
+          correctAnswer: correctAnswerText,
+          options: options
+        };
+      });
+
+      appState.currentQIdx = 0;
+      appState.score = 0;
+      appState.userAnswers = [];
+      
+      document.getElementById('quizUnitBadge').textContent = appState.selectedUnit;
+      window.navTo('quiz');
+      window.renderCurrentQuestion();
+    };
+
+    window.renderCurrentQuestion = function() {
+      const q = appState.quizQuestions[appState.currentQIdx];
+      const totalQ = appState.quizQuestions.length;
+
+      appState.isAnsweredCurrent = false;
+
+      // Update progress
+      document.getElementById('quizProgressText').textContent = `題目 ${q.qNum} / ${totalQ}`;
+      document.getElementById('liveScoreText').textContent = appState.score;
+      const progressPercent = Math.round((q.qNum / totalQ) * 100);
+      document.getElementById('quizProgressBar').style.width = `${progressPercent}%`;
+
+      // Question Type Badge
+      const typeBadge = document.getElementById('questionTypeBadge');
+      const subPrompt = document.getElementById('questionSubPrompt');
+      const promptTitle = document.getElementById('questionPrompt');
+
+      subPrompt.classList.add('hidden');
+
+      if (q.type === 'fill') {
+        typeBadge.textContent = '✍️ 例句填空';
+        promptTitle.innerHTML = highlightBlank(q.vocab.sentence, q.vocab.word);
+        subPrompt.textContent = `提示：${q.vocab.pos} ${q.vocab.meaning}`;
+        subPrompt.classList.remove('hidden');
+      } else if (q.type === 'e2c') {
+        typeBadge.textContent = '🔤 英翻中';
+        promptTitle.textContent = `${q.vocab.word} (${q.vocab.pos})`;
+      } else if (q.type === 'c2e') {
+        typeBadge.textContent = '🇹🇼 中翻英';
+        promptTitle.textContent = `${q.vocab.meaning} (${q.vocab.pos})`;
+      }
+
+      // Hide feedback box
+      const feedbackBox = document.getElementById('answerFeedbackBox');
+      feedbackBox.className = 'hidden p-4 rounded-xl border space-y-2 transition-all';
+
+      // Render Options Grid (A, B, C, D)
+      const labels = ['A', 'B', 'C', 'D'];
+      const optionsGrid = document.getElementById('quizOptionsGrid');
+      optionsGrid.innerHTML = q.options.map((opt, idx) => `
+        <button onclick="window.selectQuizOption('${opt.replace(/'/g, "\\'")}', this)" class="option-btn w-full p-4 rounded-xl glass-card bg-slate-800/80 hover:bg-slate-700/80 border border-white/15 text-left flex items-center gap-3 transition group">
+          <span class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-300 font-black text-sm flex items-center justify-center border border-purple-500/30 group-hover:bg-purple-600 group-hover:text-white">
+            ${labels[idx]}
+          </span>
+          <span class="text-sm md:text-base font-semibold text-slate-100 flex-1">${opt}</span>
+        </button>
+      `).join('');
+    };
+
+    window.speakCurrentQuestion = function() {
+      const q = appState.quizQuestions[appState.currentQIdx];
+      if (q.type === 'fill') {
+        speakText(q.vocab.sentence);
+      } else {
+        speakText(q.vocab.word);
+      }
+    };
+
+    window.selectQuizOption = function(selectedOpt, btnElem) {
+      if (appState.isAnsweredCurrent) return;
+      appState.isAnsweredCurrent = true;
+
+      const q = appState.quizQuestions[appState.currentQIdx];
+      const isCorrect = selectedOpt === q.correctAnswer;
+
+      const qPoints = Math.round(100 / appState.quizQuestions.length);
+      if (isCorrect) {
+        appState.score += qPoints;
+        AudioEngine.playCorrect();
+      } else {
+        AudioEngine.playWrong();
+      }
+
+      appState.userAnswers.push({
+        question: q,
+        userSelect: selectedOpt,
+        isCorrect: isCorrect
+      });
+
+      // Highlight selected button
+      const allOptionBtns = document.querySelectorAll('.option-btn');
+      allOptionBtns.forEach(btn => {
+        btn.disabled = true;
+        btn.classList.add('opacity-60', 'cursor-not-allowed');
+      });
+
+      if (isCorrect) {
+        btnElem.className = 'option-btn w-full p-4 rounded-xl bg-emerald-600/40 border-2 border-emerald-400 text-left flex items-center gap-3 font-bold text-emerald-200';
+      } else {
+        btnElem.className = 'option-btn w-full p-4 rounded-xl bg-rose-600/40 border-2 border-rose-400 text-left flex items-center gap-3 font-bold text-rose-200';
+        
+        // Find correct button and highlight it
+        allOptionBtns.forEach(btn => {
+          if (btn.innerText.includes(q.correctAnswer)) {
+            btn.className = 'option-btn w-full p-4 rounded-xl bg-emerald-600/30 border-2 border-emerald-500/80 text-left flex items-center gap-3 font-bold text-emerald-200';
+          }
+        });
+      }
+
+      if (appState.instantAnswer) {
+        // Show Feedback Box
+        const feedbackBox = document.getElementById('answerFeedbackBox');
+        const feedbackTitle = document.getElementById('feedbackTitle');
+        const feedbackDetail = document.getElementById('feedbackDetail');
+
+        feedbackBox.classList.remove('hidden');
+
+        if (isCorrect) {
+          feedbackBox.className = 'p-4 rounded-xl border bg-emerald-950/40 border-emerald-500/40 text-emerald-200 space-y-2';
+          feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-xl"></i> 答對了！非常棒！`;
+        } else {
+          feedbackBox.className = 'p-4 rounded-xl border bg-rose-950/40 border-rose-500/40 text-rose-200 space-y-2';
+          feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400 text-xl"></i> 答錯了！正確答案是：<span class="underline">${q.correctAnswer}</span>`;
+        }
+
+        feedbackDetail.innerHTML = `
+          <div><b>【單字全貌】</b> ${q.vocab.word} (${q.vocab.pos}) : ${q.vocab.meaning}</div>
+          <div class="mt-1"><b>【完整例句】</b> ${q.vocab.sentence}</div>
+        `;
+      } else {
+        // Auto next question after slight delay
+        setTimeout(() => {
+          window.nextQuestion();
+        }, 800);
+      }
+    };
+
+    window.nextQuestion = function() {
+      if (appState.currentQIdx < appState.quizQuestions.length - 1) {
+        appState.currentQIdx++;
+        window.renderCurrentQuestion();
+      } else {
+        window.finishQuiz();
+      }
+    };
+
+    /* ==========================================================================
+       QUIZ RESULTS & 100 HONOUR VOICE
+       ========================================================================== */
+    window.finishQuiz = function() {
+      // Calculate final exact score
+      const correctCount = appState.userAnswers.filter(a => a.isCorrect).length;
+      const totalCount = appState.quizQuestions.length;
+      const finalScore = Math.round((correctCount / totalCount) * 100);
+
+      document.getElementById('finalScoreDisplay').textContent = finalScore;
+      document.getElementById('statTotalQ').textContent = totalCount;
+      document.getElementById('statCorrectQ').textContent = correctCount;
+      document.getElementById('statAccuracy').textContent = `${Math.round((correctCount/totalCount)*100)}%`;
+      document.getElementById('resultStudentInfo').textContent = `學生：${appState.studentName} (${appState.eduLevel}-${appState.gradeIdentity}) | 單元：${appState.selectedUnit}`;
+
+      const card = document.getElementById('resultCard');
+      const trophy = document.getElementById('honorTrophy');
+
+      if (finalScore === 100) {
+        card.className = 'glass-card golden-card p-8 text-center space-y-6 relative overflow-hidden';
+        trophy.classList.remove('hidden');
+        AudioEngine.playVictory();
+
+        // Trigger Ancestral Honor Speech (Web Speech API)
+        const honorSpeech = `太棒了！恭喜 ${appState.studentName} 同學在 115 上 8 年級英文翰林版單字測驗中勇奪 100 分滿分！特此頒發最高榮譽祝福！`;
+        setTimeout(() => {
+          speakText(honorSpeech, 'zh-TW');
+        }, 500);
+      } else {
+        card.className = 'glass-card p-8 text-center space-y-6 relative overflow-hidden';
+        trophy.classList.add('hidden');
+      }
+
+      // Render Wrong Questions List
+      const wrongListSection = document.getElementById('wrongListSection');
+      const wrongContainer = document.getElementById('wrongListContainer');
+      const wrongItems = appState.userAnswers.filter(a => !a.isCorrect);
+
+      if (wrongItems.length > 0) {
+        wrongListSection.classList.remove('hidden');
+        wrongContainer.innerHTML = wrongItems.map(item => `
+          <div class="pt-3 first:pt-0 space-y-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-white">${item.question.vocab.word} (${item.question.vocab.pos})</span>
+              <span class="text-rose-400 font-semibold">您的選擇：${item.userSelect}</span>
+            </div>
+            <div class="text-xs text-amber-300">正確解答：${item.question.correctAnswer} (${item.question.vocab.meaning})</div>
+            <div class="text-[11px] text-slate-400 italic mt-0.5">${item.question.vocab.sentence}</div>
+          </div>
+        `).join('');
+      } else {
+        wrongListSection.classList.add('hidden');
+      }
+
+      window.navTo('result');
+
+      // Auto save score to cloud / local storage
+      window.autoSaveScoreRecord(finalScore, correctCount, totalCount);
+    };
+
+    /* ==========================================================================
+       RULE 6: AUTO RESILIENT CLOUD SCORE UPLOAD & BACKUP
+       ========================================================================== */
+    window.autoSaveScoreRecord = async function(scoreVal, correctNum, totalNum) {
+      const record = {
+        id: 'score_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+        studentName: appState.studentName,
+        eduLevel: appState.eduLevel,
+        gradeIdentity: appState.gradeIdentity,
+        unit: appState.selectedUnit,
+        score: scoreVal,
+        correctNum: correctNum,
+        totalNum: totalNum,
+        timestamp: new Date().toISOString(),
+        formattedTime: new Date().toLocaleString('zh-TW')
+      };
+
+      // Always save locally to safeStorage queue
+      let localScores = [];
+      try {
+        const raw = safeStorage.getItem('localScoresQueue');
+        if (raw) localScores = JSON.parse(raw);
+      } catch(e) {}
+      localScores.unshift(record);
+      safeStorage.setItem('localScoresQueue', JSON.stringify(localScores));
+
+      // Attempt cloud upload
+      await window.uploadRecordToFirestore(record);
+    };
+
+    window.manualUploadScore = async function() {
+      const uploadBtn = document.getElementById('btnUploadScore');
+      uploadBtn.disabled = true;
+      uploadBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 上傳中...`;
+
+      const raw = safeStorage.getItem('localScoresQueue');
+      if (raw) {
+        const list = JSON.parse(raw);
+        if (list.length > 0) {
+          const latest = list[0];
+          await window.uploadRecordToFirestore(latest);
+        }
+      }
+
+      uploadBtn.disabled = false;
+      uploadBtn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> 上傳成績至雲端`;
+    };
+
+    window.uploadRecordToFirestore = async function(record) {
+      const statusMsg = document.getElementById('uploadStatusMsg');
+      if (statusMsg) statusMsg.innerHTML = `<span class="text-amber-300"><i class="fa-solid fa-sync fa-spin"></i> 上傳雲端中...</span>`;
+
+      try {
+        if (!firebaseReady || !db) {
+          throw new Error('Firebase offline or uninitialized');
+        }
+
+        // Try direct write
+        await db.collection(SCORES_COLLECTION_PATH).doc(record.id).set(record);
+        if (statusMsg) statusMsg.innerHTML = `<span class="text-emerald-400 font-bold"><i class="fa-solid fa-cloud-check"></i> 上傳成功 ☁️</span>`;
+
+      } catch (err) {
+        console.warn('Cloud upload failed, attempting automatic re-authentication retry:', err);
+        
+        // Retry Mechanism
+        try {
+          if (auth) {
+            await auth.signInAnonymously();
+            await db.collection(SCORES_COLLECTION_PATH).doc(record.id).set(record);
+            if (statusMsg) statusMsg.innerHTML = `<span class="text-emerald-400 font-bold"><i class="fa-solid fa-cloud-check"></i> 重連上傳成功 ☁️</span>`;
+            return;
+          }
+        } catch (retryErr) {
+          console.warn('Retry mechanism failed:', retryErr);
+        }
+
+        if (statusMsg) statusMsg.innerHTML = `<span class="text-purple-300"><i class="fa-solid fa-hard-drive"></i> 已存至本機 (待連線補傳)</span>`;
+      }
+    };
+
+    /* ==========================================================================
+       TEACHER ADMIN DASHBOARD & CSV EXPORT
+       ========================================================================== */
+    window.openTeacherModal = function() {
+      document.getElementById('teacherModal').classList.remove('hidden');
+      if (!appState.adminAuth) {
+        document.getElementById('adminAuthBox').classList.remove('hidden');
+        document.getElementById('adminPanelBox').classList.add('hidden');
+        document.getElementById('adminPasswordInput').value = '';
+        document.getElementById('adminPasswordInput').focus();
+      } else {
+        window.showAdminPanel();
+      }
+    };
+
+    window.closeTeacherModal = function() {
+      document.getElementById('teacherModal').classList.add('hidden');
+    };
+
+    window.verifyAdminPassword = function() {
+      const pwd = document.getElementById('adminPasswordInput').value;
+      if (pwd === appState.adminPassword) {
+        appState.adminAuth = true;
+        window.showAdminPanel();
+      } else {
+        alert('密碼錯誤！');
+      }
+    };
+
+    window.showAdminPanel = function() {
+      document.getElementById('adminAuthBox').classList.add('hidden');
+      document.getElementById('adminPanelBox').classList.remove('hidden');
+      window.renderAdminRecords();
+    };
+
+    /* RULE 3: IN-MEMORY SORTING & FILTERING FOR FIRESTORE RECORDS */
+    window.renderAdminRecords = async function() {
+      const tbody = document.getElementById('adminTableBody');
+      tbody.innerHTML = `<tr><td colspan="6" class="text-center p-6 text-slate-400"><i class="fa-solid fa-spinner fa-spin"></i> 載入資料中...</td></tr>`;
+
+      let allRecords = [];
+
+      // 1. Fetch from local safeStorage queue first
+      try {
+        const raw = safeStorage.getItem('localScoresQueue');
+        if (raw) allRecords = JSON.parse(raw);
+      } catch(e) {}
+
+      // 2. Fetch from Firestore if available
+      try {
+        if (firebaseReady && db) {
+          const snapshot = await db.collection(SCORES_COLLECTION_PATH).get();
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            if (!allRecords.some(r => r.id === data.id)) {
+              allRecords.push(data);
+            }
+          });
+        }
+      } catch (err) {
+        console.warn('Firestore fetch notice:', err.message);
+      }
+
+      // 3. In-memory Filter
+      const searchVal = (document.getElementById('adminSearchInput').value || '').toLowerCase();
+      const filterEdu = document.getElementById('adminFilterEdu').value;
+      const sortBy = document.getElementById('adminSortBy').value;
+
+      if (searchVal) {
+        allRecords = allRecords.filter(r => 
+          (r.studentName && r.studentName.toLowerCase().includes(searchVal)) ||
+          (r.unit && r.unit.toLowerCase().includes(searchVal)) ||
+          (r.eduLevel && r.eduLevel.includes(searchVal))
+        );
+      }
+
+      if (filterEdu) {
+        allRecords = allRecords.filter(r => r.eduLevel === filterEdu);
+      }
+
+      // 4. In-memory Sort
+      allRecords.sort((a, b) => {
+        if (sortBy === 'scoreDesc') {
+          return b.score - a.score;
+        } else if (sortBy === 'nameAsc') {
+          return (a.studentName || '').localeCompare(b.studentName || '', 'zh-TW');
+        } else {
+          // timeDesc
+          return new Date(b.timestamp || 0) - new Date(a.timestamp || 0);
+        }
+      });
+
+      if (allRecords.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center p-6 text-slate-400">目前尚無作答紀錄</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = allRecords.map(r => `
+        <tr class="hover:bg-white/5 transition">
+          <td class="p-3 font-bold text-white">${r.studentName || '未填寫'}</td>
+          <td class="p-3 text-slate-300">${r.eduLevel || '--'} (${r.gradeIdentity || '--'})</td>
+          <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold border border-purple-500/30">${r.unit}</span></td>
+          <td class="p-3 font-extrabold ${r.score === 100 ? 'text-amber-400' : (r.score >= 60 ? 'text-emerald-400' : 'text-rose-400')}">${r.score} 分</td>
+          <td class="p-3 text-slate-400 text-[11px]">${r.formattedTime || r.timestamp || '--'}</td>
+          <td class="p-3 text-center">
+            <button onclick="window.deleteSingleRecord('${r.id}')" class="text-rose-400 hover:text-rose-300 p-1" title="刪除單筆紀錄">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    };
+
+    window.deleteSingleRecord = async function(recordId) {
+      if (!confirm('確定要刪除此筆紀錄嗎？')) return;
+
+      // Delete from safeStorage local queue
+      try {
+        const raw = safeStorage.getItem('localScoresQueue');
+        if (raw) {
+          let list = JSON.parse(raw);
+          list = list.filter(r => r.id !== recordId);
+          safeStorage.setItem('localScoresQueue', JSON.stringify(list));
+        }
+      } catch(e) {}
+
+      // Delete from cloud Firestore
+      try {
+        if (firebaseReady && db) {
+          await db.collection(SCORES_COLLECTION_PATH).doc(recordId).delete();
+        }
+      } catch(e) { console.warn('Cloud delete notice:', e); }
+
+      window.renderAdminRecords();
+    };
+
+    window.clearAllScores = async function() {
+      if (!confirm('⚠️ 警告：確定要清空所有的學生作答紀錄嗎？此動作無法復原！')) return;
+
+      safeStorage.removeItem('localScoresQueue');
+
+      try {
+        if (firebaseReady && db) {
+          const snapshot = await db.collection(SCORES_COLLECTION_PATH).get();
+          const batch = db.batch();
+          snapshot.forEach(doc => batch.delete(doc.ref));
+          await batch.commit();
+        }
+      } catch(e) { console.warn('Batch clear cloud notice:', e); }
+
+      window.renderAdminRecords();
+    };
+
+    window.toggleChangePassBox = function() {
+      const box = document.getElementById('changePassBox');
+      box.classList.toggle('hidden');
+    };
+
+    window.submitChangePassword = async function() {
+      const newPwd = document.getElementById('newAdminPassword').value.trim();
+      if (!newPwd) {
+        alert('請輸入新密碼！');
+        return;
+      }
+
+      appState.adminPassword = newPwd;
+      safeStorage.setItem('teacherPassword', newPwd);
+
+      // Save to cloud teacherConfig
+      try {
+        if (firebaseReady && db) {
+          await db.doc(CONFIG_DOC_PATH).set({ password: newPwd, updatedAt: new Date().toISOString() }, { merge: true });
+        }
+      } catch(e) {
+        console.warn('Cloud update password retry notice:', e);
+      }
+
+      alert('教師後台密碼更新成功！');
+      document.getElementById('newAdminPassword').value = '';
+      document.getElementById('changePassBox').classList.add('hidden');
+    };
+
+    /* Export UTF-8 BOM CSV for Excel */
+    window.exportToCSV = function() {
+      let records = [];
+      try {
+        const raw = safeStorage.getItem('localScoresQueue');
+        if (raw) records = JSON.parse(raw);
+      } catch(e) {}
+
+      if (records.length === 0) {
+        alert('目前無可供匯出的紀錄數據！');
+        return;
+      }
+
+      let csvContent = '\uFEFF'; // UTF-8 BOM
+      csvContent += '學生姓名,學歷階段,年級身分,測試單元,總得分,答對題數,總題數,測驗時間\n';
+
+      records.forEach(r => {
+        csvContent += `"${r.studentName || ''}","${r.eduLevel || ''}","${r.gradeIdentity || ''}","${r.unit || ''}",${r.score},${r.correctNum},${r.totalNum},"${r.formattedTime || r.timestamp}"\n`;
+      });
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `115上8年級英文翰林版_成績單冊_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
+    /* ==========================================================================
+       APP INITIALIZATION ENTRY POINT
+       ========================================================================== */
+    window.addEventListener('DOMContentLoaded', async () => {
+      // 1. Initialize Firebase and Cloud Auth
+      await initFirebaseSafely();
+
+      // 2. Restore local profile if exists
+      try {
+        const savedProfile = safeStorage.getItem('studentProfile');
+        if (savedProfile) {
+          const profile = JSON.parse(savedProfile);
+          if (profile.name) document.getElementById('studentName').value = profile.name;
+          if (profile.edu) document.getElementById('educationLevel').value = profile.edu;
+          window.handleEduChange();
+          if (profile.grade) document.getElementById('gradeIdentity').value = profile.grade;
+        } else {
+          window.handleEduChange();
+        }
+      } catch(e) {
+        window.handleEduChange();
+      }
+
+      // 3. Render Initial UI State
+      window.renderUnitButtons();
+      window.navTo('step1');
+    });
+  </script>
+</body>
+</html>

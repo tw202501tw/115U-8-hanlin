@@ -165,7 +165,7 @@
   <main class="flex-grow container mx-auto px-4 py-6 max-w-5xl">
 
     <!-- STEP 1: Student Profile -->
-    <section id="view-step1" class="glass-card p-6 md:p-10 max-w-2xl mx-auto space-y-6 animate-fade-in">
+    <section id="view-step1" class="glass-card p-6 md:p-10 max-w-2xl mx-auto space-y-6">
       <div class="text-center space-y-2">
         <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-semibold tracking-wider uppercase border border-purple-500/30">Step 1 of 2</span>
         <h2 class="text-2xl md:text-3xl font-extrabold text-white">建立學生個人資料</h2>
@@ -213,7 +213,7 @@
     </section>
 
     <!-- STEP 2: Course & Mode Selection -->
-    <section id="view-step2" class="glass-card p-6 md:p-10 max-w-3xl mx-auto space-y-8 hidden animate-fade-in">
+    <section id="view-step2" class="glass-card p-6 md:p-10 max-w-3xl mx-auto space-y-8 hidden">
       <div class="flex items-center justify-between border-b border-white/10 pb-4">
         <div>
           <span class="inline-block px-3 py-1 bg-pink-500/20 text-pink-300 rounded-full text-xs font-semibold tracking-wider uppercase border border-pink-500/30">Step 2 of 2</span>
@@ -294,7 +294,7 @@
     </section>
 
     <!-- VIEW: Word Learning Center -->
-    <section id="view-learning" class="space-y-6 hidden animate-fade-in">
+    <section id="view-learning" class="space-y-6 hidden">
       <div class="glass-card p-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <div>
           <h2 class="text-2xl font-black text-white flex items-center gap-2">
@@ -322,7 +322,7 @@
     </section>
 
     <!-- VIEW: Quiz Challenge -->
-    <section id="view-quiz" class="max-w-3xl mx-auto space-y-6 hidden animate-fade-in">
+    <section id="view-quiz" class="max-w-3xl mx-auto space-y-6 hidden">
       <!-- Top Status Bar -->
       <div class="glass-card p-4 flex items-center justify-between">
         <div class="flex items-center space-x-3">
@@ -382,7 +382,7 @@
     </section>
 
     <!-- VIEW: Quiz Results -->
-    <section id="view-result" class="max-w-2xl mx-auto space-y-6 hidden animate-fade-in">
+    <section id="view-result" class="max-w-2xl mx-auto space-y-6 hidden">
       <!-- Score Main Card -->
       <div id="resultCard" class="glass-card p-8 text-center space-y-6 relative overflow-hidden">
         <div id="honorTrophy" class="hidden text-6xl text-amber-400 animate-bounce">
@@ -473,7 +473,7 @@
           <i class="fa-solid fa-lock"></i>
         </div>
         <h4 class="text-xl font-bold text-white">身分安全驗證</h4>
-        <p class="text-xs text-slate-400">請輸入教師管理密碼 </p>
+        <p class="text-xs text-slate-400">請輸入教師管理密碼</p>
         
         <input type="password" id="adminPasswordInput" placeholder="請輸入密碼..." class="w-full glass-input px-4 py-2.5 rounded-xl text-sm text-center" onkeyup="if(event.key==='Enter') window.verifyAdminPassword()" />
         
@@ -509,6 +509,9 @@
             <button onclick="window.exportToCSV()" class="px-3 py-1.5 rounded-lg bg-emerald-600/80 hover:bg-emerald-600 text-white text-xs font-bold transition flex items-center gap-1.5">
               <i class="fa-solid fa-file-excel"></i> 匯出 Excel (CSV)
             </button>
+            <button onclick="window.copyAllAdminRecords()" class="px-3 py-1.5 rounded-lg bg-cyan-600/80 hover:bg-cyan-600 text-white text-xs font-bold transition flex items-center gap-1.5" title="複製全區學生成績資料">
+              <i class="fa-solid fa-copy"></i> 複製全區資料
+            </button>
             <button onclick="window.clearAllScores()" class="px-3 py-1.5 rounded-lg bg-rose-600/80 hover:bg-rose-600 text-white text-xs font-bold transition flex items-center gap-1.5">
               <i class="fa-solid fa-trash"></i> 清空名冊
             </button>
@@ -536,7 +539,7 @@
                 <th class="p-3">單元</th>
                 <th class="p-3">成績</th>
                 <th class="p-3">時間</th>
-                <th class="p-3 text-center">操作</th>
+                <th class="p-3 text-center">複製列 / 操作</th>
               </tr>
             </thead>
             <tbody id="adminTableBody" class="divide-y divide-white/5">
@@ -549,11 +552,15 @@
     </div>
   </div>
 
+  <!-- Floating Toast Notification -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 bg-slate-900/90 text-white px-4 py-2.5 rounded-xl border border-cyan-500/40 shadow-xl flex items-center gap-2 transition-all duration-300 opacity-0 pointer-events-none transform translate-y-2">
+    <i class="fa-solid fa-circle-check text-cyan-400"></i>
+    <span id="toastMsg" class="text-xs font-semibold">已成功複製到剪貼簿</span>
+  </div>
+
   <!-- Main Application Script -->
   <script>
-    /* ==========================================================================
-       RULE 1 & RULE 5: SAFE LOCAL STORAGE & GLOBAL OBJECT ATTACHMENT
-       ========================================================================== */
+    /* Safe Local Storage Wrapper */
     const safeStorage = {
       getItem: (key) => {
         try { return localStorage.getItem(key); }
@@ -569,9 +576,7 @@
       }
     };
 
-    /* ==========================================================================
-       VOCABULARY DATASET (115上8年級英文翰林版 - U1 to U6)
-       ========================================================================== */
+    /* VOCABULARY DATASET (115上8年級英文翰林版 - U1 to U6) */
     const VOCAB_DATA = [
       // U1
       { id: 'u1_1', unit: 'U1', word: 'summer vacation', pos: 'n.', meaning: '暑假', sentence: 'We spent our summer vacation in Kenting.' },
@@ -763,9 +768,9 @@
       { id: 'u5_2', unit: 'U5', word: 'lost', pos: 'adj.', meaning: '迷路的', sentence: 'The tourist was lost in the city.' },
       { id: 'u5_3', unit: 'U5', word: 'map', pos: 'n.', meaning: '地圖', sentence: 'Check the map to find your way.' },
       { id: 'u5_4', unit: 'U5', word: 'ask', pos: 'v.', meaning: '請求；詢問', sentence: 'Feel free to ask questions anytime.' },
-      { id: 'u5_5', unit: 'U5', word: 'Excuse me.', pos: 'phr.', meaning: '（對不起）請問⋯。', sentence: 'Excuse me., where is the station?' },
+      { id: 'u5_5', unit: 'U5', word: 'Excuse me.', pos: 'phr.', meaning: '（對不起）請問⋯。', sentence: 'Excuse me, where is the station?' },
       { id: 'u5_6', unit: 'U5', word: 'straight', pos: 'adv.; adj.', meaning: '直地；直的', sentence: 'Go straight for two blocks ahead.' },
-      { id: 'u5_7', unit: 'U5', word: 'turn left', pos: 'phr.', meaning: '向左轉', sentence: 'turn left at the traffic light.' },
+      { id: 'u5_7', unit: 'U5', word: 'turn left', pos: 'phr.', meaning: '向左轉', sentence: 'Turn left at the traffic light.' },
       { id: 'u5_8', unit: 'U5', word: 'along', pos: 'prep.', meaning: '沿著', sentence: 'Walk along the river bank path.' },
       { id: 'u5_9', unit: 'U5', word: 'block', pos: 'n.', meaning: '街區', sentence: 'The library is just one block away.' },
       { id: 'u5_10', unit: 'U5', word: 'corner', pos: 'n.', meaning: '轉角；角落', sentence: 'The convenience store is on the corner.' },
@@ -814,7 +819,7 @@
       { id: 'u6_5', unit: 'U6', word: 'funny', pos: 'adj.', meaning: '滑稽的', sentence: 'The comedian told a funny story.' },
       { id: 'u6_6', unit: 'U6', word: 'cost', pos: 'v.; n.', meaning: '價錢為；花費', sentence: 'The new computer cost five hundred dollars.' },
       { id: 'u6_7', unit: 'U6', word: 'price', pos: 'n.', meaning: '價格', sentence: 'The price of vegetables went up.' },
-      { id: 'u6_8', unit: 'U6', word: 'spend', pos: 'v.', meaning: '花費（時間、金錢）', sentence: 'She spend two hours doing homework.' },
+      { id: 'u6_8', unit: 'U6', word: 'spend', pos: 'v.', meaning: '花費（時間、金錢）', sentence: 'She spent two hours doing homework.' },
       { id: 'u6_9', unit: 'U6', word: 'expensive', pos: 'adj.', meaning: '昂貴的', sentence: 'That designer handbag is too expensive.' },
       { id: 'u6_10', unit: 'U6', word: 'on sale', pos: 'phr.', meaning: '特價中', sentence: 'These shoes are on sale this week.' },
       { id: 'u6_11', unit: 'U6', word: 'pair', pos: 'n.', meaning: '（一）雙；（一）對', sentence: 'I bought a pair of new socks.' },
@@ -832,7 +837,7 @@
       { id: 'u6_23', unit: 'U6', word: 'shirt', pos: 'n.', meaning: '襯衫', sentence: 'He wore a clean white shirt.' },
       { id: 'u6_24', unit: 'U6', word: 'belt', pos: 'n.', meaning: '腰帶', sentence: 'Fasten your leather belt.' },
       { id: 'u6_25', unit: 'U6', word: 'jeans', pos: 'n.', meaning: '牛仔褲', sentence: 'Blue jeans are comfortable to wear.' },
-      { id: 'u6_26', unit: 'U6', word: 'sock', pos: 'n.', meaning: '襪子', sentence: 'Put on a clean pair of sock.' },
+      { id: 'u6_26', unit: 'U6', word: 'sock', pos: 'n.', meaning: '襪子', sentence: 'Put on a clean pair of socks.' },
       { id: 'u6_27', unit: 'U6', word: 'tie', pos: 'n.', meaning: '領帶', sentence: 'Gentlemen wear a tie to formal dinners.' },
       { id: 'u6_28', unit: 'U6', word: 'pants', pos: 'n.', meaning: '長褲', sentence: 'He bought black suit pants.' },
       { id: 'u6_29', unit: 'U6', word: 'shoe', pos: 'n.', meaning: '鞋', sentence: 'Tie your shoe laces properly.' },
@@ -840,14 +845,14 @@
       { id: 'u6_31', unit: 'U6', word: 'shorts', pos: 'n.', meaning: '短褲', sentence: 'We wear shorts during PE class.' },
       { id: 'u6_32', unit: 'U6', word: 'hat', pos: 'n.', meaning: '帽子', sentence: 'Put on a sun hat at the beach.' },
       { id: 'u6_33', unit: 'U6', word: 'coat', pos: 'n.', meaning: '外套', sentence: 'Hang your thick coat near the entrance.' },
-      { id: 'u6_34', unit: 'U6', word: 'skirt', pos: 'n.', meaning: '裙子', sentence: 'She likes wearing plaid skirt.' },
+      { id: 'u6_34', unit: 'U6', word: 'skirt', pos: 'n.', meaning: '裙子', sentence: 'She likes wearing a plaid skirt.' },
       { id: 'u6_35', unit: 'U6', word: 'glasses', pos: 'n.', meaning: '眼鏡', sentence: 'He wears reading glasses to read books.' },
       { id: 'u6_36', unit: 'U6', word: 'ring', pos: 'n.', meaning: '戒指；環（狀物）', sentence: 'She wore a silver ring on her finger.' },
       { id: 'u6_37', unit: 'U6', word: 'take off', pos: 'phr.', meaning: '脫下', sentence: 'Please take off your shoes indoors.' },
       { id: 'u6_38', unit: 'U6', word: 'fast', pos: 'adj.; adv.', meaning: '快的；快地', sentence: 'The cheetah runs very fast.' },
       { id: 'u6_39', unit: 'U6', word: 'low', pos: 'adj.', meaning: '低的', sentence: 'The price is surprisingly low.' },
       { id: 'u6_40', unit: 'U6', word: 'cheap', pos: 'adj.', meaning: '便宜的', sentence: 'This notebook is very cheap.' },
-      { id: 'u6_41', unit: 'U6', word: 'what\'s more', pos: 'phr.', meaning: '而且', sentence: 'what\'s more, it saves your time.' },
+      { id: 'u6_41', unit: 'U6', word: 'what\'s more', pos: 'phr.', meaning: '而且', sentence: 'What\'s more, it saves your time.' },
       { id: 'u6_42', unit: 'U6', word: 'most', pos: 'adj.', meaning: '大部分的', sentence: 'Most students passed the English test.' },
       { id: 'u6_43', unit: 'U6', word: 'hurt', pos: 'v.', meaning: '傷害', sentence: 'Don\'t let harsh words hurt anyone.' },
       { id: 'u6_44', unit: 'U6', word: 'come off', pos: 'phr.', meaning: '從⋯脫落', sentence: 'The button might come off.' },
@@ -897,17 +902,14 @@
 
       // Admin State
       adminAuth: false,
-      adminPassword: 'terry0121'
+      adminPassword: 'chwjh33911799'
     };
 
     /* ==========================================================================
-       RULE 2, 4 & 6: FIREBASE INITIALIZATION, AUTH & RESILIENT CLOUD RETRY
-       ========================================================================== */
     let db = null;
     let auth = null;
     let firebaseReady = false;
 
-    // Default Sandbox App ID
     const appId = (typeof window !== 'undefined' && window.__appId) ? window.__appId : 'default-app-id';
     const SCORES_COLLECTION_PATH = `artifacts/${appId}/public/data/scores`;
     const CONFIG_DOC_PATH = `artifacts/${appId}/public/data/settings/teacherConfig`;
@@ -915,7 +917,6 @@
     async function initFirebaseSafely() {
       try {
         if (typeof firebase !== 'undefined' && firebase.apps && !firebase.apps.length) {
-          // Dummy config for sandbox iframe environment
           const firebaseConfig = {
             apiKey: "AIzaSyDummyKeyForSandboxApp_12345",
             authDomain: "sandbox-app.firebaseapp.com",
@@ -928,25 +929,21 @@
           db = firebase.firestore();
           auth = firebase.auth();
 
-          // Rule 4: signInAnonymously first
           await auth.signInAnonymously();
           firebaseReady = true;
 
-          // Listen to teacher password config online
           db.doc(CONFIG_DOC_PATH).onSnapshot((doc) => {
             if (doc.exists && doc.data().password) {
               appState.adminPassword = doc.data().password;
               safeStorage.setItem('teacherPassword', doc.data().password);
             }
           }, (err) => console.log('Config snapshot notice:', err.message));
-
         }
       } catch (err) {
-        console.warn('Firebase initialization running in local-resilient fallback mode:', err.message);
+        console.warn('Firebase running in local-resilient fallback mode:', err.message);
         firebaseReady = false;
       }
 
-      // Check local storage password override
       const savedPass = safeStorage.getItem('teacherPassword');
       if (savedPass) appState.adminPassword = savedPass;
     }
@@ -997,7 +994,7 @@
     /* Web Speech API Pronunciation */
     function speakText(text, lang = 'en-US') {
       if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel(); // Stop current
+        window.speechSynthesis.cancel();
         const synth = window.speechSynthesis;
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = lang;
@@ -1006,24 +1003,97 @@
       }
     }
 
-    /* ==========================================================================
-       CORE HIGHLIGHT BLANK FUNCTION
-       ========================================================================== */
+    /* Clipboard & Toast Notification Utilities */
+    window.showToast = function(msg) {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMsg');
+      if (!toast || !toastMsg) return;
+      toastMsg.textContent = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+      }, 2500);
+    };
+
+    window.copyToClipboard = function(text, successMsg) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        window.showToast(successMsg || '已成功複製到剪貼簿！');
+      } catch (err) {
+        console.error('Copy failed:', err);
+      }
+      document.body.removeChild(textarea);
+    };
+
+    window.copyVocabCard = function(word, pos, meaning, sentence) {
+      const text = `${word} (${pos}) ${meaning}\n例句：${sentence}`;
+      window.copyToClipboard(text, `已複製單字：${word}`);
+    };
+
+    window.copySingleRecord = function(recordId) {
+      let records = [];
+      try {
+        const raw = safeStorage.getItem('localScoresQueue');
+        if (raw) records = JSON.parse(raw);
+      } catch(e) {}
+      const target = records.find(r => r.id === recordId);
+      if (target) {
+        const text = `姓名：${target.studentName || '未填寫'} | 身分：${target.eduLevel || ''}-${target.gradeIdentity || ''} | 單元：${target.unit} | 成績：${target.score}分 (${target.correctNum}/${target.totalNum}) | 時間：${target.formattedTime || target.timestamp}`;
+        window.copyToClipboard(text, `已複製 ${target.studentName || '該位'} 同學的成績紀錄！`);
+      }
+    };
+
+    window.copyAllAdminRecords = function() {
+      let records = [];
+      try {
+        const raw = safeStorage.getItem('localScoresQueue');
+        if (raw) records = JSON.parse(raw);
+      } catch(e) {}
+      if (records.length === 0) {
+        alert('目前尚無成績資料可供複製！');
+        return;
+      }
+      const lines = records.map(r => `${r.studentName || '未填寫'}\t${r.eduLevel || ''}-${r.gradeIdentity || ''}\t${r.unit}\t${r.score}分\t${r.correctNum}/${r.totalNum}\t${r.formattedTime || r.timestamp}`);
+      const header = '學生姓名\t學歷年級\t測驗單元\t成績\t答對題數\t測驗時間\n';
+      window.copyToClipboard(header + lines.join('\n'), `已複製全班共 ${records.length} 筆成績資料！`);
+    };
+
+    /* Enhanced Safe Blank Highlighting Utility */
     function highlightBlank(sentence, word) {
       if (!sentence) return '';
       if (!word) return sentence;
+
+      // Clean target phrase and strip punctuation
+      const cleanWord = word.replace(/[\.\,\?\!\;]/g, '').trim();
       
-      // Clean word for regex matching (remove pos prefixes if any)
-      const cleanWord = word.replace(/\([^\)]+\)/g, '').trim();
+      // Escape regex special chars
       const escaped = cleanWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       
+      // Try exact word boundary match
       const regex = new RegExp(`\\b${escaped}\\b`, 'gi');
       if (regex.test(sentence)) {
         return sentence.replace(regex, `<b class="text-amber-300 font-extrabold underline decoration-2 underline-offset-4">______</b>`);
       }
-      
-      // Fallback replacing exact substring
-      return sentence.replace(cleanWord, `<b class="text-amber-300 font-extrabold underline decoration-2 underline-offset-4">______</b>`);
+
+      // Try flexible case-insensitive match for word variations/inflections
+      const flexibleWord = escaped.replace(/s$/i, '').replace(/ed$/i, '').replace(/ing$/i, '');
+      if (flexibleWord.length >= 3) {
+        const flexRegex = new RegExp(`\\b${flexibleWord}\\w*\\b`, 'gi');
+        if (flexRegex.test(sentence)) {
+          return sentence.replace(flexRegex, `<b class="text-amber-300 font-extrabold underline decoration-2 underline-offset-4">______</b>`);
+        }
+      }
+
+      // Safe substring fallback
+      return sentence.replace(new RegExp(escaped, 'gi'), `<b class="text-amber-300 font-extrabold underline decoration-2 underline-offset-4">______</b>`);
     }
 
     /* Helper: Get vocabulary list based on selected unit combo */
@@ -1051,9 +1121,7 @@
       return cloned;
     }
 
-    /* ==========================================================================
-       NAVIGATION & UI EVENT HANDLERS
-       ========================================================================== */
+    /* NAVIGATION & UI EVENT HANDLERS */
     window.navTo = function(viewId) {
       ['step1', 'step2', 'learning', 'quiz', 'result'].forEach(v => {
         const el = document.getElementById(`view-${v}`);
@@ -1116,7 +1184,6 @@
       appState.eduLevel = eduSelect;
       appState.gradeIdentity = gradeSelect;
 
-      // Save user profile in safeStorage
       safeStorage.setItem('studentProfile', JSON.stringify({
         name: nameInput,
         edu: eduSelect,
@@ -1161,7 +1228,6 @@
     };
 
     window.updateModeButtonsUI = function() {
-      // Question count buttons
       const b10 = document.getElementById('btnCount10');
       const bALL = document.getElementById('btnCountALL');
       if (b10 && bALL) {
@@ -1169,7 +1235,6 @@
         bALL.className = `count-btn flex-1 py-2.5 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-sm transition ${appState.questionCount === 'ALL' ? 'btn-selected' : 'hover:bg-slate-700'}`;
       }
 
-      // Question type buttons
       const types = ['Mixed', 'Fill', 'E2C', 'C2E'];
       types.forEach(t => {
         const btn = document.getElementById(`btnType${t}`);
@@ -1180,15 +1245,12 @@
       });
     };
 
-    /* ==========================================================================
-       WORD LEARNING CENTER (單字學習館)
-       ========================================================================== */
+    /* WORD LEARNING CENTER */
     window.renderLearningCards = function() {
       const container = document.getElementById('learningGrid');
       const searchVal = (document.getElementById('learningSearch').value || '').toLowerCase();
       const unitFilterSelect = document.getElementById('learningUnitFilter');
       
-      // Populate filter dropdown if empty
       if (unitFilterSelect.options.length <= 1) {
         unitFilterSelect.innerHTML = '<option value="ALL">所有單元 (U1~U6)</option>';
         UNIT_KEYS.forEach(k => {
@@ -1233,8 +1295,11 @@
               </div>
               <h3 class="text-xl font-bold text-white mt-1 flex items-center gap-2">
                 ${item.word}
-                <button onclick="window.speakWord('${item.word.replace(/'/g, "\\'")}')" class="text-purple-400 hover:text-purple-300 text-sm p-1">
+                <button onclick="window.speakWord('${item.word.replace(/'/g, "\\'")}')" class="text-purple-400 hover:text-purple-300 text-sm p-1" title="朗讀發音">
                   <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button onclick="window.copyVocabCard('${item.word.replace(/'/g, "\\'")}', '${item.pos}', '${item.meaning.replace(/'/g, "\\'")}', '${item.sentence.replace(/'/g, "\\'")}')" class="text-slate-400 hover:text-cyan-300 text-xs p-1" title="複製此單字列">
+                  <i class="fa-solid fa-copy"></i>
                 </button>
               </h3>
             </div>
@@ -1243,7 +1308,6 @@
             </span>
           </div>
 
-          <!-- Highlighted Sentence -->
           <div class="p-3 rounded-xl bg-slate-900/60 border border-white/5 text-xs text-slate-300 leading-relaxed">
             <div class="flex items-start justify-between gap-2">
               <p class="flex-1">${highlightBlank(item.sentence, item.word)}</p>
@@ -1260,9 +1324,7 @@
       speakText(text, 'en-US');
     };
 
-    /* ==========================================================================
-       QUIZ GENERATION & EXECUTION (測驗挑戰區)
-       ========================================================================== */
+    /* QUIZ GENERATION & EXECUTION */
     window.startQuiz = function() {
       const vocabList = getVocabListForUnit(appState.selectedUnit);
       if (!vocabList || vocabList.length === 0) {
@@ -1272,12 +1334,10 @@
 
       appState.instantAnswer = document.getElementById('toggleInstantAnswer').checked;
       
-      // Shuffle source vocabulary
       let shuffled = shuffleArray(vocabList);
       let targetCount = appState.questionCount === 'ALL' ? shuffled.length : Math.min(10, shuffled.length);
       let selectedVocabs = shuffled.slice(0, targetCount);
 
-      // Build quiz questions
       appState.quizQuestions = selectedVocabs.map((vocab, index) => {
         let qType = appState.questionType;
         if (qType === 'mixed') {
@@ -1285,7 +1345,6 @@
           qType = pool[Math.floor(Math.random() * pool.length)];
         }
 
-        // Generate 3 wrong options
         const distractorPool = VOCAB_DATA.filter(v => v.id !== vocab.id);
         const shuffledDistractors = shuffleArray(distractorPool).slice(0, 3);
 
@@ -1327,13 +1386,11 @@
 
       appState.isAnsweredCurrent = false;
 
-      // Update progress
       document.getElementById('quizProgressText').textContent = `題目 ${q.qNum} / ${totalQ}`;
       document.getElementById('liveScoreText').textContent = appState.score;
       const progressPercent = Math.round((q.qNum / totalQ) * 100);
       document.getElementById('quizProgressBar').style.width = `${progressPercent}%`;
 
-      // Question Type Badge
       const typeBadge = document.getElementById('questionTypeBadge');
       const subPrompt = document.getElementById('questionSubPrompt');
       const promptTitle = document.getElementById('questionPrompt');
@@ -1353,11 +1410,9 @@
         promptTitle.textContent = `${q.vocab.meaning} (${q.vocab.pos})`;
       }
 
-      // Hide feedback box
       const feedbackBox = document.getElementById('answerFeedbackBox');
       feedbackBox.className = 'hidden p-4 rounded-xl border space-y-2 transition-all';
 
-      // Render Options Grid (A, B, C, D)
       const labels = ['A', 'B', 'C', 'D'];
       const optionsGrid = document.getElementById('quizOptionsGrid');
       optionsGrid.innerHTML = q.options.map((opt, idx) => `
@@ -1373,7 +1428,9 @@
     window.speakCurrentQuestion = function() {
       const q = appState.quizQuestions[appState.currentQIdx];
       if (q.type === 'fill') {
-        speakText(q.vocab.sentence);
+        // Hide answer in TTS audio for fill questions
+        const spokenSentence = q.vocab.sentence.replace(new RegExp(q.vocab.word, 'gi'), 'blank');
+        speakText(spokenSentence);
       } else {
         speakText(q.vocab.word);
       }
@@ -1400,7 +1457,6 @@
         isCorrect: isCorrect
       });
 
-      // Highlight selected button
       const allOptionBtns = document.querySelectorAll('.option-btn');
       allOptionBtns.forEach(btn => {
         btn.disabled = true;
@@ -1412,7 +1468,6 @@
       } else {
         btnElem.className = 'option-btn w-full p-4 rounded-xl bg-rose-600/40 border-2 border-rose-400 text-left flex items-center gap-3 font-bold text-rose-200';
         
-        // Find correct button and highlight it
         allOptionBtns.forEach(btn => {
           if (btn.innerText.includes(q.correctAnswer)) {
             btn.className = 'option-btn w-full p-4 rounded-xl bg-emerald-600/30 border-2 border-emerald-500/80 text-left flex items-center gap-3 font-bold text-emerald-200';
@@ -1421,7 +1476,6 @@
       }
 
       if (appState.instantAnswer) {
-        // Show Feedback Box
         const feedbackBox = document.getElementById('answerFeedbackBox');
         const feedbackTitle = document.getElementById('feedbackTitle');
         const feedbackDetail = document.getElementById('feedbackDetail');
@@ -1441,7 +1495,6 @@
           <div class="mt-1"><b>【完整例句】</b> ${q.vocab.sentence}</div>
         `;
       } else {
-        // Auto next question after slight delay
         setTimeout(() => {
           window.nextQuestion();
         }, 800);
@@ -1457,11 +1510,8 @@
       }
     };
 
-    /* ==========================================================================
-       QUIZ RESULTS & 100 HONOUR VOICE
-       ========================================================================== */
+    /* QUIZ RESULTS & 100 HONOUR VOICE */
     window.finishQuiz = function() {
-      // Calculate final exact score
       const correctCount = appState.userAnswers.filter(a => a.isCorrect).length;
       const totalCount = appState.quizQuestions.length;
       const finalScore = Math.round((correctCount / totalCount) * 100);
@@ -1480,7 +1530,6 @@
         trophy.classList.remove('hidden');
         AudioEngine.playVictory();
 
-        // Trigger Ancestral Honor Speech (Web Speech API)
         const honorSpeech = `太棒了！恭喜 ${appState.studentName} 同學在 115 上 8 年級英文翰林版單字測驗中勇奪 100 分滿分！特此頒發最高榮譽祝福！`;
         setTimeout(() => {
           speakText(honorSpeech, 'zh-TW');
@@ -1490,7 +1539,6 @@
         trophy.classList.add('hidden');
       }
 
-      // Render Wrong Questions List
       const wrongListSection = document.getElementById('wrongListSection');
       const wrongContainer = document.getElementById('wrongListContainer');
       const wrongItems = appState.userAnswers.filter(a => !a.isCorrect);
@@ -1512,14 +1560,10 @@
       }
 
       window.navTo('result');
-
-      // Auto save score to cloud / local storage
       window.autoSaveScoreRecord(finalScore, correctCount, totalCount);
     };
 
-    /* ==========================================================================
-       RULE 6: AUTO RESILIENT CLOUD SCORE UPLOAD & BACKUP
-       ========================================================================== */
+    /* SCORE RECORD SAVING & CLOUD RETRY */
     window.autoSaveScoreRecord = async function(scoreVal, correctNum, totalNum) {
       const record = {
         id: 'score_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
@@ -1534,7 +1578,6 @@
         formattedTime: new Date().toLocaleString('zh-TW')
       };
 
-      // Always save locally to safeStorage queue
       let localScores = [];
       try {
         const raw = safeStorage.getItem('localScoresQueue');
@@ -1543,7 +1586,6 @@
       localScores.unshift(record);
       safeStorage.setItem('localScoresQueue', JSON.stringify(localScores));
 
-      // Attempt cloud upload
       await window.uploadRecordToFirestore(record);
     };
 
@@ -1574,14 +1616,12 @@
           throw new Error('Firebase offline or uninitialized');
         }
 
-        // Try direct write
         await db.collection(SCORES_COLLECTION_PATH).doc(record.id).set(record);
         if (statusMsg) statusMsg.innerHTML = `<span class="text-emerald-400 font-bold"><i class="fa-solid fa-cloud-check"></i> 上傳成功 ☁️</span>`;
 
       } catch (err) {
         console.warn('Cloud upload failed, attempting automatic re-authentication retry:', err);
         
-        // Retry Mechanism
         try {
           if (auth) {
             await auth.signInAnonymously();
@@ -1597,9 +1637,7 @@
       }
     };
 
-    /* ==========================================================================
-       TEACHER ADMIN DASHBOARD & CSV EXPORT
-       ========================================================================== */
+    /* TEACHER ADMIN DASHBOARD & EXCEL CSV EXPORT */
     window.openTeacherModal = function() {
       document.getElementById('teacherModal').classList.remove('hidden');
       if (!appState.adminAuth) {
@@ -1632,20 +1670,17 @@
       window.renderAdminRecords();
     };
 
-    /* RULE 3: IN-MEMORY SORTING & FILTERING FOR FIRESTORE RECORDS */
     window.renderAdminRecords = async function() {
       const tbody = document.getElementById('adminTableBody');
       tbody.innerHTML = `<tr><td colspan="6" class="text-center p-6 text-slate-400"><i class="fa-solid fa-spinner fa-spin"></i> 載入資料中...</td></tr>`;
 
       let allRecords = [];
 
-      // 1. Fetch from local safeStorage queue first
       try {
         const raw = safeStorage.getItem('localScoresQueue');
         if (raw) allRecords = JSON.parse(raw);
       } catch(e) {}
 
-      // 2. Fetch from Firestore if available
       try {
         if (firebaseReady && db) {
           const snapshot = await db.collection(SCORES_COLLECTION_PATH).get();
@@ -1660,7 +1695,6 @@
         console.warn('Firestore fetch notice:', err.message);
       }
 
-      // 3. In-memory Filter
       const searchVal = (document.getElementById('adminSearchInput').value || '').toLowerCase();
       const filterEdu = document.getElementById('adminFilterEdu').value;
       const sortBy = document.getElementById('adminSortBy').value;
@@ -1677,14 +1711,12 @@
         allRecords = allRecords.filter(r => r.eduLevel === filterEdu);
       }
 
-      // 4. In-memory Sort
       allRecords.sort((a, b) => {
         if (sortBy === 'scoreDesc') {
           return b.score - a.score;
         } else if (sortBy === 'nameAsc') {
           return (a.studentName || '').localeCompare(b.studentName || '', 'zh-TW');
         } else {
-          // timeDesc
           return new Date(b.timestamp || 0) - new Date(a.timestamp || 0);
         }
       });
@@ -1701,7 +1733,10 @@
           <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold border border-purple-500/30">${r.unit}</span></td>
           <td class="p-3 font-extrabold ${r.score === 100 ? 'text-amber-400' : (r.score >= 60 ? 'text-emerald-400' : 'text-rose-400')}">${r.score} 分</td>
           <td class="p-3 text-slate-400 text-[11px]">${r.formattedTime || r.timestamp || '--'}</td>
-          <td class="p-3 text-center">
+          <td class="p-3 text-center flex items-center justify-center gap-2">
+            <button onclick="window.copySingleRecord('${r.id}')" class="text-cyan-400 hover:text-cyan-300 p-1" title="複製此列成績資料">
+              <i class="fa-solid fa-copy"></i>
+            </button>
             <button onclick="window.deleteSingleRecord('${r.id}')" class="text-rose-400 hover:text-rose-300 p-1" title="刪除單筆紀錄">
               <i class="fa-solid fa-trash"></i>
             </button>
@@ -1713,7 +1748,6 @@
     window.deleteSingleRecord = async function(recordId) {
       if (!confirm('確定要刪除此筆紀錄嗎？')) return;
 
-      // Delete from safeStorage local queue
       try {
         const raw = safeStorage.getItem('localScoresQueue');
         if (raw) {
@@ -1723,7 +1757,6 @@
         }
       } catch(e) {}
 
-      // Delete from cloud Firestore
       try {
         if (firebaseReady && db) {
           await db.collection(SCORES_COLLECTION_PATH).doc(recordId).delete();
@@ -1765,7 +1798,6 @@
       appState.adminPassword = newPwd;
       safeStorage.setItem('teacherPassword', newPwd);
 
-      // Save to cloud teacherConfig
       try {
         if (firebaseReady && db) {
           await db.doc(CONFIG_DOC_PATH).set({ password: newPwd, updatedAt: new Date().toISOString() }, { merge: true });
@@ -1792,7 +1824,7 @@
         return;
       }
 
-      let csvContent = '\uFEFF'; // UTF-8 BOM
+      let csvContent = '\uFEFF';
       csvContent += '學生姓名,學歷階段,年級身分,測試單元,總得分,答對題數,總題數,測驗時間\n';
 
       records.forEach(r => {
@@ -1809,14 +1841,10 @@
       document.body.removeChild(link);
     };
 
-    /* ==========================================================================
-       APP INITIALIZATION ENTRY POINT
-       ========================================================================== */
+    /* APP INITIALIZATION ENTRY POINT */
     window.addEventListener('DOMContentLoaded', async () => {
-      // 1. Initialize Firebase and Cloud Auth
       await initFirebaseSafely();
 
-      // 2. Restore local profile if exists
       try {
         const savedProfile = safeStorage.getItem('studentProfile');
         if (savedProfile) {
@@ -1832,7 +1860,6 @@
         window.handleEduChange();
       }
 
-      // 3. Render Initial UI State
       window.renderUnitButtons();
       window.navTo('step1');
     });

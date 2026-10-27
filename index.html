@@ -236,16 +236,36 @@
 
       <!-- Question Count Selector -->
       <div class="space-y-3">
-        <label class="block text-sm font-bold text-pink-300 uppercase tracking-wider flex items-center gap-2">
-          <i class="fa-solid fa-list-ol"></i> 測驗題數
-        </label>
-        <div class="flex gap-3">
-          <button onclick="window.setQuestionCount(10)" id="btnCount10" class="count-btn flex-1 py-2.5 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-sm transition">
+        <div class="flex items-center justify-between">
+          <label class="block text-sm font-bold text-pink-300 uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-list-ol"></i> 測驗題數
+          </label>
+          <span id="unitMaxVocabNotice" class="text-xs text-slate-400 font-medium">當前單元共 -- 個單字</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <button onclick="window.setQuestionCount(10)" id="btnCount10" class="count-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition">
             10 題
           </button>
-          <button onclick="window.setQuestionCount('ALL')" id="btnCountALL" class="count-btn flex-1 py-2.5 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-sm transition">
+          <button onclick="window.setQuestionCount(20)" id="btnCount20" class="count-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition">
+            20 題
+          </button>
+          <button onclick="window.setQuestionCount('ALL')" id="btnCountALL" class="count-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition">
             全部單字
           </button>
+          <button onclick="window.setQuestionCount('CUSTOM')" id="btnCountCUSTOM" class="count-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition">
+            ✏️ 自訂題數
+          </button>
+        </div>
+
+        <!-- Custom Question Count Input Box -->
+        <div id="customCountBox" class="hidden p-3.5 glass-card bg-slate-900/60 rounded-xl border border-pink-500/30 flex flex-wrap items-center justify-between gap-3">
+          <label for="customCountInput" class="text-xs font-bold text-slate-300">
+            請輸入欲測驗題數 (最少 1 題，最多 <span id="customMaxNotice" class="text-amber-300 font-bold">--</span> 題)：
+          </label>
+          <div class="flex items-center gap-2">
+            <input type="number" id="customCountInput" min="1" max="500" value="15" oninput="window.handleCustomCountInput(this)" class="w-24 glass-input px-3 py-1.5 rounded-lg text-sm font-extrabold text-amber-300 text-center" />
+            <span class="text-xs text-slate-300 font-bold">題</span>
+          </div>
         </div>
       </div>
 
@@ -1222,7 +1242,47 @@
     window.setQuestionCount = function(count) {
       AudioEngine.playTone(450, 'sine', 0.05);
       appState.questionCount = count;
+      if (count === 'CUSTOM') {
+        setTimeout(() => {
+          const inputEl = document.getElementById('customCountInput');
+          if (inputEl) inputEl.focus();
+        }, 100);
+      }
       window.updateModeButtonsUI();
+    };
+
+    window.updateUnitMaxNotice = function() {
+      const vocabList = getVocabListForUnit(appState.selectedUnit);
+      const totalCount = vocabList ? vocabList.length : 0;
+      
+      const noticeEl = document.getElementById('unitMaxVocabNotice');
+      if (noticeEl) noticeEl.textContent = `當前單元共 ${totalCount} 個單字`;
+      
+      const customMaxEl = document.getElementById('customMaxNotice');
+      if (customMaxEl) customMaxEl.textContent = totalCount;
+
+      const customInput = document.getElementById('customCountInput');
+      if (customInput) {
+        customInput.max = totalCount;
+        if (parseInt(customInput.value) > totalCount) {
+          customInput.value = Math.max(1, totalCount);
+        }
+      }
+    };
+
+    window.handleCustomCountInput = function(inputEl) {
+      const vocabList = getVocabListForUnit(appState.selectedUnit);
+      const maxVal = vocabList ? vocabList.length : 1;
+      let val = parseInt(inputEl.value);
+      
+      if (!isNaN(val) && val > maxVal) {
+        inputEl.value = maxVal;
+      }
+      
+      if (appState.questionCount !== 'CUSTOM') {
+        appState.questionCount = 'CUSTOM';
+        window.updateModeButtonsUI();
+      }
     };
 
     window.setQuestionType = function(type) {
@@ -1233,11 +1293,25 @@
 
     window.updateModeButtonsUI = function() {
       const b10 = document.getElementById('btnCount10');
+      const b20 = document.getElementById('btnCount20');
       const bALL = document.getElementById('btnCountALL');
-      if (b10 && bALL) {
-        b10.className = `count-btn flex-1 py-2.5 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-sm transition ${appState.questionCount === 10 ? 'btn-selected' : 'hover:bg-slate-700'}`;
-        bALL.className = `count-btn flex-1 py-2.5 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-sm transition ${appState.questionCount === 'ALL' ? 'btn-selected' : 'hover:bg-slate-700'}`;
+      const bCUSTOM = document.getElementById('btnCountCUSTOM');
+      const customBox = document.getElementById('customCountBox');
+
+      if (b10) b10.className = `count-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition ${appState.questionCount === 10 ? 'btn-selected' : 'hover:bg-slate-700'}`;
+      if (b20) b20.className = `count-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition ${appState.questionCount === 20 ? 'btn-selected' : 'hover:bg-slate-700'}`;
+      if (bALL) bALL.className = `count-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition ${appState.questionCount === 'ALL' ? 'btn-selected' : 'hover:bg-slate-700'}`;
+      if (bCUSTOM) bCUSTOM.className = `count-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition ${appState.questionCount === 'CUSTOM' ? 'btn-selected' : 'hover:bg-slate-700'}`;
+
+      if (customBox) {
+        if (appState.questionCount === 'CUSTOM') {
+          customBox.classList.remove('hidden');
+        } else {
+          customBox.classList.add('hidden');
+        }
       }
+
+      window.updateUnitMaxNotice();
 
       const types = ['Mixed', 'Spelling', 'Fill', 'E2C', 'C2E'];
       types.forEach(t => {
@@ -1249,62 +1323,8 @@
       });
     };
 
-    /* WORD LEARNING CENTER */
-    window.renderLearningCards = function() {
-      const container = document.getElementById('learningGrid');
-      const searchVal = (document.getElementById('learningSearch').value || '').toLowerCase();
-      const unitFilterSelect = document.getElementById('learningUnitFilter');
-      
-      if (unitFilterSelect.options.length <= 1) {
-        unitFilterSelect.innerHTML = '<option value="ALL">所有單元 (U1~U6)</option>';
-        UNIT_KEYS.forEach(k => {
-          const opt = document.createElement('option');
-          opt.value = k;
-          opt.textContent = k;
-          unitFilterSelect.appendChild(opt);
-        });
-        unitFilterSelect.value = appState.selectedUnit || 'ALL';
-      }
-
-      const activeFilter = unitFilterSelect.value;
-      let dataset = getVocabListForUnit(activeFilter === 'ALL' ? 'U1~U6全冊' : activeFilter);
-
-      if (searchVal) {
-        dataset = dataset.filter(item => 
-          item.word.toLowerCase().includes(searchVal) || 
-          item.meaning.includes(searchVal) ||
-          item.sentence.toLowerCase().includes(searchVal)
-        );
-      }
-
-      document.getElementById('learningSubtitle').textContent = `共展出 ${dataset.length} 個翰林版核心單字 (點擊🔊朗讀)`;
-
-      if (dataset.length === 0) {
-        container.innerHTML = `
-          <div class="col-span-full glass-card p-8 text-center text-slate-400">
-            <i class="fa-solid fa-magnifying-glass text-3xl mb-2 text-slate-500"></i>
-            <p>查無符合關鍵字的單字內容。</p>
-          </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = dataset.map(item => `
-        <div class="glass-card p-5 space-y-3 relative overflow-hidden hover:border-purple-500/50 transition duration-300">
-          <div class="flex items-start justify-between">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-purple-500/30 text-purple-300 border border-purple-500/40">${item.unit}</span>
-                <span class="text-xs text-slate-400 font-medium italic">${item.pos}</span>
-              </div>
-              <h3 class="text-xl font-bold text-white mt-1 flex items-center gap-2">
-                ${item.word}
-                <button onclick="window.speakWord('${item.word.replace(/'/g, "\\'")}')" class="text-purple-400 hover:text-purple-300 text-sm p-1" title="朗讀發音">
-                  <i class="fa-solid fa-volume-high"></i>
-                </button>
-                <button onclick="window.copyVocabCard('${item.word.replace(/'/g, "\\'")}', '${item.pos}', '${item.meaning.replace(/'/g, "\\'")}', '${item.sentence.replace(/'/g, "\\'")}')" class="text-slate-400 hover:text-cyan-300 text-xs p-1" title="複製此單字列">
-                  <i class="fa-solid fa-copy"></i>
-                </button>
+    /* ==========================================================================
+       WORD LEARNING CENTER (單字學習館)
               </h3>
             </div>
             <span class="text-sm font-bold text-amber-300 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20">
@@ -1338,27 +1358,27 @@
 
       appState.instantAnswer = document.getElementById('toggleInstantAnswer').checked;
       
+      // Determine question count
+      let targetCount = vocabList.length;
+      if (appState.questionCount === 'ALL') {
+        targetCount = vocabList.length;
+      } else if (appState.questionCount === 'CUSTOM') {
+        const customInput = parseInt(document.getElementById('customCountInput')?.value || '10');
+        if (isNaN(customInput) || customInput < 1) {
+          alert('請輸入有效的測驗題數（最少 1 題）！');
+          return;
+        }
+        targetCount = Math.min(Math.max(1, customInput), vocabList.length);
+      } else {
+        const countNum = parseInt(appState.questionCount);
+        targetCount = Math.min(Math.max(1, isNaN(countNum) ? 10 : countNum), vocabList.length);
+      }
+
+      // Shuffle source vocabulary
       let shuffled = shuffleArray(vocabList);
-      let targetCount = appState.questionCount === 'ALL' ? shuffled.length : Math.min(10, shuffled.length);
       let selectedVocabs = shuffled.slice(0, targetCount);
 
-      appState.quizQuestions = selectedVocabs.map((vocab, index) => {
-        let qType = appState.questionType;
-        if (qType === 'mixed') {
-          const pool = ['spelling', 'fill', 'e2c', 'c2e'];
-          qType = pool[Math.floor(Math.random() * pool.length)];
-        }
-
-        const distractorPool = VOCAB_DATA.filter(v => v.id !== vocab.id);
-        const shuffledDistractors = shuffleArray(distractorPool).slice(0, 3);
-
-        let options = [];
-        let correctAnswerText = vocab.word;
-
-        if (qType === 'spelling') {
-          correctAnswerText = vocab.word;
-        } else if (qType === 'fill') {
-          correctAnswerText = vocab.word;
+      // Build quiz questions
           options = shuffleArray([vocab.word, ...shuffledDistractors.map(d => d.word)]);
         } else if (qType === 'e2c') {
           correctAnswerText = vocab.meaning;

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>115上8年級英文翰林版單字選擇題</title>
+  <title>115上8年級英文翰林版單字與課文閱讀總複習系統</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -127,7 +127,7 @@
 
   <!-- Top Navigation Header -->
   <header class="sticky top-0 z-40 w-full px-4 py-3 glass-card rounded-none border-b border-white/10 bg-slate-900/80 backdrop-blur-md">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <div class="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-3">
       <div class="flex items-center space-x-3 cursor-pointer" onclick="window.navTo('step1')">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
           <i class="fa-solid font-bold text-white text-xl fa-book-bookmark"></i>
@@ -136,28 +136,28 @@
           <h1 class="text-lg md:text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-purple-300 via-pink-300 to-amber-200">
             115上8年級英文翰林版
           </h1>
-          <p class="text-xs text-slate-400 font-medium">單字總複習與智能挑戰系統</p>
+          <p class="text-xs text-slate-400 font-medium">單字、課文與閱讀總複習系統</p>
         </div>
       </div>
 
       <!-- Navigation Tabs -->
-      <nav id="topNav" class="hidden md:flex items-center space-x-2">
-        <button onclick="window.switchTab('learning')" class="px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-white/10 transition flex items-center gap-2">
+      <nav id="topNav" class="flex items-center space-x-1.5 md:space-x-2 flex-wrap">
+        <button onclick="window.switchTab('learning')" class="px-2.5 py-1.5 rounded-lg text-xs md:text-sm font-medium hover:bg-white/10 transition flex items-center gap-1.5">
           <i class="fa-solid fa-graduation-cap text-purple-400"></i> 單字學習館
         </button>
-        <button onclick="window.switchTab('quiz')" class="px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-white/10 transition flex items-center gap-2">
+        <button onclick="window.switchTab('textbook')" class="px-2.5 py-1.5 rounded-lg text-xs md:text-sm font-medium hover:bg-white/10 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-comments text-cyan-400"></i> 課文篇
+        </button>
+        <button onclick="window.switchTab('reading')" class="px-2.5 py-1.5 rounded-lg text-xs md:text-sm font-medium hover:bg-white/10 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-book-open-reader text-emerald-400"></i> 閱讀篇
+        </button>
+        <button onclick="window.switchTab('quiz')" class="px-2.5 py-1.5 rounded-lg text-xs md:text-sm font-medium hover:bg-white/10 transition flex items-center gap-1.5">
           <i class="fa-solid fa-gamepad text-pink-400"></i> 測驗挑戰區
         </button>
-        <button onclick="window.openTeacherModal()" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border border-amber-500/30 transition flex items-center gap-2">
+        <button onclick="window.openTeacherModal()" class="px-2.5 py-1.5 rounded-lg text-xs md:text-sm font-medium bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border border-amber-500/30 transition flex items-center gap-1.5">
           <i class="fa-solid fa-user-shield"></i> 教師管理後台
         </button>
       </nav>
-
-      <div class="flex items-center space-x-2 md:hidden">
-        <button onclick="window.openTeacherModal()" class="p-2 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/30">
-          <i class="fa-solid fa-user-shield text-sm"></i>
-        </button>
-      </div>
     </div>
   </header>
 
@@ -185,7 +185,6 @@
           <div>
             <label class="block text-sm font-medium text-slate-300 mb-1.5">① 學歷階段 <span class="text-pink-400">*</span></label>
             <select id="educationLevel" onchange="window.handleEduChange()" class="w-full glass-input px-3 py-2.5 rounded-xl text-sm bg-slate-800">
-              <option value="">-- 請選擇學歷 --</option>
               <option value="幼稚園">幼稚園</option>
               <option value="國小">國小</option>
               <option value="國中" selected>國中</option>
@@ -341,6 +340,80 @@
       <!-- Cards Grid -->
       <div id="learningGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- VIEW: TEXTBOOK PASSAGES (課文篇) -->
+    <section id="view-textbook" class="space-y-6 hidden">
+      <div class="glass-card p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-black text-white flex items-center gap-2">
+            <i class="fa-solid fa-comments text-cyan-400"></i> 課文篇 (Textbook Dialogues)
+          </h2>
+          <p class="text-xs text-slate-400 mt-1">預設隱藏中文，可點擊切換顯示中文與段落/句式發音朗讀</p>
+        </div>
+
+        <!-- Toolbar controls -->
+        <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+          <select id="textbookUnitFilter" onchange="window.renderTextbookView()" class="glass-input px-3 py-2 rounded-xl text-xs bg-slate-800">
+            <option value="U1">Unit 1 課文</option>
+            <option value="U2">Unit 2 課文</option>
+            <option value="U3">Unit 3 課文</option>
+            <option value="U4">Unit 4 課文</option>
+            <option value="U5">Unit 5 課文</option>
+            <option value="U6">Unit 6 課文</option>
+          </select>
+
+          <button id="btnTextbookToggleChinese" onclick="window.toggleTextbookChinese()" class="px-3 py-2 rounded-xl bg-purple-600/80 hover:bg-purple-600 text-white text-xs font-bold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-eye"></i> 顯示中文
+          </button>
+
+          <button onclick="window.speakFullLesson('textbook')" class="px-3 py-2 rounded-xl bg-cyan-600/80 hover:bg-cyan-600 text-white text-xs font-bold transition flex items-center gap-1.5" title="朗讀整課課文">
+            <i class="fa-solid fa-volume-high"></i> 唸整課課文
+          </button>
+        </div>
+      </div>
+
+      <!-- Textbook Content Container -->
+      <div id="textbookContainer" class="space-y-6">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- VIEW: READING PASSAGES (閱讀篇) -->
+    <section id="view-reading" class="space-y-6 hidden">
+      <div class="glass-card p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-black text-white flex items-center gap-2">
+            <i class="fa-solid fa-book-open-reader text-emerald-400"></i> 閱讀篇 (Reading Passages)
+          </h2>
+          <p class="text-xs text-slate-400 mt-1">單元文章閱讀與翻譯，支援全文章與分段句式發音</p>
+        </div>
+
+        <!-- Toolbar controls -->
+        <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+          <select id="readingUnitFilter" onchange="window.renderReadingView()" class="glass-input px-3 py-2 rounded-xl text-xs bg-slate-800">
+            <option value="U1">Unit 1 閱讀文章</option>
+            <option value="U2">Unit 2 閱讀文章</option>
+            <option value="U3">Unit 3 閱讀文章</option>
+            <option value="U4">Unit 4 閱讀文章</option>
+            <option value="U5">Unit 5 閱讀文章</option>
+            <option value="U6">Unit 6 閱讀文章</option>
+          </select>
+
+          <button id="btnReadingToggleChinese" onclick="window.toggleReadingChinese()" class="px-3 py-2 rounded-xl bg-purple-600/80 hover:bg-purple-600 text-white text-xs font-bold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-eye"></i> 顯示中文
+          </button>
+
+          <button onclick="window.speakFullLesson('reading')" class="px-3 py-2 rounded-xl bg-emerald-600/80 hover:bg-emerald-600 text-white text-xs font-bold transition flex items-center gap-1.5" title="朗讀整篇文章">
+            <i class="fa-solid fa-volume-high"></i> 唸整課文章
+          </button>
+        </div>
+      </div>
+
+      <!-- Reading Content Container -->
+      <div id="readingContainer" class="space-y-6">
+        <!-- Rendered dynamically -->
       </div>
     </section>
 
@@ -575,6 +648,20 @@
     </div>
   </div>
 
+  <!-- CUSTOM MODAL DIALOG -->
+  <div id="customModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-card max-w-sm w-full p-6 text-center space-y-4 border border-purple-500/30 shadow-2xl">
+      <div id="modalIcon" class="text-3xl text-amber-400">
+        <i class="fa-solid fa-circle-info"></i>
+      </div>
+      <h3 id="modalTitle" class="text-lg font-bold text-white">系統提示</h3>
+      <p id="modalMessage" class="text-xs text-slate-300 leading-relaxed"></p>
+      <div id="modalButtons" class="flex justify-center gap-3 pt-2">
+        <!-- Buttons inserted dynamically -->
+      </div>
+    </div>
+  </div>
+
   <!-- Floating Toast Notification -->
   <div id="toastNotification" class="fixed bottom-6 right-6 z-50 bg-slate-900/90 text-white px-4 py-2.5 rounded-xl border border-cyan-500/40 shadow-xl flex items-center gap-2 transition-all duration-300 opacity-0 pointer-events-none transform translate-y-2">
     <i class="fa-solid fa-circle-check text-cyan-400"></i>
@@ -597,6 +684,48 @@
         try { localStorage.removeItem(key); }
         catch(e) { console.warn('safeStorage removeItem error:', e); }
       }
+    };
+
+    /* CUSTOM MODAL ALERT/CONFIRM REPLACEMENT */
+    window.showAlertModal = function(msg, title = '系統提示') {
+      document.getElementById('modalIcon').className = 'text-3xl text-purple-400';
+      document.getElementById('modalIcon').innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalMessage').textContent = msg;
+      
+      const btns = document.getElementById('modalButtons');
+      btns.innerHTML = `
+        <button onclick="window.closeAlertModal()" class="px-5 py-2 rounded-xl glass-btn text-white text-xs font-bold">
+          確定
+        </button>
+      `;
+      document.getElementById('customModal').classList.remove('hidden');
+    };
+
+    window.showConfirmModal = function(msg, onConfirm, title = '確認操作') {
+      document.getElementById('modalIcon').className = 'text-3xl text-rose-400';
+      document.getElementById('modalIcon').innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalMessage').textContent = msg;
+      
+      const btns = document.getElementById('modalButtons');
+      btns.innerHTML = `
+        <button onclick="window.closeAlertModal()" class="px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs font-bold">
+          取消
+        </button>
+        <button id="modalConfirmBtn" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold">
+          確認執行
+        </button>
+      `;
+      document.getElementById('modalConfirmBtn').onclick = () => {
+        window.closeAlertModal();
+        if (typeof onConfirm === 'function') onConfirm();
+      };
+      document.getElementById('customModal').classList.remove('hidden');
+    };
+
+    window.closeAlertModal = function() {
+      document.getElementById('customModal').classList.add('hidden');
     };
 
     /* VOCABULARY DATASET (115上8年級英文翰林版 - U1 to U6) */
@@ -887,6 +1016,222 @@
       { id: 'u6_50', unit: 'U6', word: 'environment', pos: 'n.', meaning: '環境', sentence: 'Protecting our natural environment is vital.' }
     ];
 
+    /* TEXTBOOK DIALOGUES DATASET (課文篇 U1 to U6) */
+    const TEXTBOOK_DATA = {
+      'U1': {
+        title: 'Unit 1 課文：How Was the Weather in Australia?',
+        sections: [
+          {
+            sectionId: 'u1_tb_1',
+            narratorEn: 'Narrator: Meg and Cody are chatting in class after the summer vacation.',
+            narratorZh: '旁白：暑假結束後，Meg 和 Cody 在教室裡聊天。',
+            sentences: [
+              { en: "Cody: Welcome back, Meg! How was your summer vacation?", zh: "Cody：歡迎回來，Meg！妳的暑假過得如何？" },
+              { en: "Meg: It was great. I visited my uncle in Australia with my family.", zh: "Meg：太棒了。我和家人一起去了澳洲看我叔叔。" },
+              { en: "Cody: Sounds fun! How was the weather in Australia?", zh: "Cody：聽起來真有趣！澳洲的天氣怎麼樣？" },
+              { en: "Meg: It was cool and snowy in July because winter starts in June there.", zh: "Meg：七月的天氣很涼且下雪，因為那裡的冬天從六月開始。" }
+            ]
+          },
+          {
+            sectionId: 'u1_tb_2',
+            narratorEn: 'Narrator: Meg shows Cody a postcard and a gift from Australia.',
+            narratorZh: '旁白：Meg 展示了一張明信片和來自澳洲的禮物給 Cody 看。',
+            sentences: [
+              { en: "Meg: Look at this lovely postcard! I sent it to you from Sydney.", zh: "Meg：你看這張可愛的明信片！我從雪梨寄給你的。" },
+              { en: "Cody: Wow, thank you! May I borrow your album to see more photos?", zh: "Cody：哇，謝謝妳！我可以借妳的相簿看更多照片嗎？" },
+              { en: "Meg: Sure, and I also bought a pair of warm gloves for you.", zh: "Meg：當然，而且我還買了一雙溫暖的手套送你。" },
+              { en: "Cody: Thanks a lot! You are always so kind to me.", zh: "Cody：非常感謝！你對我總是這麼親切。" }
+            ]
+          }
+        ]
+      },
+      'U2': {
+        title: 'Unit 2 課文：You Can Learn About Game Design After You Join the Club',
+        sections: [
+          {
+            sectionId: 'u2_tb_1',
+            narratorEn: 'Narrator: Cody is looking at the school club posters.',
+            narratorZh: '旁白：Cody 正在看學校社團的海報。',
+            sentences: [
+              { en: "Meg: What\'s up, Cody? Have you made up your mind about school clubs?", zh: "Meg：怎麼了，Cody？你對學校社團下定決心了嗎？" },
+              { en: "Cody: Not yet. I want to join the Robot Club, but science is difficult for me.", zh: "Cody：還沒。我想加入機器人社，但科學對我來說很難。" },
+              { en: "Meg: Don\'t worry! You can learn about game design after you join the club.", zh: "Meg：別擔心！加入社團之後，你可以學習遊戲設計。" },
+              { en: "Cody: That sounds interesting! Whose camera is on the desk?", zh: "Cody：聽起來很有趣！課桌上的相機是誰的？" },
+              { en: "Meg: It\'s mine. I need it for the Photography Club later.", zh: "Meg：那是我的。我待會攝影社需要用到它。" }
+            ]
+          }
+        ]
+      },
+      'U3': {
+        title: 'Unit 3 課文：Mom Was Doing the Dishes at Half Past Twelve',
+        sections: [
+          {
+            sectionId: 'u3_tb_1',
+            narratorEn: 'Narrator: Cody is talking about a strange incident at home last night.',
+            narratorZh: '旁白：Cody 正在講述昨晚在家發生的奇怪事件。',
+            sentences: [
+              { en: "Cody: Someone walked down the stairs at half past twelve last night.", zh: "Cody：昨晚十二點半的時候，有人走下了樓梯。" },
+              { en: "Meg: Really? Was your mom doing the dishes in the kitchen at that time?", zh: "Meg：真的嗎？那時候妳媽媽正在廚房洗碗嗎？" },
+              { en: "Cody: No, my mom was sleeping. I heard a noise near the drawer.", zh: "Cody：不，我媽媽正在睡覺。我聽到抽屜附近有聲音。" },
+              { en: "Meg: Were you scared? What was happening?", zh: "Meg：你害怕嗎？到底發生了什麼事？" },
+              { en: "Cody: In fact, my brother sleepwalks and he was looking for a pet toy!", zh: "Cody：事實上，我弟弟會夢遊，他當時正在找寵物玩具！" }
+            ]
+          }
+        ]
+      },
+      'U4': {
+        title: 'Unit 4 課文：The Road to Success',
+        sections: [
+          {
+            sectionId: 'u4_tb_1',
+            narratorEn: 'Narrator: Students are sharing their future job dreams in class.',
+            narratorZh: '旁白：同學們正在課堂上分享各自未來的職業夢想。',
+            sentences: [
+              { en: "Teacher: What do you hope to become in the future, Meg?", zh: "老師：Meg，妳未來希望成為什麼？" },
+              { en: "Meg: I hope to be a news reporter or a successful lawyer.", zh: "Meg：我希望成為新聞記者或是成功的律師。" },
+              { en: "Cody: I get butterflies in my stomach when I speak, but I want to be an actor.", zh: "Cody：我講話時心裡會發慌緊張，但我想要成為一名演員。" },
+              { en: "Teacher: Keep practicing! Never give up, and you will find your road to success.", zh: "老師：持續練習！絕不放棄，你就能找到通往成功的道路。" }
+            ]
+          }
+        ]
+      },
+      'U5': {
+        title: 'Unit 5 課文：How Do We Get to the Night Market?',
+        sections: [
+          {
+            sectionId: 'u5_tb_1',
+            narratorEn: 'Narrator: Cody and Meg are asking for directions on the street.',
+            narratorZh: '旁白：Cody 與 Meg 正在街上問路。',
+            sentences: [
+              { en: "Cody: Excuse me, sir. How do we get to the famous night market?", zh: "Cody：請問，先生。我們要怎麼去著名的夜市？" },
+              { en: "Police: Go straight for two blocks, and turn left on Xinyi Road.", zh: "警察：直走兩個街區，然後在信義路左轉。" },
+              { en: "Meg: Is it across from the post office?", zh: "Meg：它是在郵局的對面嗎？" },
+              { en: "Police: Yes, it\'s on the corner. You can go there on foot or take the metro.", zh: "警察：是的，它就在轉角。你們可以步行去或是搭乘捷運。" }
+            ]
+          }
+        ]
+      },
+      'U6': {
+        title: 'Unit 6 課文：She\'ll Wear a Sweater to the Party',
+        sections: [
+          {
+            sectionId: 'u6_tb_1',
+            narratorEn: 'Narrator: Meg and Cody are shopping for clothes at a department store.',
+            narratorZh: '旁白：Meg 和 Cody 正在百貨公司挑選衣服。',
+            sentences: [
+              { en: "Meg: Look at this red sweater! I\'ll wear it to the birthday party tonight.", zh: "Meg：你看這件紅毛衣！我今晚要穿它去生日派對。" },
+              { en: "Cody: It looks pretty on you! How much does it cost?", zh: "Cody：妳穿起來很漂亮！這件要花多少錢？" },
+              { en: "Meg: It\'s on sale. A total of five hundred NT dollars for the sweater and socks.", zh: "Meg：它正在特價。毛衣跟襪子總共五百新臺幣。" },
+              { en: "Cody: That\'s cheap! Let\'s go to the checkout to pay by cash.", zh: "Cody：真便宜！我們去結帳處用現金付費吧。" }
+            ]
+          }
+        ]
+      }
+    };
+
+    /* READING PASSAGES DATASET (閱讀篇 U1 to U6) */
+    const READING_DATA = {
+      'U1': {
+        title: 'Unit 1 閱讀：Seasons and Weather in Australia',
+        paragraphs: [
+          {
+            paraId: 'u1_rd_1',
+            narratorEn: 'Paragraph 1: Opposite Seasons in Australia',
+            narratorZh: '第一段：澳洲相反的季節',
+            sentences: [
+              { en: "Australia is in the southern hemisphere, so its weather is different from Taiwan\'s.", zh: "澳洲位於南半球，因此天氣與臺灣不同。" },
+              { en: "When summer comes to Taiwan in July, it is winter in Australia.", zh: "當七月夏天來到臺灣時，澳洲卻正值冬天。" },
+              { en: "Many people love to play in the snow and ride a snowboard during winter in Australia.", zh: "許多人喜歡在澳洲的冬天裡玩雪和滑雪板。" }
+            ]
+          },
+          {
+            paraId: 'u1_rd_2',
+            narratorEn: 'Paragraph 2: Sending Postcards to Friends',
+            narratorZh: '第二段：寄明信片給朋友',
+            sentences: [
+              { en: "Sending a postcard to a friend is a wonderful way to share vacation memories.", zh: "寄明信片給朋友是分享假期回憶的一種美好方式。" },
+              { en: "In fact, weather changes bring unique experiences to travelers in every season.", zh: "事實上，天氣變化在每個季節都給旅客帶來獨特的體驗。" }
+            ]
+          }
+        ]
+      },
+      'U2': {
+        title: 'Unit 2 閱讀：Choosing School Clubs Wisely',
+        paragraphs: [
+          {
+            paraId: 'u2_rd_1',
+            narratorEn: 'Paragraph 1: Exploring School Club Choices',
+            narratorZh: '第一段：探索學校社團選擇',
+            sentences: [
+              { en: "Joining a school club helps students learn new skills and meet friends with the same interests.", zh: "加入學校社團能幫助學生學習新技能，並認識有相同興趣的朋友。" },
+              { en: "Whether you like playing the violin, designing robots, or playing soccer, there is always a great choice.", zh: "無論你喜歡拉小提琴、設計機器人或是踢足球，總能找到極佳的選擇。" },
+              { en: "Before you sign up, think about what you love and don\'t miss out on free trial lessons!", zh: "在報名之前，想想你的所愛，切勿錯過免費的體驗課程！" }
+            ]
+          }
+        ]
+      },
+      'U3': {
+        title: 'Unit 3 閱讀：A Strange Night at Home',
+        paragraphs: [
+          {
+            paraId: 'u3_rd_1',
+            narratorEn: 'Paragraph 1: The Midnight Sleepwalking Incident',
+            narratorZh: '第一段：午夜夢遊事件',
+            sentences: [
+              { en: "At half past twelve last night, strange sounds broke the silence of the house.", zh: "昨晚十二點半，奇怪的聲音打破了屋內的平靜。" },
+              { en: "Mom was wiping the kitchen floor when she saw a figure walking down the stairs.", zh: "媽媽正在擦拭廚房地板時，看到一個身影走下樓梯。" },
+              { en: "Finally, we found out that my little brother was sleepwalking to feed his pet dog!", zh: "最後我們發現，原來是我弟弟正在夢遊去餵他的寵物狗！" }
+            ]
+          }
+        ]
+      },
+      'U4': {
+        title: 'Unit 4 閱讀：Dream Big and Achieve Success',
+        paragraphs: [
+          {
+            paraId: 'u4_rd_1',
+            narratorEn: 'Paragraph 1: Building a Successful Career',
+            narratorZh: '第一段：建立成功的事業',
+            sentences: [
+              { en: "Everyone has a dream job for the future, such as a doctor, a farmer, or an engineer.", zh: "每個人未來都有一個夢想職業，例如醫生、農夫或是工程師。" },
+              { en: "Although the journey can be difficult, hard work is the key to success.", zh: "雖然這段歷程可能很困難，但努力工作是成功的關鍵。" },
+              { en: "Believe in yourself, keep learning, and you will make your dreams come true all over the world.", zh: "相信自己，持續學習，你將會在全世界實現你的夢想。" }
+            ]
+          }
+        ]
+      },
+      'U5': {
+        title: 'Unit 5 閱讀：Exploring the City on Foot',
+        paragraphs: [
+          {
+            paraId: 'u5_rd_1',
+            narratorEn: 'Paragraph 1: Traveling Around Taipei',
+            narratorZh: '第一段：台北城市漫遊',
+            sentences: [
+              { en: "Taipei is a crowded but convenient city with an excellent metro system.", zh: "台北是一個擁擠但方便的城市，擁有優良的捷運系統。" },
+              { en: "You can visit the hospital, the bank, and the post office by bus or on foot.", zh: "你可以搭乘公車或步行去造訪醫院、銀行和郵局。" },
+              { en: "If you get lost, friendly local people are always happy to help you find the right block.", zh: "如果你迷路了，友善的在地人總是很樂意指引你找到正確的街區。" }
+            ]
+          }
+        ]
+      },
+      'U6': {
+        title: 'Unit 6 閱讀：Smart Shopping and Fashion Choice',
+        paragraphs: [
+          {
+            paraId: 'u6_rd_1',
+            narratorEn: 'Paragraph 1: Saving Money on Fashion',
+            narratorZh: '第一段：時尚省錢技巧',
+            sentences: [
+              { en: "Buying new clothes like jeans, jackets, and shoes can cost a lot of money.", zh: "購買牛仔褲、夾克和鞋子等新衣服可能會花費很多錢。" },
+              { en: "Look for items on sale to save your cash, and compare prices carefully.", zh: "尋找特價商品以節省現金，並仔細比較價格。" },
+              { en: "What\'s more, recycling old clothes helps protect our natural environment.", zh: "而且，回收舊衣服有助於保護我們的自然環境。" }
+            ]
+          }
+        ]
+      }
+    };
+
     /* Unit combo keys */
     const UNIT_KEYS = [
       'U1', 'U2', 'U1~U2',
@@ -912,10 +1257,14 @@
       eduLevel: '國中',
       gradeIdentity: '國2',
       selectedUnit: 'U1~U2',
-      questionCount: 10, // 10 or 'ALL'
-      questionType: 'mixed', // mixed, fill, e2c, c2e
+      questionCount: 10, // 10, 20, 'ALL', 'CUSTOM'
+      questionType: 'mixed', // mixed, spelling, fill, e2c, c2e
       instantAnswer: true,
       
+      // Textbook & Reading Toggle State
+      showTextbookChinese: false,
+      showReadingChinese: false,
+
       // Active Quiz State
       quizQuestions: [],
       currentQIdx: 0,
@@ -928,7 +1277,7 @@
       adminPassword: 'chwjh33911799'
     };
 
-    /* ==========================================================================
+    /* FIREBASE INITIALIZATION & AUTH */
     let db = null;
     let auth = null;
     let firebaseReady = false;
@@ -963,7 +1312,7 @@
           }, (err) => console.log('Config snapshot notice:', err.message));
         }
       } catch (err) {
-        console.warn('Firebase running in local-resilient fallback mode:', err.message);
+        console.warn('Firebase running in local fallback mode:', err.message);
         firebaseReady = false;
       }
 
@@ -1081,32 +1430,27 @@
         if (raw) records = JSON.parse(raw);
       } catch(e) {}
       if (records.length === 0) {
-        alert('目前尚無成績資料可供複製！');
+        window.showAlertModal('目前尚無成績資料可供複製！');
         return;
       }
       const lines = records.map(r => `${r.studentName || '未填寫'}\t${r.eduLevel || ''}-${r.gradeIdentity || ''}\t${r.unit}\t${r.score}分\t${r.correctNum}/${r.totalNum}\t${r.formattedTime || r.timestamp}`);
       const header = '學生姓名\t學歷年級\t測驗單元\t成績\t答對題數\t測驗時間\n';
-      window.copyToClipboard(header + lines.join('\n'), `已複製全班共 ${records.length} 筆成績資料！`);
+      window.copyToClipboard(header + lines.join('\n'), `已複製全區共 ${records.length} 筆成績資料！`);
     };
 
-    /* Enhanced Safe Blank Highlighting Utility */
+    /* Blank Highlighting Utility */
     function highlightBlank(sentence, word) {
       if (!sentence) return '';
       if (!word) return sentence;
 
-      // Clean target phrase and strip punctuation
       const cleanWord = word.replace(/[\.\,\?\!\;]/g, '').trim();
-      
-      // Escape regex special chars
       const escaped = cleanWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       
-      // Try exact word boundary match
       const regex = new RegExp(`\\b${escaped}\\b`, 'gi');
       if (regex.test(sentence)) {
         return sentence.replace(regex, `<b class="text-amber-300 font-extrabold underline decoration-2 underline-offset-4">______</b>`);
       }
 
-      // Try flexible case-insensitive match for word variations/inflections
       const flexibleWord = escaped.replace(/s$/i, '').replace(/ed$/i, '').replace(/ing$/i, '');
       if (flexibleWord.length >= 3) {
         const flexRegex = new RegExp(`\\b${flexibleWord}\\w*\\b`, 'gi');
@@ -1115,7 +1459,6 @@
         }
       }
 
-      // Safe substring fallback
       return sentence.replace(new RegExp(escaped, 'gi'), `<b class="text-amber-300 font-extrabold underline decoration-2 underline-offset-4">______</b>`);
     }
 
@@ -1146,7 +1489,7 @@
 
     /* NAVIGATION & UI EVENT HANDLERS */
     window.navTo = function(viewId) {
-      ['step1', 'step2', 'learning', 'quiz', 'result'].forEach(v => {
+      ['step1', 'step2', 'learning', 'textbook', 'reading', 'quiz', 'result'].forEach(v => {
         const el = document.getElementById(`view-${v}`);
         if (el) el.classList.add('hidden');
       });
@@ -1159,6 +1502,12 @@
       if (tabName === 'learning') {
         window.renderLearningCards();
         window.navTo('learning');
+      } else if (tabName === 'textbook') {
+        window.renderTextbookView();
+        window.navTo('textbook');
+      } else if (tabName === 'reading') {
+        window.renderReadingView();
+        window.navTo('reading');
       } else if (tabName === 'quiz') {
         if (!appState.studentName) {
           window.navTo('step1');
@@ -1196,11 +1545,11 @@
       const gradeSelect = document.getElementById('gradeIdentity').value;
 
       if (!nameInput) {
-        alert('請填寫學生姓名！');
+        window.showAlertModal('請先填寫學生姓名！');
         return;
       }
       if (!eduSelect) {
-        alert('請選擇學歷階段！');
+        window.showAlertModal('請選擇學歷階段！');
         return;
       }
 
@@ -1242,13 +1591,13 @@
     window.setQuestionCount = function(count) {
       AudioEngine.playTone(450, 'sine', 0.05);
       appState.questionCount = count;
+      window.updateModeButtonsUI();
       if (count === 'CUSTOM') {
         setTimeout(() => {
           const inputEl = document.getElementById('customCountInput');
           if (inputEl) inputEl.focus();
         }, 100);
       }
-      window.updateModeButtonsUI();
     };
 
     window.updateUnitMaxNotice = function() {
@@ -1323,8 +1672,245 @@
       });
     };
 
-    /* ==========================================================================
-       WORD LEARNING CENTER (單字學習館)
+    /* TEXTBOOK PASSAGES (課文篇) RENDER & SPEECH FUNCTIONS */
+    window.toggleTextbookChinese = function() {
+      appState.showTextbookChinese = !appState.showTextbookChinese;
+      const btn = document.getElementById('btnTextbookToggleChinese');
+      if (btn) {
+        btn.innerHTML = appState.showTextbookChinese ? 
+          `<i class="fa-solid fa-eye-slash"></i> 隱藏中文` : 
+          `<i class="fa-solid fa-eye"></i> 顯示中文`;
+      }
+      window.renderTextbookView();
+    };
+
+    window.renderTextbookView = function() {
+      const container = document.getElementById('textbookContainer');
+      const unitKey = document.getElementById('textbookUnitFilter')?.value || 'U1';
+      const unitData = TEXTBOOK_DATA[unitKey];
+
+      if (!unitData) {
+        container.innerHTML = `<div class="glass-card p-6 text-center text-slate-400">目前尚無 ${unitKey} 課文內容</div>`;
+        return;
+      }
+
+      const showZh = appState.showTextbookChinese;
+
+      container.innerHTML = `
+        <div class="glass-card p-6 space-y-6">
+          <div class="border-b border-white/10 pb-3 flex items-center justify-between">
+            <h3 class="text-xl font-bold text-cyan-300 flex items-center gap-2">
+              <i class="fa-solid fa-comments"></i> ${unitData.title}
+            </h3>
+            <span class="text-xs px-2.5 py-1 bg-cyan-500/20 text-cyan-300 rounded-md border border-cyan-500/30 font-semibold">${unitKey} 對話課文</span>
+          </div>
+
+          <div class="space-y-6">
+            ${unitData.sections.map(section => `
+              <div class="p-4 rounded-xl bg-slate-900/60 border border-white/10 space-y-3">
+                
+                <!-- Narrator Context Header Box -->
+                <div class="p-3 rounded-lg bg-cyan-950/40 border border-cyan-500/30 flex items-start justify-between gap-2">
+                  <div class="space-y-0.5">
+                    <p class="text-xs md:text-sm font-bold text-cyan-200">${section.narratorEn}</p>
+                    ${showZh ? `<p class="text-xs text-cyan-400">${section.narratorZh}</p>` : ''}
+                  </div>
+                  <button onclick="window.speakSection('textbook', '${unitKey}', '${section.sectionId}')" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs flex items-center gap-1.5 shadow" title="唸此段課文 (含旁白至下段前)">
+                    <i class="fa-solid fa-volume-high"></i> 唸此段課文
+                  </button>
+                </div>
+
+                <!-- Sentence List -->
+                <div class="space-y-2 pt-1">
+                  ${section.sentences.map(s => `
+                    <div class="p-2.5 rounded-lg hover:bg-white/5 transition flex items-start justify-between gap-3 group">
+                      <div class="space-y-0.5 flex-1">
+                        <p class="text-sm font-semibold text-slate-100">${s.en}</p>
+                        ${showZh ? `<p class="text-xs text-slate-400">${s.zh}</p>` : ''}
+                      </div>
+                      <button onclick="window.speakText('${s.en.replace(/'/g, "\\'")}')" class="text-purple-400 hover:text-purple-300 p-1.5 rounded-md hover:bg-purple-500/20 transition flex-shrink-0" title="朗讀此句">
+                        <i class="fa-solid fa-volume-high text-xs"></i>
+                      </button>
+                    </div>
+                  `).join('')}
+                </div>
+
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    };
+
+    /* READING PASSAGES (閱讀篇) RENDER & SPEECH FUNCTIONS */
+    window.toggleReadingChinese = function() {
+      appState.showReadingChinese = !appState.showReadingChinese;
+      const btn = document.getElementById('btnReadingToggleChinese');
+      if (btn) {
+        btn.innerHTML = appState.showReadingChinese ? 
+          `<i class="fa-solid fa-eye-slash"></i> 隱藏中文` : 
+          `<i class="fa-solid fa-eye"></i> 顯示中文`;
+      }
+      window.renderReadingView();
+    };
+
+    window.renderReadingView = function() {
+      const container = document.getElementById('readingContainer');
+      const unitKey = document.getElementById('readingUnitFilter')?.value || 'U1';
+      const unitData = READING_DATA[unitKey];
+
+      if (!unitData) {
+        container.innerHTML = `<div class="glass-card p-6 text-center text-slate-400">目前尚無 ${unitKey} 閱讀篇內容</div>`;
+        return;
+      }
+
+      const showZh = appState.showReadingChinese;
+
+      container.innerHTML = `
+        <div class="glass-card p-6 space-y-6">
+          <div class="border-b border-white/10 pb-3 flex items-center justify-between">
+            <h3 class="text-xl font-bold text-emerald-300 flex items-center gap-2">
+              <i class="fa-solid fa-book-open-reader"></i> ${unitData.title}
+            </h3>
+            <span class="text-xs px-2.5 py-1 bg-emerald-500/20 text-emerald-300 rounded-md border border-emerald-500/30 font-semibold">${unitKey} 閱讀文章</span>
+          </div>
+
+          <div class="space-y-6">
+            ${unitData.paragraphs.map(para => `
+              <div class="p-4 rounded-xl bg-slate-900/60 border border-white/10 space-y-3">
+                
+                <!-- Paragraph Header Box -->
+                <div class="p-3 rounded-lg bg-emerald-950/40 border border-emerald-500/30 flex items-start justify-between gap-2">
+                  <div class="space-y-0.5">
+                    <p class="text-xs md:text-sm font-bold text-emerald-200">${para.narratorEn}</p>
+                    ${showZh ? `<p class="text-xs text-emerald-400">${para.narratorZh}</p>` : ''}
+                  </div>
+                  <button onclick="window.speakSection('reading', '${unitKey}', '${para.paraId}')" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow" title="唸此段文章 (含旁白標題)">
+                    <i class="fa-solid fa-volume-high"></i> 唸此段文章
+                  </button>
+                </div>
+
+                <!-- Sentence List -->
+                <div class="space-y-2 pt-1">
+                  ${para.sentences.map(s => `
+                    <div class="p-2.5 rounded-lg hover:bg-white/5 transition flex items-start justify-between gap-3 group">
+                      <div class="space-y-0.5 flex-1">
+                        <p class="text-sm font-semibold text-slate-100">${s.en}</p>
+                        ${showZh ? `<p class="text-xs text-slate-400">${s.zh}</p>` : ''}
+                      </div>
+                      <button onclick="window.speakText('${s.en.replace(/'/g, "\\'")}')" class="text-purple-400 hover:text-purple-300 p-1.5 rounded-md hover:bg-purple-500/20 transition flex-shrink-0" title="朗讀此句">
+                        <i class="fa-solid fa-volume-high text-xs"></i>
+                      </button>
+                    </div>
+                  `).join('')}
+                </div>
+
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    };
+
+    /* Continuous Section & Lesson Speech Helpers */
+    window.speakSection = function(mode, unitKey, idVal) {
+      let fullText = '';
+      if (mode === 'textbook') {
+        const u = TEXTBOOK_DATA[unitKey];
+        const sec = u?.sections.find(s => s.sectionId === idVal);
+        if (sec) {
+          fullText = sec.narratorEn + '. ' + sec.sentences.map(s => s.en).join(' ');
+        }
+      } else {
+        const u = READING_DATA[unitKey];
+        const para = u?.paragraphs.find(p => p.paraId === idVal);
+        if (para) {
+          fullText = para.narratorEn + '. ' + para.sentences.map(s => s.en).join(' ');
+        }
+      }
+
+      if (fullText) {
+        speakText(fullText);
+      }
+    };
+
+    window.speakFullLesson = function(mode) {
+      let fullText = '';
+      if (mode === 'textbook') {
+        const unitKey = document.getElementById('textbookUnitFilter')?.value || 'U1';
+        const u = TEXTBOOK_DATA[unitKey];
+        if (u) {
+          fullText = u.sections.map(sec => sec.narratorEn + '. ' + sec.sentences.map(s => s.en).join(' ')).join(' ');
+        }
+      } else {
+        const unitKey = document.getElementById('readingUnitFilter')?.value || 'U1';
+        const u = READING_DATA[unitKey];
+        if (u) {
+          fullText = u.paragraphs.map(p => p.narratorEn + '. ' + p.sentences.map(s => s.en).join(' ')).join(' ');
+        }
+      }
+
+      if (fullText) {
+        speakText(fullText);
+      }
+    };
+
+    /* WORD LEARNING CENTER */
+    window.renderLearningCards = function() {
+      const container = document.getElementById('learningGrid');
+      const searchVal = (document.getElementById('learningSearch').value || '').toLowerCase();
+      const unitFilterSelect = document.getElementById('learningUnitFilter');
+      
+      if (unitFilterSelect.options.length <= 1) {
+        unitFilterSelect.innerHTML = '<option value="ALL">所有單元 (U1~U6)</option>';
+        UNIT_KEYS.forEach(k => {
+          const opt = document.createElement('option');
+          opt.value = k;
+          opt.textContent = k;
+          unitFilterSelect.appendChild(opt);
+        });
+        unitFilterSelect.value = appState.selectedUnit || 'ALL';
+      }
+
+      const activeFilter = unitFilterSelect.value;
+      let dataset = getVocabListForUnit(activeFilter === 'ALL' ? 'U1~U6全冊' : activeFilter);
+
+      if (searchVal) {
+        dataset = dataset.filter(item => 
+          item.word.toLowerCase().includes(searchVal) || 
+          item.meaning.includes(searchVal) ||
+          item.sentence.toLowerCase().includes(searchVal)
+        );
+      }
+
+      document.getElementById('learningSubtitle').textContent = `共展出 ${dataset.length} 個翰林版核心單字 (點擊🔊朗讀)`;
+
+      if (dataset.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full glass-card p-8 text-center text-slate-400">
+            <i class="fa-solid fa-magnifying-glass text-3xl mb-2 text-slate-500"></i>
+            <p>查無符合關鍵字的單字內容。</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = dataset.map(item => `
+        <div class="glass-card p-5 space-y-3 relative overflow-hidden hover:border-purple-500/50 transition duration-300">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-purple-500/30 text-purple-300 border border-purple-500/40">${item.unit}</span>
+                <span class="text-xs text-slate-400 font-medium italic">${item.pos}</span>
+              </div>
+              <h3 class="text-xl font-bold text-white mt-1 flex items-center gap-2">
+                ${item.word}
+                <button onclick="window.speakWord('${item.word.replace(/'/g, "\\'")}')" class="text-purple-400 hover:text-purple-300 text-sm p-1" title="朗讀單字">
+                  <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button onclick="window.copyVocabCard('${item.word.replace(/'/g, "\\'")}', '${item.pos}', '${item.meaning}', '${item.sentence.replace(/'/g, "\\'")}')" class="text-cyan-400 hover:text-cyan-300 text-xs p-1 ml-1" title="複製單字列">
+                  <i class="fa-solid fa-copy"></i>
+                </button>
               </h3>
             </div>
             <span class="text-sm font-bold text-amber-300 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20">
@@ -1352,20 +1938,19 @@
     window.startQuiz = function() {
       const vocabList = getVocabListForUnit(appState.selectedUnit);
       if (!vocabList || vocabList.length === 0) {
-        alert('該單元無可用單字資料！');
+        window.showAlertModal('該單元無可用單字資料！');
         return;
       }
 
       appState.instantAnswer = document.getElementById('toggleInstantAnswer').checked;
       
-      // Determine question count
       let targetCount = vocabList.length;
       if (appState.questionCount === 'ALL') {
         targetCount = vocabList.length;
       } else if (appState.questionCount === 'CUSTOM') {
         const customInput = parseInt(document.getElementById('customCountInput')?.value || '10');
         if (isNaN(customInput) || customInput < 1) {
-          alert('請輸入有效的測驗題數（最少 1 題）！');
+          window.showAlertModal('請輸入有效的測驗題數（最少 1 題）！');
           return;
         }
         targetCount = Math.min(Math.max(1, customInput), vocabList.length);
@@ -1374,11 +1959,27 @@
         targetCount = Math.min(Math.max(1, isNaN(countNum) ? 10 : countNum), vocabList.length);
       }
 
-      // Shuffle source vocabulary
       let shuffled = shuffleArray(vocabList);
       let selectedVocabs = shuffled.slice(0, targetCount);
 
-      // Build quiz questions
+      appState.quizQuestions = selectedVocabs.map((vocab, index) => {
+        let qType = appState.questionType;
+        if (qType === 'mixed') {
+          const pool = ['spelling', 'fill', 'e2c', 'c2e'];
+          qType = pool[Math.floor(Math.random() * pool.length)];
+        }
+
+        const distractorPool = VOCAB_DATA.filter(v => v.id !== vocab.id);
+        const shuffledDistractors = shuffleArray(distractorPool).slice(0, 3);
+
+        let options = [];
+        let correctAnswerText = '';
+
+        if (qType === 'spelling') {
+          correctAnswerText = vocab.word;
+          options = [];
+        } else if (qType === 'fill') {
+          correctAnswerText = vocab.word;
           options = shuffleArray([vocab.word, ...shuffledDistractors.map(d => d.word)]);
         } else if (qType === 'e2c') {
           correctAnswerText = vocab.meaning;
@@ -1441,7 +2042,7 @@
             </div>
             <div class="flex justify-between items-center text-xs text-slate-400 pt-1">
               <span>提示：字母不分大小寫</span>
-              <button onclick="window.speakWord('${q.vocab.word}')" class="text-purple-300 hover:text-white flex items-center gap-1">
+              <button onclick="window.speakWord('${q.vocab.word.replace(/'/g, "\\'")}')" class="text-purple-300 hover:text-white flex items-center gap-1">
                 <i class="fa-solid fa-volume-high"></i> 朗讀單字
               </button>
             </div>
@@ -1490,7 +2091,7 @@
       if (!inputEl) return;
       const userVal = inputEl.value.trim();
       if (!userVal) {
-        alert('請先輸入英文單字！');
+        window.showAlertModal('請先輸入英文單字！');
         return;
       }
       window.selectQuizOption(userVal, inputEl);
@@ -1747,7 +2348,7 @@
         appState.adminAuth = true;
         window.showAdminPanel();
       } else {
-        alert('密碼錯誤！');
+        window.showAlertModal('密碼錯誤！請重新輸入。');
       }
     };
 
@@ -1832,42 +2433,44 @@
       `).join('');
     };
 
-    window.deleteSingleRecord = async function(recordId) {
-      if (!confirm('確定要刪除此筆紀錄嗎？')) return;
+    window.deleteSingleRecord = function(recordId) {
+      window.showConfirmModal('確定要刪除此筆學生紀錄嗎？操作不可復原。', async () => {
+        try {
+          const raw = safeStorage.getItem('localScoresQueue');
+          if (raw) {
+            let list = JSON.parse(raw);
+            list = list.filter(r => r.id !== recordId);
+            safeStorage.setItem('localScoresQueue', JSON.stringify(list));
+          }
+        } catch(e) {}
 
-      try {
-        const raw = safeStorage.getItem('localScoresQueue');
-        if (raw) {
-          let list = JSON.parse(raw);
-          list = list.filter(r => r.id !== recordId);
-          safeStorage.setItem('localScoresQueue', JSON.stringify(list));
-        }
-      } catch(e) {}
+        try {
+          if (firebaseReady && db) {
+            await db.collection(SCORES_COLLECTION_PATH).doc(recordId).delete();
+          }
+        } catch(e) { console.warn('Cloud delete notice:', e); }
 
-      try {
-        if (firebaseReady && db) {
-          await db.collection(SCORES_COLLECTION_PATH).doc(recordId).delete();
-        }
-      } catch(e) { console.warn('Cloud delete notice:', e); }
-
-      window.renderAdminRecords();
+        window.renderAdminRecords();
+        window.showToast('已刪除該筆紀錄！');
+      }, '刪除紀錄');
     };
 
-    window.clearAllScores = async function() {
-      if (!confirm('⚠️ 警告：確定要清空所有的學生作答紀錄嗎？此動作無法復原！')) return;
+    window.clearAllScores = function() {
+      window.showConfirmModal('⚠️ 警告：確定要清空所有的學生作答紀錄嗎？此動作無法復原！', async () => {
+        safeStorage.removeItem('localScoresQueue');
 
-      safeStorage.removeItem('localScoresQueue');
+        try {
+          if (firebaseReady && db) {
+            const snapshot = await db.collection(SCORES_COLLECTION_PATH).get();
+            const batch = db.batch();
+            snapshot.forEach(doc => batch.delete(doc.ref));
+            await batch.commit();
+          }
+        } catch(e) { console.warn('Batch clear cloud notice:', e); }
 
-      try {
-        if (firebaseReady && db) {
-          const snapshot = await db.collection(SCORES_COLLECTION_PATH).get();
-          const batch = db.batch();
-          snapshot.forEach(doc => batch.delete(doc.ref));
-          await batch.commit();
-        }
-      } catch(e) { console.warn('Batch clear cloud notice:', e); }
-
-      window.renderAdminRecords();
+        window.renderAdminRecords();
+        window.showToast('已清空所有學生作答名冊！');
+      }, '清空全區名冊');
     };
 
     window.toggleChangePassBox = function() {
@@ -1878,7 +2481,7 @@
     window.submitChangePassword = async function() {
       const newPwd = document.getElementById('newAdminPassword').value.trim();
       if (!newPwd) {
-        alert('請輸入新密碼！');
+        window.showAlertModal('請輸入新密碼！');
         return;
       }
 
@@ -1893,7 +2496,7 @@
         console.warn('Cloud update password retry notice:', e);
       }
 
-      alert('教師後台密碼更新成功！');
+      window.showAlertModal('教師後台密碼已更新成功！');
       document.getElementById('newAdminPassword').value = '';
       document.getElementById('changePassBox').classList.add('hidden');
     };
@@ -1907,7 +2510,7 @@
       } catch(e) {}
 
       if (records.length === 0) {
-        alert('目前無可供匯出的紀錄數據！');
+        window.showAlertModal('目前無可供匯出的紀錄數據！');
         return;
       }
 
@@ -1930,10 +2533,8 @@
 
     /* APP INITIALIZATION ENTRY POINT */
     window.addEventListener('DOMContentLoaded', async () => {
-      // 1. Synchronously populate grade options right away
       window.handleEduChange();
 
-      // 2. Restore local profile if exists
       try {
         const savedProfile = safeStorage.getItem('studentProfile');
         if (savedProfile) {
@@ -1947,11 +2548,9 @@
         console.warn('Profile restore notice:', e);
       }
 
-      // 3. Render Initial UI State
       window.renderUnitButtons();
       window.navTo('step1');
 
-      // 4. Initialize Firebase in background
       await initFirebaseSafely();
     });
   </script>

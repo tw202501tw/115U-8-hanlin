@@ -254,18 +254,21 @@
         <label class="block text-sm font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-2">
           <i class="fa-solid fa-sliders"></i> 題型種類
         </label>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
           <button onclick="window.setQuestionType('mixed')" id="btnTypeMixed" class="type-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition">
             🔀 混合題型
+          </button>
+          <button onclick="window.setQuestionType('spelling')" id="btnTypeSpelling" class="type-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition">
+            🔤 拼字練習
           </button>
           <button onclick="window.setQuestionType('fill')" id="btnTypeFill" class="type-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition">
             ✍️ 例句填空
           </button>
           <button onclick="window.setQuestionType('e2c')" id="btnTypeE2C" class="type-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition">
-            🔤 英翻中
+            🇹🇼 英翻中
           </button>
           <button onclick="window.setQuestionType('c2e')" id="btnTypeC2E" class="type-btn py-2.5 px-2 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-xs sm:text-sm text-center transition">
-            🇹🇼 中翻英
+            🇺🇸 中翻英
           </button>
         </div>
       </div>
@@ -1148,22 +1151,23 @@
     window.handleEduChange = function() {
       const eduSelect = document.getElementById('educationLevel');
       const gradeSelect = document.getElementById('gradeIdentity');
-      const val = eduSelect.value;
-      
+      if (!eduSelect || !gradeSelect) return;
+
+      const val = eduSelect.value || '國中';
+      const currentGradeVal = gradeSelect.value;
+
       gradeSelect.innerHTML = '';
-      if (val && EDU_GRADE_MAP[val]) {
-        EDU_GRADE_MAP[val].forEach(g => {
-          const opt = document.createElement('option');
-          opt.value = g;
-          opt.textContent = g;
-          gradeSelect.appendChild(opt);
-        });
-      } else {
+      const list = EDU_GRADE_MAP[val] || EDU_GRADE_MAP['國中'];
+
+      list.forEach(g => {
         const opt = document.createElement('option');
-        opt.value = '--';
-        opt.textContent = '--';
+        opt.value = g;
+        opt.textContent = g;
+        if (g === currentGradeVal || (g === '國2' && !currentGradeVal)) {
+          opt.selected = true;
+        }
         gradeSelect.appendChild(opt);
-      }
+      });
     };
 
     window.nextToStep2 = function() {
@@ -1235,7 +1239,7 @@
         bALL.className = `count-btn flex-1 py-2.5 rounded-xl border border-white/20 bg-slate-800/60 font-semibold text-sm transition ${appState.questionCount === 'ALL' ? 'btn-selected' : 'hover:bg-slate-700'}`;
       }
 
-      const types = ['Mixed', 'Fill', 'E2C', 'C2E'];
+      const types = ['Mixed', 'Spelling', 'Fill', 'E2C', 'C2E'];
       types.forEach(t => {
         const btn = document.getElementById(`btnType${t}`);
         if (btn) {
@@ -1341,7 +1345,7 @@
       appState.quizQuestions = selectedVocabs.map((vocab, index) => {
         let qType = appState.questionType;
         if (qType === 'mixed') {
-          const pool = ['fill', 'e2c', 'c2e'];
+          const pool = ['spelling', 'fill', 'e2c', 'c2e'];
           qType = pool[Math.floor(Math.random() * pool.length)];
         }
 
@@ -1349,9 +1353,11 @@
         const shuffledDistractors = shuffleArray(distractorPool).slice(0, 3);
 
         let options = [];
-        let correctAnswerText = '';
+        let correctAnswerText = vocab.word;
 
-        if (qType === 'fill') {
+        if (qType === 'spelling') {
+          correctAnswerText = vocab.word;
+        } else if (qType === 'fill') {
           correctAnswerText = vocab.word;
           options = shuffleArray([vocab.word, ...shuffledDistractors.map(d => d.word)]);
         } else if (qType === 'e2c') {
@@ -1394,8 +1400,42 @@
       const typeBadge = document.getElementById('questionTypeBadge');
       const subPrompt = document.getElementById('questionSubPrompt');
       const promptTitle = document.getElementById('questionPrompt');
+      const optionsGrid = document.getElementById('quizOptionsGrid');
 
       subPrompt.classList.add('hidden');
+
+      if (q.type === 'spelling') {
+        typeBadge.textContent = '🔤 拼字練習';
+        promptTitle.textContent = `中文：${q.vocab.meaning} (${q.vocab.pos})`;
+        subPrompt.innerHTML = `例句參考：${highlightBlank(q.vocab.sentence, q.vocab.word)}`;
+        subPrompt.classList.remove('hidden');
+
+        optionsGrid.innerHTML = `
+          <div class="space-y-3 p-4 glass-card bg-slate-900/60 rounded-xl border border-white/10">
+            <label class="block text-xs font-bold text-purple-300">請輸入正確的英文單字拼音：</label>
+            <div class="flex gap-2">
+              <input type="text" id="spellingInput" placeholder="輸入英文單字..." autocomplete="off" spellcheck="false" class="flex-1 glass-input px-4 py-3 rounded-xl text-base font-bold text-amber-300 tracking-wider" onkeyup="if(event.key==='Enter') window.submitSpellingAnswer()" />
+              <button onclick="window.submitSpellingAnswer()" id="btnSubmitSpelling" class="px-6 py-3 rounded-xl glass-btn text-white font-bold text-sm flex items-center gap-2">
+                <i class="fa-solid fa-paper-plane"></i> 送出
+              </button>
+            </div>
+            <div class="flex justify-between items-center text-xs text-slate-400 pt-1">
+              <span>提示：字母不分大小寫</span>
+              <button onclick="window.speakWord('${q.vocab.word}')" class="text-purple-300 hover:text-white flex items-center gap-1">
+                <i class="fa-solid fa-volume-high"></i> 朗讀單字
+              </button>
+            </div>
+          </div>
+        `;
+        setTimeout(() => {
+          const inputEl = document.getElementById('spellingInput');
+          if (inputEl) inputEl.focus();
+        }, 100);
+
+        const feedbackBox = document.getElementById('answerFeedbackBox');
+        feedbackBox.className = 'hidden p-4 rounded-xl border space-y-2 transition-all';
+        return;
+      }
 
       if (q.type === 'fill') {
         typeBadge.textContent = '✍️ 例句填空';
@@ -1403,10 +1443,10 @@
         subPrompt.textContent = `提示：${q.vocab.pos} ${q.vocab.meaning}`;
         subPrompt.classList.remove('hidden');
       } else if (q.type === 'e2c') {
-        typeBadge.textContent = '🔤 英翻中';
+        typeBadge.textContent = '🇹🇼 英翻中';
         promptTitle.textContent = `${q.vocab.word} (${q.vocab.pos})`;
       } else if (q.type === 'c2e') {
-        typeBadge.textContent = '🇹🇼 中翻英';
+        typeBadge.textContent = '🇺🇸 中翻英';
         promptTitle.textContent = `${q.vocab.meaning} (${q.vocab.pos})`;
       }
 
@@ -1414,7 +1454,6 @@
       feedbackBox.className = 'hidden p-4 rounded-xl border space-y-2 transition-all';
 
       const labels = ['A', 'B', 'C', 'D'];
-      const optionsGrid = document.getElementById('quizOptionsGrid');
       optionsGrid.innerHTML = q.options.map((opt, idx) => `
         <button onclick="window.selectQuizOption('${opt.replace(/'/g, "\\'")}', this)" class="option-btn w-full p-4 rounded-xl glass-card bg-slate-800/80 hover:bg-slate-700/80 border border-white/15 text-left flex items-center gap-3 transition group">
           <span class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-300 font-black text-sm flex items-center justify-center border border-purple-500/30 group-hover:bg-purple-600 group-hover:text-white">
@@ -1425,10 +1464,21 @@
       `).join('');
     };
 
+    window.submitSpellingAnswer = function() {
+      if (appState.isAnsweredCurrent) return;
+      const inputEl = document.getElementById('spellingInput');
+      if (!inputEl) return;
+      const userVal = inputEl.value.trim();
+      if (!userVal) {
+        alert('請先輸入英文單字！');
+        return;
+      }
+      window.selectQuizOption(userVal, inputEl);
+    };
+
     window.speakCurrentQuestion = function() {
       const q = appState.quizQuestions[appState.currentQIdx];
       if (q.type === 'fill') {
-        // Hide answer in TTS audio for fill questions
         const spokenSentence = q.vocab.sentence.replace(new RegExp(q.vocab.word, 'gi'), 'blank');
         speakText(spokenSentence);
       } else {
@@ -1441,7 +1491,10 @@
       appState.isAnsweredCurrent = true;
 
       const q = appState.quizQuestions[appState.currentQIdx];
-      const isCorrect = selectedOpt === q.correctAnswer;
+      
+      const cleanUser = (selectedOpt || '').trim().toLowerCase().replace(/[\.\,\?\!]/g, '');
+      const cleanCorrect = (q.correctAnswer || '').trim().toLowerCase().replace(/[\.\,\?\!]/g, '');
+      const isCorrect = cleanUser === cleanCorrect;
 
       const qPoints = Math.round(100 / appState.quizQuestions.length);
       if (isCorrect) {
@@ -1457,22 +1510,36 @@
         isCorrect: isCorrect
       });
 
-      const allOptionBtns = document.querySelectorAll('.option-btn');
-      allOptionBtns.forEach(btn => {
-        btn.disabled = true;
-        btn.classList.add('opacity-60', 'cursor-not-allowed');
-      });
-
-      if (isCorrect) {
-        btnElem.className = 'option-btn w-full p-4 rounded-xl bg-emerald-600/40 border-2 border-emerald-400 text-left flex items-center gap-3 font-bold text-emerald-200';
-      } else {
-        btnElem.className = 'option-btn w-full p-4 rounded-xl bg-rose-600/40 border-2 border-rose-400 text-left flex items-center gap-3 font-bold text-rose-200';
-        
-        allOptionBtns.forEach(btn => {
-          if (btn.innerText.includes(q.correctAnswer)) {
-            btn.className = 'option-btn w-full p-4 rounded-xl bg-emerald-600/30 border-2 border-emerald-500/80 text-left flex items-center gap-3 font-bold text-emerald-200';
+      if (q.type === 'spelling') {
+        const inputEl = document.getElementById('spellingInput');
+        const submitBtn = document.getElementById('btnSubmitSpelling');
+        if (inputEl) {
+          inputEl.disabled = true;
+          if (isCorrect) {
+            inputEl.className = 'flex-1 glass-input px-4 py-3 rounded-xl text-base font-bold text-emerald-300 bg-emerald-950/50 border-2 border-emerald-400';
+          } else {
+            inputEl.className = 'flex-1 glass-input px-4 py-3 rounded-xl text-base font-bold text-rose-300 bg-rose-950/50 border-2 border-rose-400';
           }
+        }
+        if (submitBtn) submitBtn.disabled = true;
+      } else {
+        const allOptionBtns = document.querySelectorAll('.option-btn');
+        allOptionBtns.forEach(btn => {
+          btn.disabled = true;
+          btn.classList.add('opacity-60', 'cursor-not-allowed');
         });
+
+        if (isCorrect) {
+          btnElem.className = 'option-btn w-full p-4 rounded-xl bg-emerald-600/40 border-2 border-emerald-400 text-left flex items-center gap-3 font-bold text-emerald-200';
+        } else {
+          btnElem.className = 'option-btn w-full p-4 rounded-xl bg-rose-600/40 border-2 border-rose-400 text-left flex items-center gap-3 font-bold text-rose-200';
+          
+          allOptionBtns.forEach(btn => {
+            if (btn.innerText.includes(q.correctAnswer)) {
+              btn.className = 'option-btn w-full p-4 rounded-xl bg-emerald-600/30 border-2 border-emerald-500/80 text-left flex items-center gap-3 font-bold text-emerald-200';
+            }
+          });
+        }
       }
 
       if (appState.instantAnswer) {
@@ -1487,7 +1554,7 @@
           feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-xl"></i> 答對了！非常棒！`;
         } else {
           feedbackBox.className = 'p-4 rounded-xl border bg-rose-950/40 border-rose-500/40 text-rose-200 space-y-2';
-          feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400 text-xl"></i> 答錯了！正確答案是：<span class="underline">${q.correctAnswer}</span>`;
+          feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400 text-xl"></i> 答錯了！正確答案是：<span class="underline text-amber-300 font-bold">${q.correctAnswer}</span>`;
         }
 
         feedbackDetail.innerHTML = `
@@ -1843,8 +1910,10 @@
 
     /* APP INITIALIZATION ENTRY POINT */
     window.addEventListener('DOMContentLoaded', async () => {
-      await initFirebaseSafely();
+      // 1. Synchronously populate grade options right away
+      window.handleEduChange();
 
+      // 2. Restore local profile if exists
       try {
         const savedProfile = safeStorage.getItem('studentProfile');
         if (savedProfile) {
@@ -1853,15 +1922,17 @@
           if (profile.edu) document.getElementById('educationLevel').value = profile.edu;
           window.handleEduChange();
           if (profile.grade) document.getElementById('gradeIdentity').value = profile.grade;
-        } else {
-          window.handleEduChange();
         }
       } catch(e) {
-        window.handleEduChange();
+        console.warn('Profile restore notice:', e);
       }
 
+      // 3. Render Initial UI State
       window.renderUnitButtons();
       window.navTo('step1');
+
+      // 4. Initialize Firebase in background
+      await initFirebaseSafely();
     });
   </script>
 </body>
